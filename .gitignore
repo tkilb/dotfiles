@@ -1,0 +1,8 @@
+node_modules
+.node_modules
+.settings.secret.sh
+.vscode
+secrets.js
+tmux*.log
+*.mp3
+*.wav

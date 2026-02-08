@@ -1,0 +1,20 @@
+# Syncer Configuration File
+# This file specifies which repositories to synchronize and their schedule
+
+# Default cron schedule (used if repository doesn't specify its own)
+# Format: minute hour day month weekday
+
+- path: ~/.dotfiles
+  cron: '0 17 * * *' # Every day at 5 PM
+- path: ~/.config/alfred
+  cron: '0 17 * * *' # Every day at 5 PM
+- path: ~/.config/dotfiles-work/
+  cron: '0 17 * * *' # Every day at 5 PM
+- path: ~/ebrain/nvim
+  cron: '0 * * * *' # Every hour
+- path: ~/ebrain/personal
+  cron: '*/5 * * * *' # Every 5 minutes
+- path: ~/ebrain/tech
+  cron: '0 * * * *' # Every hour
+- path: ~/ebrain/work
+  cron: '0 17 * * *' # Every day at 5 PM

@@ -1,0 +1,5 @@
+[mgr]
+ratio          = [ 0, 2, 5 ]
+show_dotfiles   = true
+show_hidden     = true
+show_symlinks    = true

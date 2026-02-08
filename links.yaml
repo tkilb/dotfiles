@@ -1,0 +1,42 @@
+# MACHINE references:
+#   linux-book | linux-box | steam-deck | work-book
+- name: nvim
+  path: ~/.config/nvim
+  machines:
+    - linux-book
+    - linux-box
+    - steam-deck
+    - work-book
+- name: syncer
+  path: ~/.config/syncer
+  machines:
+    - linux-book
+    - linux-box
+    - steam-deck
+    - work-book
+- name: tmux
+  path: ~/.config/tmux
+  machines:
+    - linux-book
+    - linux-box
+    - work-book
+- name: wezterm
+  path: ~/.config/wezterm
+  machines:
+    - linux-book
+    - linux-box
+    - steam-deck
+    - work-book
+- name: yazi
+  path: ~/.config/yazi
+  machines:
+    - linux-book
+    - linux-box
+    - work-book
+- name: zsh/.zshrc
+  path: ~/.zshrc
+  machines:
+    - linux-book
+    - linux-box
+    - steam-deck
+    - work-book
