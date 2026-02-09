@@ -1,0 +1,17 @@
+---
+- name: Clone Core Repos from Github
+  hosts: localhost
+  tasks:
+    - name: Clone Syncer
+      ansible.builtin.git:
+        repo: https://github.com/tkilb/syncer
+        dest: ~/Programs/syncer
+        clone: yes
+        update: yes 
+      # when:
+        # - lookup('env', 'MACHINE') in ['linux-book', 'linux-box', 'steam-deck']
+        # - lookup('env', 'MACHINE') is defined
+      register: syncer_result
+    - name: Display Syncer result
+      debug:
+        var: syncer_result

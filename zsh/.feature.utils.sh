@@ -1,3 +1,4 @@
+alias ap='sudo ansible-playbook'
 alias cls='clear'
 alias dir='pwd -P | pbcopy'
 alias epochdatelocal="date -j -f \"%Y%m%d%T\" \"\$(date \"+%Y%m%d00:00:00\")\" \"+%s\""

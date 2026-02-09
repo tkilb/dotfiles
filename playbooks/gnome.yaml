@@ -1,0 +1,58 @@
+---
+- name: Set GNOME Keyboard Options
+  hosts: localhost
+  tasks:
+    # Remap Super -> Ctrl
+    - name: Remap altwin:ctrl_win
+      ansible.builtin.command: >
+        gsettings set org.gnome.desktop.input-sources
+        xkb-options "['altwin:ctrl_win']"
+    # Remap Ctrl+Tab to cycle app forward
+    - name: Set switch-applications to <Control>Tab
+      ansible.builtin.command: >
+        gsettings set org.gnome.desktop.wm.keybindings 
+        switch-applications "['<Control>Tab']"
+      changed_when: true
+    # Remap Shift+Ctrl+Tab to cycle app backwards
+    - name: Set switch-applications to <Control>Tab
+      ansible.builtin.command: >
+        gsettings set org.gnome.desktop.wm.keybindings 
+        switch-applications-backward "['<Shift><Control>Tab']"
+      changed_when: true
+    # Remap Ctrl+Grave to cycle app windows
+    - name: Set cycle-apps to <Control>grave
+      ansible.builtin.command: >
+        gsettings set org.gnome.desktop.wm.keybindings
+        switch-group "['<Control>grave']"
+      changed_when: true
+    # Set to only one workspace
+    - name: Set to only one workspace part 1
+      ansible.builtin.command: >
+        gsettings set org.gnome.mutter dynamic-workspaces false
+      changed_when: true
+    - name: Set to only one workspace part 2
+      ansible.builtin.command: >
+        gsettings set org.gnome.desktop.wm.preferences num-workspaces 1
+      changed_when: true
+
+    # - name: Ensure Ulauncher is installed from AUR
+    #   kewlfft.aur.aur:
+    #     name: ulauncher
+    #     use: yay
+    #     state: present
+    #   # yay must be run by a non-root user
+    #   become: yes
+    #   become_user: your_username
+
+    # Install Ulauncher
+    # - name: Install Ulauncher using yay
+    #   kewlfft.aur.aur:
+    #     name: ulauncher
+    #     use: yay
+    #     state: present
+    # - name: Ensure Ulauncher service is started and enabled
+    #   systemd:
+    #     name: ulauncher
+    #     enabled: yes
+    #     state: started
+    #     scope: user
