@@ -13,3 +13,8 @@
         name: tmux
         state: present
         update_cache: true
+    - name: Install Yazi
+      community.general.pacman:
+        name: yazi
+        state: present
+        update_cache: true

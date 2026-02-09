@@ -1,5 +1,13 @@
 # MACHINE references:
 #   linux-book | linux-box | steam-deck | work-book
+
+- name: kitty
+  path: ~/.config/kitty
+  machines:
+    - linux-book
+    - linux-box
+    - steam-deck
+    - work-book
 - name: nvim
   path: ~/.config/nvim
   machines:
