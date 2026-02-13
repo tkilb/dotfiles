@@ -59,6 +59,8 @@ wkey({"<leader>r", "<cmd>set nonumber! norelativenumber!<cr>", desc = "Toggle Re
 -- Windows
 del("n", "<leader>-")
 wkey({ "<leader>=", "<cmd>sp<cr>", icon = "", desc = "Split Window Down", mode = "n"})
+-- leader space to toggle between last two Windows
+wkey({ "<leader><space>", "<C-w><C-w>", icon = "󰮗 ", desc = "Toggle Last Window", mode = "n" })
 --------------------------------------------------
 -- Plugins
 --------------------------------------------------
@@ -75,7 +77,6 @@ wkey({
 
 -- Goto
 wkey({ "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<cr>", icon = " ", desc = "Preview Definition", mode = "n" })
-
 
 -- NeoGit
 map("n", "<leader>gg", "<cmd>Neogit<cr>")
@@ -114,4 +115,3 @@ map("n", "<C-j>", "<C-w>j")
 map("n", "<C-k>", "<C-w>k")
 map("n", "<C-l>", "<C-w>l")
 map("n", "<leader>/", "viwo<Esc>yw/<C-r><C-w><cr>N")
-map("n", "<leader><Space>", "<C-w><C-w>")
