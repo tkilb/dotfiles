@@ -3,6 +3,12 @@ local map = LazyVim.safe_keymap_set
 local wkey = require("which-key").add
 
 --------------------------------------------------
+-- Unregistered
+--------------------------------------------------
+del("n", "<leader>`")
+del("n", "<leader>K")
+
+--------------------------------------------------
 -- General
 --------------------------------------------------
 -- Buffers
@@ -16,7 +22,7 @@ wkey({
 -- Hover
 map("n", "h", vim.lsp.buf.hover, { desc = "LSP Hover" })
 
--- Multi Dismisser
+-- Multi Dismiss
 map(
   "n",
   "<leader><esc>",
@@ -34,6 +40,17 @@ map(
 -- Find / Files
 wkey({ "<leader>fp", ":let @+ = expand('%:p')<cr>", icon=" ", desc = "Copy Filepath" })
 wkey({ "<leader>fP", function() Snacks.picker.projects() end, icon=" ", desc = "Projects" })
+
+-- Lazy
+del("n", "<leader>l")
+del("n", "<leader>L")
+wkey({
+  { "<leader>l", icon = "󰒲 ", group = "lazy" },
+  { "<leader>lc", function() LazyVim.news.changelog() end, icon = "󰒲 ", desc = "Changelog", mode = "n" },
+  { "<leader>ll", "<cmd>Lazy<cr>", icon = "󰒲 ", desc = "Lazy", mode = "n" },
+  { "<leader>ls", "<cmd>Lazy sync<cr>", icon = "󰒲 ", desc = "Sync", mode = "n" },
+  { "<leader>lu", "<cmd>Lazy update<cr>", icon = "󰒲 ", desc = "Update", mode = "n" },
+})
 
 -- Notes
 del("n", "<leader>n")
@@ -59,8 +76,8 @@ wkey({"<leader>r", "<cmd>set nonumber! norelativenumber!<cr>", desc = "Toggle Re
 -- Windows
 del("n", "<leader>-")
 wkey({ "<leader>=", "<cmd>sp<cr>", icon = "", desc = "Split Window Down", mode = "n"})
--- leader space to toggle between last two Windows
 wkey({ "<leader><space>", "<C-w><C-w>", icon = "󰮗 ", desc = "Toggle Last Window", mode = "n" })
+
 --------------------------------------------------
 -- Plugins
 --------------------------------------------------
@@ -93,7 +110,7 @@ wkey({
   { "<leader>af", "<cmd>lua require('sidekick.cli').send({ name = 'copilot', msg = '{file}' })<cr>", icon = "󰚩 ", desc = "Send File", mode = "n" },
   { "<leader>an", "<cmd>SidekickNesToggle<cr>", icon = "󰚩 ", desc = "Toggle Nes", mode = "n" },
   { "<leader>al", "<cmd>lua require('sidekick.cli').send({ name = 'copilot', msg = '{line}' })<cr>", icon = "󰚩 ", desc = "Send Line", mode = { "n", "x" } },
-  { "<leader>ap", "<cmd>lua require('sidekick.cli').prompt()<cr>", icon = "󰚩 ", desc = "Prompt", mode = { "n", "x" } },
+  { "<leader>ap", "<cmd>lua require('sidekick.cli').prompt()<cr>", icon = "󰚩 ", desc = "Prompts", mode = { "n", "x" } },
   { "<leader>as", "<cmd>lua require('sidekick.cli').select()<cr>", icon = "󰚩 ", desc = "Select", mode = "n" },
   { "<leader>at", "<cmd>lua require('sidekick.cli').send({ name = 'copilot', msg = '{this}' })<cr>", icon = "󰚩 ", desc = "Send This", mode = { "n", "x" } },
   { "<leader>av", "<cmd>lua require('sidekick.cli').send({ name = 'copilot', msg = '{selection}' })<cr>", icon = "󰚩 ", desc = "Send Selection", mode = "x" },

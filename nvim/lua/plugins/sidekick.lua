@@ -17,6 +17,7 @@ return {
         backend = "tmux",
         enabled = true,
       },
+      scroll_on_output = false, -- Disable auto-scroll when copilot is thinking
     },
     default_tool = "copilot",
     default_model = "gpt-4.1",
