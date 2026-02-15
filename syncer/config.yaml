@@ -10,11 +10,11 @@
   cron: '0 17 * * *' # Every day at 5 PM
 - path: ~/.config/dotfiles-work/
   cron: '0 17 * * *' # Every day at 5 PM
-- path: ~/ebrain/nvim
+- path: ~/notes/nvim
   cron: '0 * * * *' # Every hour
-- path: ~/ebrain/personal
+- path: ~/notes/personal
   cron: '*/5 * * * *' # Every 5 minutes
-- path: ~/ebrain/tech
+- path: ~/notes/tech
   cron: '0 * * * *' # Every hour
-- path: ~/ebrain/work
+- path: ~/notes/work
   cron: '0 17 * * *' # Every day at 5 PM

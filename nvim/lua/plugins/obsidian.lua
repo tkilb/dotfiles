@@ -19,20 +19,20 @@ return {
     },
     workspaces = {
       {
-        name = "ebrain-nvim",
-        path = "~/ebrain/nvim",
+        name = "notes-nvim",
+        path = "~/notes/nvim",
       },
       {
-        name = "ebrain-personal",
-        path = "~/ebrain/personal",
+        name = "notes-personal",
+        path = "~/notes/personal",
       },
       {
-        name = "ebrain-tech",
-        path = "~/ebrain/tech",
+        name = "notes-tech",
+        path = "~/notes/tech",
       },
       {
-        name = "ebrain-work",
-        path = "~/ebrain/work",
+        name = "notes-work",
+        path = "~/notes/work",
       },
     },
   },

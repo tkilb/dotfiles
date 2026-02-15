@@ -8,6 +8,16 @@
         name: kitty
         state: present
         update_cache: true
+    - name: Install Node
+      community.general.pacman:
+        name: nodejs
+        state: present
+        update_cache: true
+    - name: Install Prettier
+      community.general.pacman:
+        name: prettier
+        state: present
+        update_cache: true
     - name: Install Tmux
       community.general.pacman:
         name: tmux
