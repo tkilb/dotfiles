@@ -6,7 +6,7 @@ static uint16_t alt_sent_timer;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-  case ALT_SENT:
+  case CUST_ALT_QUE:
     if (record->event.pressed) {
       // Log the time when pressed and start Alt
       alt_sent_timer = timer_read();
