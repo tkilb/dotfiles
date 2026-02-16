@@ -152,7 +152,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*  _ Cap _            __ A __            __ S __            __ D __            __ F __            __ G __      |      __ H __            __ J __             __ K __            __ L __            __ ; __                __ ' __ */ \
         XXX,               KC_A,              KC_R,              KC_S,              KC_T,              KC_G,               KC_M,              KC_N,               KC_E,              KC_I,              KC_O,                  ___,       \
     /*  _ Shf _            __ Z __            __ X __            __ C __            __ V __            __ B __      |      __ N __            __ M __             __ , __            __ . __            __ / __                _ Shf _ */ \
-        XXX,               EDGE_Z,            EDGE_X,            EDGE_C,            EDGE_D,            EDGE_V,             EDGE_K,            EDGE_H,             EDGE_COMM,         EDGE_DOT,          EDGE_SLSH,             ___,       \
+        XXX,               EDGE_Z,            EDGE_X,            EDGE_C,            EDGE_D,            EDGE_V,             EDGE_K,            EDGE_H,             EDGE_COMM,         EDGE_DOT,          CUST_ALT_QUE,          ___,       \
     /*  __ _ __            __ _ __            __ _ __            __ L1 __           __ L2 __           __ L3 __     |      __ R3 __           __ R2 __            __ R1 __           __ _ __            __ _ __                __ _ __ */ \
                                                                  U_LT1,             U_LT2,             U_LT3,              U_RT3,             U_RT2,              U_RT1
   ),

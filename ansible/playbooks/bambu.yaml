@@ -1,0 +1,15 @@
+---
+- name: Install 3d Printer Software
+  hosts: localhost
+  vars:
+    ansible_async_dir: /tmp/.ansible_async
+    ansible_allow_world_readable_tmpfiles: True
+  tasks:
+    - name: Install Bambu Studio
+      yay:
+        name:
+          - bambustudio-bin
+        state: present
+      become: yes
+      become_user: yay_builder
+      become_method: sudo

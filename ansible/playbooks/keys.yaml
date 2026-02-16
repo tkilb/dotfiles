@@ -1,0 +1,51 @@
+---
+- name: Configure GNOME window management shortcuts
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tasks:
+    - name: Set snap window to left half (Ctrl+Alt+Left)
+      dconf:
+        key: /org/gnome/shell/keybindings/toggle-tiled-left
+        value: "['<Control><Alt>Left']"
+      environment:
+        DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ ansible_effective_user_id }}/bus"
+
+    - name: Set snap window to right half (Ctrl+Alt+Right)
+      dconf:
+        key: /org/gnome/shell/keybindings/toggle-tiled-right
+        value: "['<Control><Alt>Right']"
+      environment:
+        DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ ansible_effective_user_id }}/bus"
+
+    - name: Set maximize window (Ctrl+Alt+M)
+      dconf:
+        key: /org/gnome/desktop/wm/keybindings/toggle-maximized
+        value: "['<Control><Alt>m']"
+      environment:
+        DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ ansible_effective_user_id }}/bus"
+
+    - name: Set move to next monitor (Ctrl+Alt+N)
+      dconf:
+        key: /org/gnome/desktop/wm/keybindings/move-to-monitor-right
+        value: "['<Control><Alt>n']"
+      environment:
+        DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ ansible_effective_user_id }}/bus"
+
+    - name: Restart GNOME Shell to apply changes
+      shell: |
+        killall -9 gnome-shell || true
+        sleep 2
+      environment:
+        DISPLAY: ":0"
+        XAUTHORITY: "{{ ansible_user_dir }}/.Xauthority"
+
+    - name: Display completion message
+      debug:
+        msg: |
+          ✓ GNOME window management shortcuts configured:
+
+          Ctrl+Alt+Left  → Snap window to left half
+          Ctrl+Alt+Right → Snap window to right half
+          Ctrl+Alt+M     → Maximize/Unmaximize window
+          Ctrl+Alt+N     → Move window to next monitor

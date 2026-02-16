@@ -8,6 +8,11 @@
     - linux-box
     - steam-deck
     - work-book
+- name: autostart
+  path: ~/.config/autostart
+  machines:
+    - linux-book
+    - linux-box
 - name: kitty
   path: ~/.config/kitty
   machines:
@@ -35,6 +40,11 @@
     - linux-book
     - linux-box
     - work-book
+- name: ulauncher
+  path: ~/.config/ulauncher
+  machines:
+    - linux-book
+    - linux-box
 - name: wezterm
   path: ~/.config/wezterm
   machines:

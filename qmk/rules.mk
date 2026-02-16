@@ -7,6 +7,7 @@ REPEAT_KEY_ENABLE = yes
 
 SRC += \
     features/achordion.c \
+    features/process_record_user.c \
 		combo/combo.c \
 		override/override.c \
 		tap_dance/tap_dance.c \

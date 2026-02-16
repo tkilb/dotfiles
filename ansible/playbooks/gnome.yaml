@@ -5,32 +5,33 @@
     ansible_async_dir: /tmp/.ansible_async
     ansible_allow_world_readable_tmpfiles: True
   tasks:
-    # Remap Super -> Ctrl
-    - name: Remap altwin:ctrl_win
+    - name: Keymap altwin (<Super>) -> <Ctrl>
       ansible.builtin.command: >
         gsettings set org.gnome.desktop.input-sources
         xkb-options "['altwin:ctrl_win']"
 
-    # Remap Ctrl+Tab to cycle app forward
-    - name: Set switch-applications to <Control>Tab
+    - name: Keymap switch-applications to <Control>Tab
       ansible.builtin.command: >
         gsettings set org.gnome.desktop.wm.keybindings 
         switch-applications "['<Control>Tab']"
       changed_when: true
 
-    # Remap Shift+Ctrl+Tab to cycle app backwards
-    - name: Set switch-applications to <Control>Tab
+    - name: Keymap switch-applications backwards to <Shift><Control>Tab
       ansible.builtin.command: >
         gsettings set org.gnome.desktop.wm.keybindings 
         switch-applications-backward "['<Shift><Control>Tab']"
       changed_when: true
 
-    # Remap Ctrl+Grave to cycle app windows
-    - name: Set cycle-apps to <Control>grave
+    - name: Keymap cycle-apps to <Control>grave
       ansible.builtin.command: >
         gsettings set org.gnome.desktop.wm.keybindings
         switch-group "['<Control>grave']"
       changed_when: true
+
+    # - name: Keymap rename file to <return>
+    #   ansible.builtin.command: >
+    #     gsettings set org.gnome.nautilus.list-view rename-file "['Return']"
+    #   changed_when: true
 
     # Set to only one workspace
     - name: Set to only one workspace part 1
@@ -41,9 +42,7 @@
       ansible.builtin.command: >
         gsettings set org.gnome.desktop.wm.preferences num-workspaces 1
       changed_when: true
-    #
 
-    # Install Dash to Dock
     - name: Install Dash to Dock
       yay:
         name:
@@ -53,37 +52,46 @@
       become_user: yay_builder
       become_method: sudo
 
-    # Enable Dash to Dock
-    # Disable Overview on startup
-    - name: Disable Overview on Startup
+    - name: Enable Dash to Dock
       ansible.builtin.command: >
         gnome-extensions enable dash-to-dock@micxgx.gmail.com
       changed_when: true
 
-    # Disable Overview on startup
     - name: Disable Overview on Startup
       ansible.builtin.command: >
         gsettings set org.gnome.shell.extensions.dash-to-dock disable-overview-on-startup true
       changed_when: true
 
-    # - name: Ensure Ulauncher is installed from AUR
-    #   kewlfft.aur.aur:
-    #     name: ulauncher
-    #     use: yay
-    #     state: present
-    #   # yay must be run by a non-root user
-    #   become: yes
-    #   become_user: your_username
+    - name: Configure Snap to Left (Ctrl+Alt+Left)
+      ansible.builtin.command: >
+        gsettings set org.gnome.mutter.keybindings toggle-tiled-left "['<Control><Alt>Left']"
+      changed_when: true
 
-    # Install Ulauncher
-    # - name: Install Ulauncher using yay
-    #   kewlfft.aur.aur:
-    #     name: ulauncher
-    #     use: yay
-    #     state: present
-    # - name: Ensure Ulauncher service is started and enabled
-    #   systemd:
-    #     name: ulauncher
-    #     enabled: yes
-    #     state: started
-    #     scope: user
+    - name: Configure Snap to Right (Ctrl+Alt+Right)
+      ansible.builtin.command: >
+        gsettings set org.gnome.mutter.keybindings toggle-tiled-right "['<Control><Alt>Right']"
+      changed_when: true
+
+    - name: Configure Maximize Window (Ctrl+Alt+M)
+      ansible.builtin.command: >
+        gsettings set org.gnome.desktop.wm.keybindings toggle-maximized "['<Control><Alt>m']"
+      changed_when: true
+
+    - name: Set move to monitor left (Shift+Ctrl+Alt+Left)
+      ansible.builtin.command: >
+        gsettings set org.gnome.desktop.wm.keybindings move-to-monitor-left "['<Shift><Control><Alt>Left']"
+      changed_when: true
+
+    - name: Set move to monitor right (Shift+Ctrl+Alt+Right)
+      ansible.builtin.command: >
+        gsettings set org.gnome.desktop.wm.keybindings move-to-monitor-right "['<Shift><Control><Alt>Right']"
+      changed_when: true
+
+    - name: Install Ulauncher
+      yay:
+        name:
+          - ulauncher
+        state: present
+      become: yes
+      become_user: yay_builder
+      become_method: sudo

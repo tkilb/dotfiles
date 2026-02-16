@@ -1,0 +1,27 @@
+---
+- name: Remap Nautilus Rename to Enter
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Ensure the Nautilus config directory exists
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.config/nautilus"
+        state: directory
+        mode: "0755"
+
+    - name: Ensure the accels file exists (creates empty if missing)
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.config/nautilus/accels"
+        state: touch
+        modification_time: preserve
+        access_time: preserve
+
+    - name: Replace F2 with Return for file renaming
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.config/nautilus/accels"
+        regexp: "^.*<Actions>/DirViewActions/Rename.*$"
+        line: '(gtk_accel_path "<Actions>/DirViewActions/Rename" "Return")'
+        state: present
+
+    - name: Kill Nautilus to apply changes
+      ansible.builtin.shell: "nautilus -q || true"

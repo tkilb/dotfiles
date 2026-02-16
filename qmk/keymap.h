@@ -5,22 +5,23 @@
 #include "quantum.h"
 
 // #include "combo/combo.h"
+#include "features/process_record_user.h"
 #include "override/override.h"
 #include "tap_dance/tap_dance.h"
 
 // Layers
-#define U_BASE  0
-#define U_NUM   1
-#define U_FUN   2
-#define U_NAV   3
+#define U_BASE 0
+#define U_NUM 1
+#define U_FUN 2
+#define U_NAV 3
 #define U_MEDIA 4
 
 // Empties
 #define U_NP KC_NO
 #define U_NA KC_NO
 #define U_NU KC_NO
-#define XXX  KC_NO
-#define ___  KC_NO
+#define XXX KC_NO
+#define ___ KC_NO
 
 // Buttons
 #define U_RDO SCMD(KC_Z)

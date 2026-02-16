@@ -7,10 +7,10 @@
         repo: https://github.com/tkilb/syncer
         dest: ~/Programs/syncer
         clone: yes
-        update: yes 
+        update: yes
       # when:
-        # - lookup('env', 'MACHINE') in ['linux-book', 'linux-box', 'steam-deck']
-        # - lookup('env', 'MACHINE') is defined
+      # - lookup('env', 'MACHINE') in ['linux-book', 'linux-box', 'steam-deck']
+      # - lookup('env', 'MACHINE') is defined
       register: syncer_result
     - name: Display Syncer result
       debug:
