@@ -2,7 +2,7 @@
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-  case ALT_QUE:
+  case CUST_ALT_QUE:
     if (record->event.pressed) {
       // Act as Alt immediately on press
       register_mods(MOD_BIT(KC_LALT));
