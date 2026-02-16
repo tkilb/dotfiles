@@ -13,9 +13,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
       // If released quickly (a tap), send the character
       if (timer_elapsed(record->event.time) < TAPPING_TERM) {
-        if (get_mods() & (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT))) {
+        if (get_mods() & (MOD_BIT(KC_LSFT) | MOD_BIT(KC_RSFT))) {
           // Shift is held: Send '!' (Shift + 1)
-          del_mods(MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT));
+          del_mods(MOD_BIT(KC_LSFT) | MOD_BIT(KC_RSFT));
           tap_code16(KC_EXLM);
           set_mods(get_mods()); // Restore shift state
         } else {
