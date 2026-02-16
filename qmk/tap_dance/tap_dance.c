@@ -25,6 +25,6 @@ tap_dance_action_t tap_dance_actions[] = {
     [U_TD_COLN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, coln_finished, coln_reset),
     [U_TD_LCBR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lcbr_finished, lcbr_reset),
     [U_TD_RCBR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rcbr_finished, rcbr_reset),
-    [U_TD_EXLM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, exlm_finished,
-                                               exlm_reset)[U_TD_QUES] =
-        ACTION_TAP_DANCE_FN_ADVANCED(NULL, ques_finished, ques_reset)};
+    [U_TD_EXLM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, exlm_finished, exlm_reset),
+    [U_TD_QUES] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ques_finished, ques_reset)
+};
