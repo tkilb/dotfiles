@@ -14,6 +14,7 @@ enum td_keycodes {
   U_TD_LCBR,
   U_TD_RCBR,
   U_TD_EXLM,
+  U_TD_QUES,
   U_TD_BSPC,
   U_TD_DEL,
 };
@@ -60,6 +61,10 @@ void perc_reset(tap_dance_state_t *state, void *user_data);
 // Complex - EXLM
 void exlm_finished(tap_dance_state_t *state, void *user_data);
 void exlm_reset(tap_dance_state_t *state, void *user_data);
+
+// Complex - QUES
+void ques_finished(tap_dance_state_t *state, void *user_data);
+void ques_reset(tap_dance_state_t *state, void *user_data);
 
 // Complex - LCBR
 void lcbr_finished(tap_dance_state_t *state, void *user_data);
