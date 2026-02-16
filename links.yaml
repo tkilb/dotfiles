@@ -1,6 +1,13 @@
 # MACHINE references:
 #   linux-book | linux-box | steam-deck | work-book
 
+- name: ansible
+  path: ~/.ansible
+  machines:
+    - linux-book
+    - linux-box
+    - steam-deck
+    - work-book
 - name: kitty
   path: ~/.config/kitty
   machines:

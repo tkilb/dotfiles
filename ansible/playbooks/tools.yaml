@@ -1,28 +1,38 @@
 ---
 - name: Install Core Tooling
   hosts: localhost
-  become: true  # Necessary to run with root privileges
+  become: true # Necessary to run with root privileges
   tasks:
     - name: Install Kitty
       community.general.pacman:
         name: kitty
         state: present
         update_cache: true
+
     - name: Install Node
       community.general.pacman:
         name: nodejs
         state: present
         update_cache: true
+
     - name: Install Prettier
       community.general.pacman:
         name: prettier
         state: present
         update_cache: true
+
     - name: Install Tmux
       community.general.pacman:
         name: tmux
         state: present
         update_cache: true
+
+    - name: Install Trash
+      community.general.pacman:
+        name: trash-cli
+        state: present
+        update_cache: true
+
     - name: Install Yazi
       community.general.pacman:
         name: yazi

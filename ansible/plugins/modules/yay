@@ -1,0 +1,219 @@
+#!/usr/bin/python
+
+from ansible.module_utils.basic import AnsibleModule
+import subprocess
+import re
+
+
+def run_command(module, cmd, check_rc=True):
+    """Run a command and return rc, stdout, stderr"""
+    rc, stdout, stderr = module.run_command(cmd, check_rc=False)
+    if check_rc and rc != 0:
+        module.fail_json(msg=f"Command failed with rc {rc}: {stderr}")
+    return rc, stdout, stderr
+
+
+def yay_installed(module):
+    """Check if yay is installed"""
+    rc, _, _ = module.run_command('which yay', check_rc=False)
+    return rc == 0
+
+
+def package_installed(module, pkg):
+    """Check if a package is installed"""
+    rc, _, _ = module.run_command(f'yay -Qi {pkg}', check_rc=False)
+    return rc == 0
+
+
+def get_package_version(module, pkg):
+    """Get the installed version of a package"""
+    rc, stdout, _ = module.run_command(f'yay -Qi {pkg}', check_rc=False)
+    if rc != 0:
+        return None
+
+    for line in stdout.split('\n'):
+        if 'Version' in line:
+            return line.split(':')[1].strip()
+    return None
+
+
+def get_remote_version(module, pkg):
+    """Get the remote version of a package from AUR"""
+    rc, stdout, _ = module.run_command(f'yay -Si {pkg}', check_rc=False)
+    if rc != 0:
+        return None
+
+    for line in stdout.split('\n'):
+        if 'Version' in line:
+            return line.split(':')[1].strip()
+    return None
+
+
+def install_package(module, pkg):
+    """Install a package using yay"""
+    rc, stdout, stderr = module.run_command(
+        f'yay --noconfirm -S {pkg}',
+        check_rc=False
+    )
+
+    if rc != 0:
+        module.fail_json(
+            msg=f"Failed to install package {pkg}",
+            stderr=stderr,
+            stdout=stdout
+        )
+
+    return 'installed' in stdout.lower() or 'reinstalling' in stdout.lower()
+
+
+def remove_package(module, pkg, recurse=False):
+    """Remove a package using pacman"""
+    arg = 'Rs' if recurse else 'R'
+    rc, stdout, stderr = module.run_command(
+        f'pacman -{arg} --noconfirm {pkg}',
+        check_rc=False
+    )
+
+    if rc != 0:
+        module.fail_json(
+            msg=f"Failed to remove package {pkg}",
+            stderr=stderr,
+            stdout=stdout
+        )
+
+    return 'removed' in stdout.lower()
+
+
+def upgrade_packages(module):
+    """Upgrade all packages"""
+    rc, stdout, stderr = module.run_command(
+        'yay -Su --noconfirm',
+        check_rc=False
+    )
+
+    if rc != 0:
+        module.fail_json(
+            msg="Failed to upgrade packages",
+            stderr=stderr,
+            stdout=stdout
+        )
+
+    return 'nothing to do' not in stdout.lower()
+
+
+def main():
+    module = AnsibleModule(
+        argument_spec=dict(
+            name=dict(type='list', elements='str'),
+            state=dict(
+                default='present',
+                choices=['present', 'absent', 'latest'],
+            ),
+            recurse=dict(default=False, type='bool'),
+            upgrade=dict(default=False, type='bool'),
+            update_cache=dict(
+                default=False,
+                type='bool',
+                aliases=['update-cache'],
+            ),
+        ),
+        required_one_of=[['name', 'update_cache', 'upgrade']],
+        supports_check_mode=True,
+    )
+
+    # Check if yay is installed
+    if not yay_installed(module):
+        module.fail_json(msg="yay is not installed. Please install yay first.")
+
+    params = module.params
+    changed = False
+    messages = []
+
+    # Handle update_cache
+    if params['update_cache']:
+        if not module.check_mode:
+            rc, stdout, stderr = module.run_command('yay -Sy', check_rc=False)
+            if rc == 0:
+                messages.append('Updated package cache')
+                changed = True
+            else:
+                module.fail_json(msg=f"Failed to update cache: {stderr}")
+        else:
+            messages.append('Would update package cache')
+            changed = True
+
+    # Handle upgrade
+    if params['upgrade']:
+        if not module.check_mode:
+            upgraded = upgrade_packages(module)
+            if upgraded:
+                messages.append('Upgraded all packages')
+                changed = True
+            else:
+                messages.append('All packages already up-to-date')
+        else:
+            messages.append('Would upgrade all packages')
+            changed = True
+
+    # Handle package installation/removal
+    if params['name']:
+        packages = params['name']
+        state = params['state']
+
+        for pkg in packages:
+            installed = package_installed(module, pkg)
+
+            if state == 'present':
+                if not installed:
+                    if not module.check_mode:
+                        install_package(module, pkg)
+                        messages.append(f'Installed {pkg}')
+                    else:
+                        messages.append(f'Would install {pkg}')
+                    changed = True
+                else:
+                    messages.append(f'{pkg} already installed')
+
+            elif state == 'latest':
+                if not installed:
+                    if not module.check_mode:
+                        install_package(module, pkg)
+                        messages.append(f'Installed {pkg}')
+                    else:
+                        messages.append(f'Would install {pkg}')
+                    changed = True
+                else:
+                    local_version = get_package_version(module, pkg)
+                    remote_version = get_remote_version(module, pkg)
+
+                    if local_version and remote_version and local_version != remote_version:
+                        if not module.check_mode:
+                            install_package(module, pkg)
+                            messages.append(f'Upgraded {pkg} to {
+                                            remote_version}')
+                        else:
+                            messages.append(f'Would upgrade {
+                                            pkg} to {remote_version}')
+                        changed = True
+                    else:
+                        messages.append(f'{pkg} already at latest version')
+
+            elif state == 'absent':
+                if installed:
+                    if not module.check_mode:
+                        remove_package(module, pkg, params['recurse'])
+                        messages.append(f'Removed {pkg}')
+                    else:
+                        messages.append(f'Would remove {pkg}')
+                    changed = True
+                else:
+                    messages.append(f'{pkg} not installed')
+
+    module.exit_json(
+        changed=changed,
+        msg='. '.join(messages) if messages else 'No changes made'
+    )
+
+
+if __name__ == '__main__':
+    main()

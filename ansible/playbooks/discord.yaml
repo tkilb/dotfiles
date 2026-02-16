@@ -1,0 +1,10 @@
+---
+- name: Install or Update Discord
+  hosts: localhost
+  become: true # Necessary to run with root privileges
+  tasks:
+    - name: Install Discord
+      community.general.pacman:
+        name: discord
+        state: present
+        update_cache: true

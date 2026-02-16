@@ -1,0 +1,43 @@
+---
+- name: Replace GNOME terminal with Kitty
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Install Kitty
+      community.general.pacman:
+        name: kitty
+        state: present
+        update_cache: true
+
+    - name: Set Kitty as default terminal application
+      community.general.dconf:
+        key: /org/gnome/desktop/default-applications/terminal/exec
+        value: "'kitty'"
+        state: present
+
+    - name: Set Kitty executable as default
+      community.general.dconf:
+        key: /org/gnome/desktop/default-applications/terminal/exec-arg
+        value: "'-e'"
+        state: present
+
+    # - name: Update alternatives for x-terminal-emulator
+    #   alternatives:
+    #     name: x-terminal-emulator
+    #     link: /usr/bin/x-terminal-emulator
+    #     path: /usr/bin/kitty
+    #     priority: 100
+
+    # - name: Update alternatives for gnome-terminal
+    #   alternatives:
+    #     name: gnome-terminal
+    #     link: /usr/bin/gnome-terminal
+    #     path: /usr/bin/kitty
+    #     priority: 100
+
+    # - name: Update mimeapps.list for terminal
+    #   lineinfile:
+    #     path: ~/.config/mimeapps.list
+    #     regexp: "^x-scheme-handler/terminal="
+    #     line: "x-scheme-handler/terminal=kitty.desktop"
+    #     create: yes

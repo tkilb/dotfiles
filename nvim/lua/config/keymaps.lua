@@ -11,6 +11,11 @@ del("n", "<leader>K")
 --------------------------------------------------
 -- General
 --------------------------------------------------
+-- OS style copy / paste
+map("", "<leader>c", "y")
+map("", "<C-c>", "y")
+map("", "<C-v>", "p")
+
 -- Buffers
 wkey({
   { "<leader>]", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer", mode = "n", hidden = true },
@@ -85,12 +90,12 @@ wkey({ "<leader><space>", "<C-w><C-w>", icon = "󰮗 ", desc = "Toggle Last Wind
 wkey( { "<leader>ac", "<cmd>CopilotToggle<cr>", icon = "󰨙 ", desc = "Toggle Predictions", mode = "n" })
 
 -- Flash
--- del("n", "s")
--- del("n", "S")
--- wkey({
---   { "f", "<cmd>lua require('flash').jump()<cr>", desc = "Flash Jump", mode = "n" },
---   { "F", "<cmd>lua require('flash').treesitter()<cr>", desc = "Flash Treesitter", mode = "n" },
--- })
+del("n", "s")
+del("n", "S")
+wkey({
+  { "f", "<cmd>lua require('flash').jump()<cr>", desc = "Flash Jump", mode = "n" },
+  { "F", "<cmd>lua require('flash').treesitter()<cr>", desc = "Flash Treesitter", mode = "n" },
+})
 
 -- Goto
 wkey({ "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<cr>", icon = " ", desc = "Preview Definition", mode = "n" })

@@ -1,0 +1,89 @@
+---
+- name: Setup AUR package management with Ansible
+  hosts: localhost
+  become: yes
+  vars:
+    yay_builder_user: yay_builder
+    yay_builder_home: /home/yay_builder
+
+  tasks:
+    # Create AUR builder user
+    - name: Create yay_builder user
+      ansible.builtin.user:
+        name: "{{ yay_builder_user }}"
+        home: "{{ yay_builder_home }}"
+        shell: /bin/bash
+        createhome: yes
+        state: present
+
+    # Add yay_builder to wheel group
+    - name: Add yay_builder to wheel group
+      ansible.builtin.user:
+        name: "{{ yay_builder_user }}"
+        groups: wheel
+        append: yes
+
+    # Configure sudoers for passwordless pacman access
+    - name: Configure sudoers for yay_builder
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/yay_builder
+        line: "{{ yay_builder_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+        create: yes
+        mode: "0440"
+        validate: /usr/sbin/visudo -cf %s
+
+    # Ensure yay is installed
+    - name: Check if yay is installed
+      ansible.builtin.command: which yay
+      register: yay_check
+      changed_when: false
+      failed_when: false
+
+    - name: Install yay from AUR
+      block:
+        - name: Clone yay repository
+          ansible.builtin.git:
+            repo: https://aur.archlinux.org/yay.git
+            dest: /tmp/yay
+            version: master
+
+        - name: Build and install yay
+          ansible.builtin.shell: |
+            cd /tmp/yay
+            makepkg -si --noconfirm
+          args:
+            creates: /usr/bin/yay
+
+        - name: Clean up yay build directory
+          ansible.builtin.file:
+            path: /tmp/yay
+            state: absent
+      when: yay_check.rc != 0
+
+    # Install base-devel if not already installed (needed for AUR builds)
+    - name: Install base-devel group
+      community.general.pacman:
+        name: base-devel
+        state: present
+
+    - name: Display completion message
+      ansible.builtin.debug:
+        msg: |
+          ✓ AUR builder setup complete!
+
+          You can now use the following playbook structure to install AUR packages:
+
+          ---
+          - name: Install AUR packages
+            hosts: localhost
+            tasks:
+              - name: Install package
+                ansible.builtin.shell: |
+                  yay --noconfirm -S package-name
+                become: yes
+                become_user: yay_builder
+                become_method: sudo
+                changed_when: "'installed' in result.stdout.lower()"
+                register: result
+
+          Run with: ansible-playbook your-playbook.yaml -K
