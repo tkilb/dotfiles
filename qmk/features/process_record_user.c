@@ -5,7 +5,7 @@ static uint16_t alt_sent_timer;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-  case ALT_SENT:
+  case CUST_ALT_QUE:
     if (record->event.pressed) {
       alt_sent_timer = timer_read();
       register_mods(MOD_BIT(KC_LALT));
