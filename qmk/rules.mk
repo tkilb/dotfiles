@@ -18,8 +18,9 @@ SRC += \
 		tap_dance/tap_dance_v.c \
 		tap_dance/tap_dance_coln.c \
 		tap_dance/tap_dance_dquo.c \
-		tap_dance/tap_dance_perc.c \
 		tap_dance/tap_dance_exlm.c \
 		tap_dance/tap_dance_lcbr.c \
+		tap_dance/tap_dance_perc.c \
+		tap_dance/tap_dance_ques.c \
 		tap_dance/tap_dance_rcbr.c \
 		tap_dance/tap_dance_spc.c \
