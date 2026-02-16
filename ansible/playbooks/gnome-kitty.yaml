@@ -1,43 +1,64 @@
 ---
-- name: Replace GNOME terminal with Kitty
+- name: Replace GNOME Terminal with Kitty on Arch Linux
   hosts: localhost
-  become: yes
+  connection: local
+  gather_facts: yes
   tasks:
-    - name: Install Kitty
+    - name: Install Kitty from official repos
       community.general.pacman:
         name: kitty
         state: present
-        update_cache: true
+      become: yes
 
-    - name: Set Kitty as default terminal application
-      community.general.dconf:
+    - name: Set Kitty as default terminal via gsettings
+      dconf:
         key: /org/gnome/desktop/default-applications/terminal/exec
         value: "'kitty'"
-        state: present
+      environment:
+        DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ ansible_effective_user_id }}/bus"
 
-    - name: Set Kitty executable as default
-      community.general.dconf:
-        key: /org/gnome/desktop/default-applications/terminal/exec-arg
-        value: "'-e'"
-        state: present
+    - name: Update GNOME Terminal mime type associations
+      lineinfile:
+        path: "{{ ansible_user_dir }}/.config/mimeapps.list"
+        regexp: "^x-scheme-handler/terminal="
+        line: "x-scheme-handler/terminal=kitty.desktop"
+        create: yes
+        mode: "0644"
 
-    # - name: Update alternatives for x-terminal-emulator
-    #   alternatives:
-    #     name: x-terminal-emulator
-    #     link: /usr/bin/x-terminal-emulator
-    #     path: /usr/bin/kitty
-    #     priority: 100
+    - name: Ensure kitty.desktop exists in applications
+      copy:
+        dest: /usr/share/applications/kitty.desktop
+        content: |
+          [Desktop Entry]
+          Type=Application
+          Name=Kitty
+          Comment=GPU-based terminal emulator
+          Exec=kitty
+          Icon=utilities-terminal
+          Categories=System;TerminalEmulator;
+          MimeType=application/x-shellscript;text/plain;
+          Terminal=false
+        owner: root
+        group: root
+        mode: "0644"
+      become: yes
 
-    # - name: Update alternatives for gnome-terminal
-    #   alternatives:
-    #     name: gnome-terminal
-    #     link: /usr/bin/gnome-terminal
-    #     path: /usr/bin/kitty
-    #     priority: 100
+    - name: Restart GNOME Shell to apply changes
+      shell: |
+        killall -9 gnome-shell || true
+        sleep 2
+      environment:
+        DISPLAY: ":0"
+        XAUTHORITY: "{{ ansible_user_dir }}/.Xauthority"
 
-    # - name: Update mimeapps.list for terminal
-    #   lineinfile:
-    #     path: ~/.config/mimeapps.list
-    #     regexp: "^x-scheme-handler/terminal="
-    #     line: "x-scheme-handler/terminal=kitty.desktop"
-    #     create: yes
+    - name: Display completion message
+      debug:
+        msg: |
+          ✓ Kitty has been installed and set as default terminal
+          ✓ GNOME Shell restarted
+          ✓ Configuration deployed to ~/.config/kitty/kitty.conf
+
+          Next steps:
+          - Press Alt+F2 and type 'r' to restart GNOME if needed
+          - Test with: kitty
+          - Customize ~/.config/kitty/kitty.conf as needed

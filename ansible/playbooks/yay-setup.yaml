@@ -7,7 +7,6 @@
     yay_builder_home: /home/yay_builder
 
   tasks:
-    # Create AUR builder user
     - name: Create yay_builder user
       ansible.builtin.user:
         name: "{{ yay_builder_user }}"
@@ -16,7 +15,6 @@
         createhome: yes
         state: present
 
-    # Add yay_builder to wheel group
     - name: Add yay_builder to wheel group
       ansible.builtin.user:
         name: "{{ yay_builder_user }}"
@@ -32,7 +30,6 @@
         mode: "0440"
         validate: /usr/sbin/visudo -cf %s
 
-    # Ensure yay is installed
     - name: Check if yay is installed
       ansible.builtin.command: which yay
       register: yay_check
@@ -60,7 +57,6 @@
             state: absent
       when: yay_check.rc != 0
 
-    # Install base-devel if not already installed (needed for AUR builds)
     - name: Install base-devel group
       community.general.pacman:
         name: base-devel
