@@ -2,29 +2,27 @@
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-  case CUST_ALT_QUE:
+  case ALT_QUE:
     if (record->event.pressed) {
-      // Key pressed: Start timer to distinguish tap vs hold
-      record->event.time = timer_read();
+      // Act as Alt immediately on press
       register_mods(MOD_BIT(KC_LALT));
     } else {
-      // Key released: Unregister Alt
+      // Release Alt on release
       unregister_mods(MOD_BIT(KC_LALT));
 
-      // If released quickly (a tap), send the character
-      if (timer_elapsed(record->event.time) < TAPPING_TERM) {
-        if (get_mods() & (MOD_BIT(KC_LSFT) | MOD_BIT(KC_RSFT))) {
-          // Shift is held: Send '!' (Shift + 1)
-          del_mods(MOD_BIT(KC_LSFT) | MOD_BIT(KC_RSFT));
+      // If it's a tap, decide which character to send
+      if (record->tap.count > 0) {
+        if (get_mods() & MOD_MASK_SHIFT) {
+          // Shift is held: send '!'
+          // tap_code16 handles the internal shift state for you
           tap_code16(KC_EXLM);
-          set_mods(get_mods()); // Restore shift state
         } else {
-          // Shift not held: Send '?' (Shift + /)
+          // No shift: send '?'
           tap_code16(KC_QUES);
         }
       }
     }
-    return false; // Skip default handling
+    return false; // Don't process this key further
   }
   return true;
 }
