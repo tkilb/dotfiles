@@ -36,7 +36,7 @@
 #define EDGE_H      LSFT_T(KC_H)
 #define EDGE_COMM   LGUI_T(KC_COMM)
 #define EDGE_DOT    LCTL_T(KC_DOT)
-#define EDGE_SLSH   LALT_T(KC_QUES)
+#define EDGE_SLSH   LALT_T(KC_SLSH)
 #define NAV_EDGE_H      LSFT_T(KC_F1)
 #define NAV_EDGE_COMM   LGUI_T(KC_F2)
 #define NAV_EDGE_DOT   LCTL_T(KC_F3)
@@ -55,7 +55,10 @@ const key_override_t override_shift_right_paren = ko_make_basic(MOD_MASK_SHIFT, 
 
 const key_override_t override_shift_semi = ko_make_basic(MOD_MASK_SHIFT, EDGE_COMM, KC_SCLN); // Shift , is ;
 const key_override_t override_shift_colon = ko_make_basic(MOD_MASK_SHIFT, EDGE_DOT, KC_COLN); // Shift . is :
-const key_override_t override_shift_question = ko_make_basic(MOD_MASK_SHIFT, LALT_T(KC_QUES), KC_EXLM); // Shift ? is !
+
+// EDGE_SLSH: unmodified tap = ?, shift+tap = !
+const key_override_t override_slash_to_question = ko_make_with_layers_and_negmods(0, LALT_T(KC_SLSH), LSFT(KC_SLSH), ~0, MOD_MASK_SHIFT); // No shift: / becomes ?
+const key_override_t override_shift_question = ko_make_basic(MOD_MASK_SHIFT, LALT_T(KC_SLSH), KC_EXLM); // Shift+/ is !
 
 const key_override_t *key_overrides[] = {
     &override_window_switch,
@@ -63,6 +66,7 @@ const key_override_t *key_overrides[] = {
     &override_shift_right_paren,
     &override_shift_semi,
     &override_shift_colon,
+    &override_slash_to_question,
     &override_shift_question
 };
 
