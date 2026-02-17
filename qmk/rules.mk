@@ -21,6 +21,5 @@ SRC += \
 		tap_dance/tap_dance_exlm.c \
 		tap_dance/tap_dance_lcbr.c \
 		tap_dance/tap_dance_perc.c \
-		# tap_dance/tap_dance_ques.c \
 		tap_dance/tap_dance_rcbr.c \
-		tap_dance/tap_dance_spc.c \
+		tap_dance/tap_dance_spc.c
