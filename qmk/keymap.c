@@ -7,6 +7,7 @@
 #include "keymap.h"
 #include "override/override.c"
 #include "features/achordion.h"
+#include "features/process_record_user.h"
 
 #include QMK_KEYBOARD_H
 
@@ -36,7 +37,7 @@
 #define EDGE_H      LSFT_T(KC_H)
 #define EDGE_COMM   LGUI_T(KC_COMM)
 #define EDGE_DOT    LCTL_T(KC_DOT)
-#define EDGE_SLSH   LALT_T(KC_SLSH)
+#define EDGE_SLSH   CUST_ALT_QUE
 #define NAV_EDGE_H      LSFT_T(KC_F1)
 #define NAV_EDGE_COMM   LGUI_T(KC_F2)
 #define NAV_EDGE_DOT   LCTL_T(KC_F3)

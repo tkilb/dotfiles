@@ -2,8 +2,7 @@
 #include "process_record_user.h"
 
 static uint16_t alt_sent_timer;
-
-static uint16_t alt_sent_timer;
+static bool alt_is_held = false;
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
@@ -21,8 +20,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   case CUST_ALT_QUE:
     if (record->event.pressed) {
       alt_sent_timer = timer_read();
+      alt_is_held = true;
       register_mods(MOD_BIT(KC_LALT));
     } else {
+      if (!alt_is_held) {
+        return false; // Already processed, ignore this release
+      }
+      alt_is_held = false;
+      
       // 1. Kill Alt and force the computer to see the release
       unregister_mods(MOD_BIT(KC_LALT));
       send_keyboard_report();

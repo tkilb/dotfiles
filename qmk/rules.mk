@@ -5,10 +5,9 @@ TAP_DANCE_ENABLE = yes
 KEY_OVERRIDE_ENABLE = yes
 REPEAT_KEY_ENABLE = yes
 
-#features/process_record_user.c 
-
 SRC += \
     features/achordion.c \
+    features/process_record_user.c \
 		combo/combo.c \
 		override/override.c \
 		tap_dance/tap_dance.c \
