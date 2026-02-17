@@ -5,6 +5,17 @@ static uint16_t alt_sent_timer;
 
 static uint16_t alt_sent_timer;
 
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+  case CUST_ALT_QUE:
+    // Immediately resolve as tap if another key is pressed
+    return true;
+  default:
+    // Use default behavior for other keys
+    return false;
+  }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
   case CUST_ALT_QUE:

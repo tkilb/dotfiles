@@ -5,6 +5,7 @@
 #define TAPPING_TERM 200
 #define PERMISSIVE_HOLD
 #define QUICK_TAP_TERM 0
+#define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
 // Mouse key speed and acceleration.
 #undef MOUSEKEY_DELAY
