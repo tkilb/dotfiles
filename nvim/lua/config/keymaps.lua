@@ -12,7 +12,6 @@ del("n", "<leader>K")
 -- General
 --------------------------------------------------
 -- OS style copy / paste
-map("", "<leader>c", "y")
 map("", "<C-c>", "y")
 map("", "<C-v>", "p")
 
@@ -24,8 +23,9 @@ wkey({
   { "<leader>(", "<cmd>BufferLineMovePrev<cr>", desc = "Move Buffer Left", mode = "n", hidden = true },
 })
 
--- Hover
-map("n", "h", vim.lsp.buf.hover, { desc = "LSP Hover" })
+-- Search (Override LazyVim defaults, uses classic Vim)
+wkey({ "n", "n", desc = "Next Search Result", mode = "n", hidden = true })
+wkey({ "N", "N", desc = "Prev Search Result", mode = "n", hidden = true })
 
 -- Multi Dismiss
 map(
@@ -61,13 +61,13 @@ wkey({
 del("n", "<leader>n")
 wkey({
   { "<leader>n", icon = "󰠮 ", group = "notes" },
-  { "<leader>nk", "<cmd>e ~/notes/work/Kanban.md<cr>", icon = "󰠮 ", desc = "Kanban", mode = "n" },
-  { "<leader>np", "<cmd>Oil ~/notes/personal/<cr>", icon = "󰠮 ", desc = "Personal", mode = "n" },
-  { "<leader>nr", "<cmd>e ~/notes/work/Receipts.md<cr>", icon = "󰠮 ", desc = "Receipts", mode = "n" },
-  { "<leader>ns", "<cmd>e ~/notes/work/Scrap.md<cr>", icon = "󰠮 ", desc = "Scrap", mode = "n" },
-  { "<leader>nt", "<cmd>Oil ~/notes/tech/<cr>", icon = "󰠮 ", desc = "Tech", mode = "n" },
-  { "<leader>nv", "<cmd>Oil ~/notes/nvim/<cr>", icon = "󰠮 ", desc = "Vim", mode = "n" },
-  { "<leader>nw", "<cmd>Oil ~/notes/work/<cr>", icon = "󰠮 ", desc = "Work", mode = "n" },
+  { "<leader>nk", "<cmd>e ~/Notes/work/Kanban.md<cr>", icon = "󰠮 ", desc = "Kanban", mode = "n" },
+  { "<leader>np", "<cmd>Oil ~/Notes/personal/<cr>", icon = "󰠮 ", desc = "Personal", mode = "n" },
+  { "<leader>nr", "<cmd>e ~/Notes/work/Receipts.md<cr>", icon = "󰠮 ", desc = "Receipts", mode = "n" },
+  { "<leader>ns", "<cmd>e ~/Notes/work/Scrap.md<cr>", icon = "󰠮 ", desc = "Scrap", mode = "n" },
+  { "<leader>nt", "<cmd>Oil ~/Notes/tech/<cr>", icon = "󰠮 ", desc = "Tech", mode = "n" },
+  { "<leader>nv", "<cmd>Oil ~/Notes/nvim/<cr>", icon = "󰠮 ", desc = "Vim", mode = "n" },
+  { "<leader>nw", "<cmd>Oil ~/Notes/work/<cr>", icon = "󰠮 ", desc = "Work", mode = "n" },
 })
 
 -- Notifications

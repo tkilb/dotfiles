@@ -4,17 +4,17 @@
 # Default cron schedule (used if repository doesn't specify its own)
 # Format: minute hour day month weekday
 
-- path: ~/.dotfiles
-  cron: '0 17 * * *' # Every day at 5 PM
 - path: ~/.config/alfred
   cron: '0 17 * * *' # Every day at 5 PM
 - path: ~/.config/dotfiles-work/
   cron: '0 17 * * *' # Every day at 5 PM
-- path: ~/notes/nvim
+- path: ~/.dotfiles
+  cron: '0 17 * * *' # Every day at 5 PM
+- path: ~/Notes/nvim
   cron: '0 * * * *' # Every hour
-- path: ~/notes/personal
+- path: ~/Notes/personal
   cron: '*/5 * * * *' # Every 5 minutes
-- path: ~/notes/tech
+- path: ~/Notes/tech
   cron: '0 * * * *' # Every hour
-- path: ~/notes/work
+- path: ~/Notes/work
   cron: '0 17 * * *' # Every day at 5 PM

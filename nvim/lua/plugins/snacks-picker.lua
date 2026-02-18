@@ -12,6 +12,8 @@ return {
   ---@type snacks.Config
   opts = {
     picker = {
+      hidden = true,
+      ignored = true,
       sources = {
         marks = {
           -- Filter to show only manual marks (a-z, A-Z)

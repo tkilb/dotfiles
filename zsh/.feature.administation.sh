@@ -9,7 +9,7 @@ rsa-keygen() {
     ssh-keygen -t rsa -b 4096 -f ~/.ssh/$1 -N "" && cat ~/.ssh/$1.pub
     echo ""
     echo "Created keys:"
-    echo "~/.ssh/$1"
+    # echo "~/.ssh/$1"
     echo "~/.ssh/$1.pub"
     echo ""
   fi
