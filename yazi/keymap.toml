@@ -1,4 +1,6 @@
 [mgr]
 prepend_keymap = [
 	{ on = "<ESC>", run = "quit", desc = "Quit" },
+	{ on = "<Enter>", run = "enter", desc = "Enter directory (don't open)" },
+	{ on = "o", run = "open", desc = "Open file/directory" },
 ]
