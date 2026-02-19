@@ -7,11 +7,28 @@ if [[ -f ~/.profile ]]; then
   source ~/.profile
 fi
 
+# Self-link to ~/.local/bin/linker if not already symlinked
+SCRIPT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
+BIN_LINK="$HOME/.local/bin/linker"
+if [[ ! -e "$BIN_LINK" ]]; then
+  mkdir -p "$HOME/.local/bin"
+  ln -s "$SCRIPT_PATH" "$BIN_LINK"
+  echo "Created symlink: $BIN_LINK -> $SCRIPT_PATH"
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-YAML_FILE="$SCRIPT_DIR/links.yaml"
+DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+# Try to read config from ~/.config/linker/linker.yaml first
+YAML_FILE="$HOME/.config/linker/linker.yaml"
+
+# Fallback to ~/.dotfiles/linker/linker.yaml if not found
+if [[ ! -f "$YAML_FILE" ]]; then
+  YAML_FILE="$HOME/.dotfiles/linker/linker.yaml"
+fi
 
 if [[ ! -f "$YAML_FILE" ]]; then
-  echo "Error: links.yaml not found at $YAML_FILE"
+  echo "Error: linker.yaml not found at ~/.config/linker/linker.yaml or ~/.dotfiles/linker/linker.yaml"
   exit 1
 fi
 
@@ -44,7 +61,7 @@ function process_entry() {
   fi
 
   # Check if local file or folder exists
-  local source_path="$SCRIPT_DIR/$name"
+  local source_path="$DOTFILES_DIR/$name"
   if [[ ! -e "$source_path" ]]; then
     echo "Skipping $name (local file or folder does not exist)"
     return
