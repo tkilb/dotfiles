@@ -5,16 +5,52 @@
 # Format: minute hour day month weekday
 
 - path: ~/.config/alfred
-  cron: '0 17 * * *' # Every day at 5 PM
+  origin: git@github.com:tkilb/alfred.git
+  cron: "0 17 * * *" # Every day at 5 PM
+  machines:
+    - work-book
+
 - path: ~/.config/dotfiles-work/
-  cron: '0 17 * * *' # Every day at 5 PM
+  cron: "0 17 * * *" # Every day at 5 PM
+  machines:
+    - work-book
+
 - path: ~/.dotfiles
-  cron: '0 17 * * *' # Every day at 5 PM
+  origin: git@github.com:tkilb/dotfiles.git
+  cron: "0 17 * * *" # Every day at 5 PM
+  machines:
+    - linux-book
+    - linux-box
+    - steam-deck
+    - work-book
+
 - path: ~/Notes/nvim
-  cron: '0 * * * *' # Every hour
+  origin: git@github.com:tkilb/notes-nvim.git
+  cron: "0 * * * *" # Every hour
+  machines:
+    - linux-book
+    - linux-box
+    - work-book
+
 - path: ~/Notes/personal
-  cron: '*/5 * * * *' # Every 5 minutes
+  origin: git@github.com-personal-notes:tkilb-notes-personal/notes-personal.git
+  cron: "*/5 * * * *" # Every 5 minutes
+  machines:
+    - linux-book
+    - linux-box
+    - steam-deck
+    - work-book
+
 - path: ~/Notes/tech
-  cron: '0 * * * *' # Every hour
+  origin: git@github.com:tkilb/notes-tech.git
+  cron: "0 * * * *" # Every hour
+  machines:
+    - linux-book
+    - linux-box
+    - work-book
+
 - path: ~/Notes/work
-  cron: '0 17 * * *' # Every day at 5 PM
+  origin: git@gitlab.com:carfax/users/tylerkilburn/notes-work.git
+  cron: "0 17 * * *" # Every day at 5 PM
+  machines:
+    - work-book
