@@ -1,0 +1,143 @@
+# Syncer - Git Repository Synchronization Tool
+
+## Overview
+
+Syncer is a shell script that automatically synchronizes multiple git repositories with their remote counterparts based on customizable cron schedules.
+
+## Installation
+
+The syncer script is located at: `~/.dotfiles/tools/syncer/syncer.sh`
+
+On first run, syncer automatically creates a symlink at `~/.local/bin/syncer` for easy access from anywhere.
+
+Configuration and logs are stored in: `~/.config/syncer/` (symlinked from `~/.dotfiles/syncer/`)
+
+## Configuration
+
+Edit the configuration file at `~/.config/syncer/syncer.yaml`:
+
+```yaml
+- path: /path/to/repo1
+  cron: '0/2 * * * *'
+- path: /path/to/repo2
+  cron: '0 2 * * *'
+- path: ~/Documents/my-project
+  cron: '*/5 * * * *'
+```
+
+Each repository entry requires:
+- `path`: The filesystem path to the git repository (can use ~ for home directory)
+- `cron`: The cron schedule for syncing this repository
+
+### Cron Schedule Format
+
+The cron schedule follows the standard format: `minute hour day month weekday`
+
+Examples:
+
+- `0 2 * * *` - Run at 2:00 AM every day
+- `*/5 * * * *` - Run every 5 minutes
+- `0/2 * * * *` - Run every 2 minutes starting from minute 0
+- `30 14 * * *` - Run at 2:30 PM every day
+
+## Usage
+
+Syncer can be run in two modes:
+
+### Manual Mode (Default)
+
+Run without arguments to sync **all repositories immediately**, ignoring cron schedules:
+
+```bash
+syncer
+# or
+~/.dotfiles/tools/syncer/syncer.sh
+```
+
+This is useful for:
+- Testing your configuration
+- Forcing an immediate sync of all repositories
+- One-time manual synchronization
+
+### Cron Mode
+
+Run with `-c` or `--cron` flag to **respect cron schedules**:
+
+```bash
+syncer --cron
+# or
+~/.dotfiles/tools/syncer/syncer.sh --cron
+```
+
+This will only sync repositories that are scheduled to run at the current time.
+
+### Help
+
+Display usage information:
+
+```bash
+syncer --help
+# or
+~/.dotfiles/tools/syncer/syncer.sh --help
+```
+
+## Setup Cron Job
+
+To run syncer every minute via cron (with schedule enforcement):
+
+1. Open crontab editor:
+
+   ```bash
+   crontab -e
+   ```
+
+2. Add this line (note the `--cron` flag):
+
+   ```
+   * * * * * ~/.local/bin/syncer --cron
+   ```
+
+3. Save and exit.
+
+## Features
+
+- **Self-Installing**: Automatically creates `~/.local/bin/syncer` symlink on first run
+- **Automatic Commits**: Commits local changes with "Auto-sync commit" message
+- **Pull & Push**: Pulls latest changes and pushes local commits
+- **Conflict Resolution**: Resolves merge conflicts by favoring remote changes
+- **Scheduled Execution**: Each repository can have its own cron schedule
+- **Logging**: All actions are logged to `~/.config/syncer/syncer.log`
+- **Log Rotation**: Automatically rotates logs when they exceed 5MB (keeps last 5 logs)
+- **Error Handling**: Gracefully handles errors and logs issues
+
+## Logs
+
+Logs are stored at: `~/.config/syncer/syncer.log`
+
+Old logs are rotated to: `syncer.log.1`, `syncer.log.2`, etc.
+
+## How It Works
+
+### In Cron Mode (`--cron`)
+
+1. Syncer runs every minute via cron
+2. It checks each repository's cron schedule to determine if it should sync
+3. For repositories that are due for sync:
+   - Commits any local changes
+   - Pulls latest changes from remote
+   - Pushes local commits to remote
+   - Resolves conflicts favoring remote changes
+4. All actions are logged with timestamps
+
+### In Manual Mode (default)
+
+1. Syncer processes all configured repositories immediately
+2. Each repository is synced regardless of its cron schedule
+3. Same sync operations as cron mode (commit, pull, push)
+4. All actions are logged with timestamps
+
+## Notes
+
+- The script tracks the last sync time for each repository to prevent multiple syncs within the same minute
+- The script is compatible with bash on macOS and Linux
+- Log files are automatically excluded from git commits (add to .gitignore if needed)
