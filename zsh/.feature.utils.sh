@@ -13,7 +13,6 @@ alias lastdir='ls -1 | tail -n 1'
 alias leanc="nvim /Users/tylerkilburn/.dotfiles/system/Alfred.alfredpreferences/workflows/user.workflow.98B91D14-0DAA-46EA-9EEC-83A20D453E82/bin/lean"
 alias lgrep="ls -1A | grep -i $@"
 alias lh='ls -lad .*'
-alias linker='$HOME/.dotfiles/linker.sh'
 alias lisp='sbcl'
 alias lja='ls -lA'
 alias ll='ls -l'

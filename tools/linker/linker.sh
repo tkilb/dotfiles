@@ -16,7 +16,13 @@ if [[ ! -e "$BIN_LINK" ]]; then
   echo "Created symlink: $BIN_LINK -> $SCRIPT_PATH"
 fi
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Resolve symlink to get actual script location
+SCRIPT_REAL_PATH="$(readlink "${BASH_SOURCE[0]}" || echo "${BASH_SOURCE[0]}")"
+if [[ "$SCRIPT_REAL_PATH" != /* ]]; then
+  # Relative symlink - resolve from script directory
+  SCRIPT_REAL_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd "$(dirname "$SCRIPT_REAL_PATH")" && pwd)/$(basename "$SCRIPT_REAL_PATH")"
+fi
+SCRIPT_DIR="$(cd "$(dirname "$SCRIPT_REAL_PATH")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Try to read config from ~/.config/linker/linker.yaml first
