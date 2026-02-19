@@ -8,11 +8,13 @@
     - linux-box
     - steam-deck
     - work-book
+
 - name: autostart
   path: ~/.config/autostart
   machines:
     - linux-book
     - linux-box
+
 - name: kitty
   path: ~/.config/kitty
   machines:
@@ -20,6 +22,15 @@
     - linux-box
     - steam-deck
     - work-book
+
+- name: linker
+  path: ~/.config/linker
+  machines:
+    - linux-book
+    - linux-box
+    - steam-deck
+    - work-book
+
 - name: nvim
   path: ~/.config/nvim
   machines:
@@ -27,6 +38,7 @@
     - linux-box
     - steam-deck
     - work-book
+
 - name: syncer
   path: ~/.config/syncer
   machines:
@@ -34,17 +46,20 @@
     - linux-box
     - steam-deck
     - work-book
+
 - name: tmux
   path: ~/.config/tmux
   machines:
     - linux-book
     - linux-box
     - work-book
+
 - name: ulauncher
   path: ~/.config/ulauncher
   machines:
     - linux-book
     - linux-box
+
 - name: wezterm
   path: ~/.config/wezterm
   machines:
@@ -52,12 +67,14 @@
     - linux-box
     - steam-deck
     - work-book
+
 - name: yazi
   path: ~/.config/yazi
   machines:
     - linux-book
     - linux-box
     - work-book
+
 - name: zsh/.zshrc
   path: ~/.zshrc
   machines:
