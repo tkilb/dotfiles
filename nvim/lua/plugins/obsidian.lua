@@ -20,19 +20,19 @@ return {
     workspaces = {
       {
         name = "notes-nvim",
-        path = "~/notes/nvim",
+        path = "~/Notes/nvim",
       },
       {
         name = "notes-personal",
-        path = "~/notes/personal",
+        path = "~/Notes/personal",
       },
       {
         name = "notes-tech",
-        path = "~/notes/tech",
+        path = "~/Notes/tech",
       },
       {
         name = "notes-work",
-        path = "~/notes/work",
+        path = "~/Notes/work",
       },
     },
   },
