@@ -1,0 +1,45 @@
+---
+- name: Clone and Install GopherTube
+  hosts: localhost
+  connection: local
+  vars:
+    go_repo_url: https://github.com/KrishnaSSH/GopherTube
+    cli_name: gophertube
+    clone_dir: "{{ ansible_env.HOME }}/development/{{ cli_name }}"
+    go_bin_path: "{{ ansible_env.HOME }}/go/bin"
+
+  tasks:
+    - name: Ensure development directory exists
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/development"
+        state: directory
+        mode: "0755"
+
+    - name: Clone Go repository
+      ansible.builtin.git:
+        repo: "{{ go_repo_url }}"
+        dest: "{{ clone_dir }}"
+        update: yes
+
+    - name: Build and install Go CLI
+      ansible.builtin.shell:
+        cmd: "go install ."
+        chdir: "{{ clone_dir }}"
+      environment:
+        GOBIN: "{{ go_bin_path }}"
+        PATH: "{{ ansible_env.PATH }}:{{ go_bin_path }}"
+
+    - name: Ensure go/bin is in PATH in .bashrc
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        line: "export PATH=$PATH:{{ go_bin_path }}"
+        create: yes
+        state: present
+
+    - name: Verify installation
+      ansible.builtin.command: "{{ go_bin_path }}/{{ cli_name }} --version"
+      register: version_output
+
+    - name: Show version
+      ansible.builtin.debug:
+        var: version_output.stdout
