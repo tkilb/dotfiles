@@ -3,6 +3,26 @@
   hosts: localhost
   become: true # Necessary to run with root privileges
   tasks:
+    - name: Install Zsh
+      ansible.builtin.apt:
+        name:
+          - zsh
+        state: present
+        update_cache: yes
+
+    - name: Change user shell to zsh
+      ansible.builtin.user:
+        name: "{{ ansible_user_name }}"
+        shell: /usr/bin/zsh # Use the correct path for zsh on your target system (e.g. /bin/zsh)
+        state: present
+
+    - name: Install oh-my-zsh
+      become: false
+      ansible.builtin.git:
+        repo: https://github.com/ohmyzsh/ohmyzsh.git
+        dest: "~/.oh-my-zsh"
+        depth: 1
+
     - name: Install NeoVim
       ansible.builtin.apt:
         name: neovim
