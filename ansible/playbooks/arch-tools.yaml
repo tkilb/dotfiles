@@ -3,6 +3,12 @@
   hosts: localhost
   become: true # Necessary to run with root privileges
   tasks:
+    - name: Install NeoVim
+      community.general.pacman:
+        name: neovim
+        state: present
+        update_cache: true
+
     - name: Install Kitty
       community.general.pacman:
         name: kitty
