@@ -15,27 +15,15 @@
         state: present
         update_cache: true
 
-    - name: Install Node
-      community.general.pacman:
-        name: nodejs
-        state: present
-        update_cache: true
-
-    - name: Install Prettier
-      community.general.pacman:
-        name: prettier
-        state: present
-        update_cache: true
-
     - name: Install Tmux
       community.general.pacman:
         name: tmux
         state: present
         update_cache: true
 
-    - name: Install Lazygit
+    - name: Install Yazi
       community.general.pacman:
-        name: lazygit
+        name: yazi
         state: present
         update_cache: true
 
@@ -45,8 +33,20 @@
         state: present
         update_cache: true
 
-    - name: Install Yazi
+    - name: Install Lazygit
       community.general.pacman:
-        name: yazi
+        name: lazygit
+        state: present
+        update_cache: true
+
+    - name: Install Node
+      community.general.pacman:
+        name: nodejs
+        state: present
+        update_cache: true
+
+    - name: Install Prettier
+      community.general.pacman:
+        name: prettier
         state: present
         update_cache: true
