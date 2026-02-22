@@ -108,17 +108,17 @@ map("n", "-", "<cmd>Oil<cr>", { desc = "Oil" })
 
 -- Sidekick
 wkey({
-  { "<C-.>", "<cmd>lua require('sidekick.cli').toggle({ name = 'copilot', focus = true })<cr>", desc = "Toggle Copilot", mode = { "i", "n", "t", "x" }, hidden = true },
-  { "<A-.>", "<cmd>lua require('sidekick.cli').toggle({ name = 'copilot', focus = true })<cr>", desc = "Toggle Copilot", mode = { "i", "n", "t", "x" }, hidden = true },
+  { "<C-.>", "<cmd>lua require('sidekick.cli').toggle({ focus = true })<cr>", desc = "Toggle Sidekick", mode = { "i", "n", "t", "x" }, hidden = true },
+  { "<A-.>", "<cmd>lua require('sidekick.cli').toggle({ focus = true })<cr>", desc = "Toggle Sidekick", mode = { "i", "n", "t", "x" }, hidden = true },
   { "<leader>a", icon = "󰚩 ", group = "ai" },
   { "<leader>ad", "<cmd>lua require('sidekick.cli').close()<cr>", icon = "󰚩 ", desc = "Close", mode = "n" },
-  { "<leader>af", "<cmd>lua require('sidekick.cli').send({ name = 'copilot', msg = '{file}' })<cr>", icon = "󰚩 ", desc = "Send File", mode = "n" },
+  { "<leader>af", "<cmd>lua require('sidekick.cli').send({ msg = '{file}' })<cr>", icon = "󰚩 ", desc = "Send File", mode = "n" },
   { "<leader>an", "<cmd>SidekickNesToggle<cr>", icon = "󰚩 ", desc = "Toggle Nes", mode = "n" },
-  { "<leader>al", "<cmd>lua require('sidekick.cli').send({ name = 'copilot', msg = '{line}' })<cr>", icon = "󰚩 ", desc = "Send Line", mode = { "n", "x" } },
+  { "<leader>al", "<cmd>lua require('sidekick.cli').send({ msg = '{line}' })<cr>", icon = "󰚩 ", desc = "Send Line", mode = { "n", "x" } },
   { "<leader>ap", "<cmd>lua require('sidekick.cli').prompt()<cr>", icon = "󰚩 ", desc = "Prompts", mode = { "n", "x" } },
   { "<leader>as", "<cmd>lua require('sidekick.cli').select()<cr>", icon = "󰚩 ", desc = "Select", mode = "n" },
-  { "<leader>at", "<cmd>lua require('sidekick.cli').send({ name = 'copilot', msg = '{this}' })<cr>", icon = "󰚩 ", desc = "Send This", mode = { "n", "x" } },
-  { "<leader>av", "<cmd>lua require('sidekick.cli').send({ name = 'copilot', msg = '{selection}' })<cr>", icon = "󰚩 ", desc = "Send Selection", mode = "x" },
+  { "<leader>at", "<cmd>lua require('sidekick.cli').send({ msg = '{this}' })<cr>", icon = "󰚩 ", desc = "Send This", mode = { "n", "x" } },
+  { "<leader>av", "<cmd>lua require('sidekick.cli').send({ msg = '{selection}' })<cr>", icon = "󰚩 ", desc = "Send Selection", mode = "x" },
 })
 
 -- Snacks Dashboard

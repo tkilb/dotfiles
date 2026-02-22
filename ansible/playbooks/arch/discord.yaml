@@ -1,5 +1,5 @@
 ---
-- name: Install or Update Discord
+- name: Install Discord
   hosts: localhost
   become: true # Necessary to run with root privileges
   tasks:

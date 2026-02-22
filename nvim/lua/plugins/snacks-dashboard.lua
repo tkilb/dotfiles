@@ -38,20 +38,11 @@ return {
           { header = "Configs", separator = true, align = "left" },
           { icon = " ", key = "v", desc = "NeoVim Configs", action = ":Oil ~/.dotfiles/nvim/" },
           { icon = " ", key = "k", desc = "NeoVim Keymaps", action = ":e ~/.dotfiles/nvim/lua/config/keymaps.lua" },
-          {
-            icon = " ",
-            key = "K",
-            desc = "Legacy Keymaps",
-            action = ":e ~/.dotfiles/nvim-legacy/lua/config/keymaps.lua",
-          },
+          { icon = " ", key = "K", desc = "Legacy Keymaps", action = ":e ~/.dotfiles/nvim-legacy/lua/config/keymaps.lua" },
+          { icon = " ", key = "a", desc = "Ansible Playbooks", action = ":Oil ~/.dotfiles/ansible/playbooks/" },
           { icon = " ", key = "z", desc = "Zsh", action = ":Oil ~/.dotfiles/zsh/" },
           { icon = "", key = ".", desc = "Dotfiles", action = ":Oil ~/.dotfiles/" },
-          {
-            icon = "",
-            key = "$",
-            desc = "Dashboard",
-            action = ":e ~/.dotfiles/nvim/lua/plugins/snacks-dashboard.lua",
-          },
+          { icon = "", key = "$", desc = "Dashboard", action = ":e ~/.dotfiles/nvim/lua/plugins/snacks-dashboard.lua" },
         },
       },
       sections = {

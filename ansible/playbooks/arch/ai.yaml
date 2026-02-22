@@ -1,0 +1,20 @@
+---
+- name: Install AI Tooling (Free)
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Github Copilot CLI
+      yay:
+        name: github-copilot-cli
+        state: present
+
+    - name: Install Google Gemini CLI
+      community.general.pacman:
+        name: gemini-cli
+        state: present
+        update_cache: true
+
+    - name: Install Qwen Code
+      yay:
+        name: qwen-code
+        update_cache: true

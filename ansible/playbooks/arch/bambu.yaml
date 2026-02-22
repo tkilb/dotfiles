@@ -1,5 +1,5 @@
 ---
-- name: Install 3d Printer Software
+- name: Install 3D Printer Software
   hosts: localhost
   vars:
     ansible_async_dir: /tmp/.ansible_async

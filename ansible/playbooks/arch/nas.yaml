@@ -1,0 +1,145 @@
+# NAS Setup Playbook for Arch Linux with GNOME
+#
+# Usage:
+#   cd ~/.dotfiles/ansible
+#   NAS_USERNAME=your_user NAS_PASSWORD=your_pass ansible-playbook playbooks/arch/nas.yaml
+#
+# Environment variables:
+#   NAS_USERNAME - Your NAS username (required)
+#   NAS_PASSWORD - Your NAS password (required)
+#
+# This playbook:
+#   - Installs cifs-utils, gnome-keyring, and libsecret
+#   - Creates mount points /mnt/d2 and /mnt/d3
+#   - Stores credentials securely in /etc/smb/credentials (mode 0600)
+#   - Configures fstab with auto-mount entries
+#   - Stores credentials in GNOME Keyring for Nautilus integration
+#   - Adds Nautilus bookmarks for easy access
+#
+#   > hmm, it looks like this is being mounted at /run/user/1000/gvfs instea
+
+---
+- name: Configure NAS Mounts with GNOME Keyring Integration
+  hosts: localhost
+  become: true
+  vars:
+    ansible_async_dir: /tmp/.ansible_async
+    ansible_allow_world_readable_tmpfiles: True
+    nas_ip: "192.168.0.123"
+    nas_username: "{{ lookup('env', 'NAS_USERNAME') }}"
+    nas_password: "{{ lookup('env', 'NAS_PASSWORD') }}"
+    user_name: "tylerkilburn"
+    user_uid: 1000
+    user_gid: 1000
+
+  tasks:
+    - name: Install required packages
+      pacman:
+        name:
+          - cifs-utils
+          - gnome-keyring
+          - libsecret
+        state: present
+        update_cache: true
+
+    - name: Create mount points
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0755"
+        owner: "{{ user_name }}"
+        group: "{{ user_name }}"
+      loop:
+        - /mnt/d2
+        - /mnt/d3
+
+    - name: Create SMB credentials directory
+      file:
+        path: /etc/smb
+        state: directory
+        mode: "0700"
+        owner: root
+        group: root
+
+    - name: Create SMB credentials file
+      copy:
+        dest: /etc/smb/credentials
+        content: |
+          username={{ nas_username }}
+          password={{ nas_password }}
+        mode: "0600"
+        owner: root
+        group: root
+      no_log: true
+
+    - name: Create fstab entries for NAS mounts
+      lineinfile:
+        path: /etc/fstab
+        line: "{{ item.line }}"
+        create: true
+        mode: "0644"
+      loop:
+        - {
+            line: "//{{ nas_ip }}/d2  /mnt/d2  cifs  credentials=/etc/smb/credentials,iocharset=utf8,file_mode=0777,dir_mode=0777,uid={{ user_uid }},gid={{ user_gid }},x-systemd.automount,noauto,_netdev  0  0",
+          }
+        - {
+            line: "//{{ nas_ip }}/d3  /mnt/d3  cifs  credentials=/etc/smb/credentials,iocharset=utf8,file_mode=0777,dir_mode=0777,uid={{ user_uid }},gid={{ user_gid }},x-systemd.automount,noauto,_netdev  0  0",
+          }
+
+    - name: Test fstab configuration
+      command: mount -a
+      register: mount_test
+      failed_when: mount_test.rc != 0
+      ignore_errors: true
+
+    - name: Store NAS credentials in GNOME Keyring (for Nautilus integration)
+      become: false
+      shell: |
+        export DISPLAY=:0
+        export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/{{ user_uid }}/bus
+        secret-tool store --label="NAS d2" server "{{ nas_ip }}" share "d2" username "{{ nas_username }}" password "{{ nas_password }}"
+        secret-tool store --label="NAS d3" server "{{ nas_ip }}" share "d3" username "{{ nas_username }}" password "{{ nas_password }}"
+      register: keyring_result
+      failed_when: false
+      changed_when: keyring_result.rc == 0
+      environment:
+        DISPLAY: ":0"
+        DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ user_uid }}/bus"
+
+    - name: Create Nautilus bookmarks for NAS shares
+      become: false
+      copy:
+        dest: "/home/{{ user_name }}/.config/gtk-3.0/bookmarks"
+        content: |
+          smb://{{ nas_ip }}/d2 NAS d2
+          smb://{{ nas_ip }}/d3 NAS d3
+        mode: "0644"
+        owner: "{{ user_name }}"
+        group: "{{ user_name }}"
+
+    - name: Reload systemd daemon
+      systemd:
+        daemon_reload: true
+
+    - name: Enable and start remote-fs-pre target for network mounts
+      systemd:
+        name: remote-fs-pre.target
+        enabled: true
+        daemon_reload: true
+
+    - name: Display completion message
+      debug:
+        msg: |
+          NAS setup complete!
+
+          Mount points created:
+            - /mnt/d2 -> smb://{{ nas_ip }}/d2
+            - /mnt/d3 -> smb://{{ nas_ip }}/d3
+
+          To mount the shares manually:
+            sudo mount /mnt/d2
+            sudo mount /mnt/d3
+
+          The shares will auto-mount when accessed via file manager or on network availability.
+
+          GNOME Keyring has been configured for seamless Nautilus access.
