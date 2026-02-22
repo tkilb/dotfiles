@@ -50,6 +50,42 @@ else
 fi
 echo ""
 
+# Install Zsh
+if command -v zsh &>/dev/null; then
+  echo "✓ Zsh is already installed"
+else
+  echo "Installing Zsh..."
+  if [[ "$OS" == "arch" ]]; then
+    sudo pacman -S --noconfirm zsh
+  elif [[ "$OS" == "debian" ]]; then
+    sudo apt install zsh -y
+  else
+    brew install zsh
+  fi
+  echo "✓ Zsh installed"
+fi
+echo ""
+
+# Install Oh My Zsh
+if [[ -d "$HOME/.oh-my-zsh" ]]; then
+  echo "✓ Oh My Zsh is already installed"
+else
+  echo "Installing Oh My Zsh..."
+  CHSH=no RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  echo "✓ Oh My Zsh installed"
+fi
+echo ""
+
+# Set Zsh as default shell
+if [[ "$(basename "$SHELL")" == "zsh" ]]; then
+  echo "✓ Zsh is already the default shell"
+else
+  echo "Setting Zsh as default shell..."
+  chsh -s "$(which zsh)"
+  echo "✓ Zsh set as default shell. Please log out and back in for changes to take effect."
+fi
+echo ""
+
 # Create .ssh directory if it doesn't exist
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh

@@ -3,18 +3,6 @@
   hosts: localhost
   become: true # Necessary to run with root privileges
   tasks:
-    - name: Install Zsh
-      community.general.pacman:
-        name: zsh
-        state: present
-        update_cache: true
-
-    - name: Change user shell to zsh
-      ansible.builtin.user:
-        name: "{{ ansible_user_name }}"
-        shell: /usr/bin/zsh # Use the correct path for zsh on your target system (e.g. /bin/zsh)
-        state: present
-
     - name: Install NeoVim
       community.general.pacman:
         name: neovim
@@ -42,6 +30,12 @@
     - name: Install Tmux
       community.general.pacman:
         name: tmux
+        state: present
+        update_cache: true
+
+    - name: Install Lazygit
+      community.general.pacman:
+        name: lazygit
         state: present
         update_cache: true
 
