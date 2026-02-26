@@ -26,6 +26,9 @@ return {
         },
       },
     },
+    nes = {
+      enabled = false,
+    },
   },
   config = function(_, opts)
     require("sidekick").setup(opts)
