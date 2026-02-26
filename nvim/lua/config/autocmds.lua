@@ -14,3 +14,19 @@ vim.api.nvim_create_autocmd("BufEnter", {
     vim.b.autoformat = false
   end,
 })
+
+-- Make :term windows show plain CLI colors without colorscheme influence.
+-- Background is made transparent so the terminal emulator's bg shows through.
+-- ANSI colors are handled by gruvbox_material_disable_terminal_colors in the colorscheme config.
+local function set_terminal_hl()
+  vim.api.nvim_set_hl(0, "TerminalNormal", { bg = "NONE", fg = "NONE" })
+end
+set_terminal_hl()
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function() vim.schedule(set_terminal_hl) end,
+})
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function()
+    vim.wo.winhighlight = "Normal:TerminalNormal,NormalNC:TerminalNormal"
+  end,
+})

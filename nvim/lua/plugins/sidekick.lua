@@ -20,28 +20,15 @@ return {
       scroll_on_output = false, -- Disable auto-scroll when copilot is thinking
       win = {
         wo = {
-          -- Override SidekickChat highlight to transparent so gruvebox colors don't bleed in.
-          -- The default maps Normal → SidekickChat → NormalFloat (themed); empty string resets to Normal.
-          winhighlight = "Normal:SidekickChat,NormalNC:SidekickChat,EndOfBuffer:SidekickChat,SignColumn:SidekickChat",
+          -- Point directly at TerminalNormal (bg=NONE, set in autocmds.lua) to get the same
+          -- plain CLI appearance as a regular :term without any colorscheme influence.
+          winhighlight = "Normal:TerminalNormal,NormalNC:TerminalNormal,EndOfBuffer:TerminalNormal,SignColumn:TerminalNormal",
         },
       },
     },
   },
   config = function(_, opts)
     require("sidekick").setup(opts)
-
-    -- Override SidekickChat to transparent after setup() so the terminal window
-    -- shows plain CLI colors instead of gruvebox's NormalFloat background.
-    -- setup() calls set_hl() with `default = true` (only sets if unset), so we
-    -- must override explicitly after. Use vim.schedule on ColorScheme to run
-    -- after sidekick's own ColorScheme handler re-applies its defaults.
-    local function override_hl()
-      vim.api.nvim_set_hl(0, "SidekickChat", { bg = "NONE", fg = "NONE" })
-    end
-    override_hl()
-    vim.api.nvim_create_autocmd("ColorScheme", {
-      callback = function() vim.schedule(override_hl) end,
-    })
 
     -- Add Sidekick.nvim toggle command for NES
     vim.api.nvim_create_user_command("SidekickNesToggle", function()
