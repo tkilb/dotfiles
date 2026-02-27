@@ -87,7 +87,7 @@ wkey({ "<leader><space>", "<C-w><C-w>", icon = "󰮗 ", desc = "Toggle Last Wind
 -- Plugins
 --------------------------------------------------
 -- Code Companion
-wkey( { "<leader>ac", "<cmd>CopilotToggle<cr>", icon = "󰨙 ", desc = "Toggle Predictions", mode = "n" })
+wkey({ "<leader>ac", "<cmd>CopilotToggle<cr>", icon = "󰨙 ", desc = "Toggle Predictions", mode = "n" })
 
 -- Flash
 del("n", "s")
@@ -96,6 +96,9 @@ wkey({
   { "f", "<cmd>lua require('flash').jump()<cr>", desc = "Flash Jump", mode = "n" },
   { "F", "<cmd>lua require('flash').treesitter()<cr>", desc = "Flash Treesitter", mode = "n" },
 })
+
+-- Git Signs
+wkey({ "<leader>ub", "<cmd>Gitsigns toggle_current_line_blame<cr>", icon = "󰊢 ", desc = "Toggle Blame", mode = "n" })
 
 -- Goto
 wkey({ "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<cr>", icon = " ", desc = "Preview Definition", mode = "n" })
