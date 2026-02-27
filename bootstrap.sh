@@ -177,6 +177,16 @@ else
 fi
 echo ""
 
+# Create local bin directory and symlink tools
+mkdir -p "$HOME/.local/bin"
+echo "Symlinking linker to ~/.local/bin/linker..."
+ln -sf "$DOTFILES_DIR/tools/linker/linker.sh" "$HOME/.local/bin/linker"
+echo "✓ linker symlinked"
+echo "Symlinking syncer to ~/.local/bin/syncer..."
+ln -sf "$DOTFILES_DIR/tools/syncer/syncer.sh" "$HOME/.local/bin/syncer"
+echo "✓ syncer symlinked"
+eecho ""
+
 # Prompt for machine name
 echo "Please enter a name for this machine (e.g., macbook-pro, work-laptop):"
 read -r MACHINE_NAME
