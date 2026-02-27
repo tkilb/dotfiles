@@ -61,10 +61,12 @@ wkey({
 del("n", "<leader>n")
 wkey({
   { "<leader>n", icon = "󰠮 ", group = "notes" },
-  { "<leader>nk", "<cmd>e ~/Notes/work/Kanban.md<cr>", icon = "󰠮 ", desc = "Kanban", mode = "n" },
+  { "<leader>nk", "<cmd>e ~/Notes/work/_Kanban.md<cr>", icon = "󰠮 ", desc = "Kanban", mode = "n" },
+  { "<leader>no", "<cmd>e ~/Notes/work/_One On One.md<cr>", icon = "󰠮 ", desc = "One on One", mode = "n" },
+  { "<leader>nh", "<cmd>e ~/Notes/work/_History.md<cr>", icon = "󰠮 ", desc = "History", mode = "n" },
   { "<leader>np", "<cmd>Oil ~/Notes/personal/<cr>", icon = "󰠮 ", desc = "Personal", mode = "n" },
-  { "<leader>nr", "<cmd>e ~/Notes/work/Receipts.md<cr>", icon = "󰠮 ", desc = "Receipts", mode = "n" },
-  { "<leader>ns", "<cmd>e ~/Notes/work/Scrap.md<cr>", icon = "󰠮 ", desc = "Scrap", mode = "n" },
+  { "<leader>nr", "<cmd>e ~/Notes/work/_Receipts.md<cr>", icon = "󰠮 ", desc = "Receipts", mode = "n" },
+  { "<leader>ns", "<cmd>e ~/Notes/work/_Scrap.md<cr>", icon = "󰠮 ", desc = "Scrap", mode = "n" },
   { "<leader>nt", "<cmd>Oil ~/Notes/tech/<cr>", icon = "󰠮 ", desc = "Tech", mode = "n" },
   { "<leader>nv", "<cmd>Oil ~/Notes/nvim/<cr>", icon = "󰠮 ", desc = "Vim", mode = "n" },
   { "<leader>nw", "<cmd>Oil ~/Notes/work/<cr>", icon = "󰠮 ", desc = "Work", mode = "n" },
