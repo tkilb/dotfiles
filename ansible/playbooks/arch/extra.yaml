@@ -8,3 +8,8 @@
         name: zenith
         state: present
         update_cache: true
+
+    - name: Install Cull (Disk Usage Analyzer)
+      yay:
+        name: cull-bin
+        state: present

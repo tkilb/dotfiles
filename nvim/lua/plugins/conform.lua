@@ -11,6 +11,7 @@
 return {
   "stevearc/conform.nvim",
   enabled = vim.env.NVIM_PLUGIN_DISABLED_CONFORM ~= "true",
+  -- lazy = false,
   opts = {
     formatters_by_ft = {
       lua = { "stylua" },
