@@ -2,26 +2,49 @@
 - name: Install Extra Tooling
   hosts: localhost
   become: true # Necessary to run with root privileges
+
+  vars_prompt:
+    - name: install_kitty
+      prompt: "Install Kitty? (y/n)"
+      default: "yes"
+      private: no
+    - name: install_zenith
+      prompt: "Install Zenith? (y/n)"
+      default: "yes"
+      private: no
+    - name: install_cull
+      prompt: "Install Cull? (y/n)"
+      default: "yes"
+      private: no
+    - name: install_caligula
+      prompt: "Install Caligula? (y/n)"
+      default: "yes"
+      private: no
+
   tasks:
     - name: Install Kitty
       community.general.pacman:
         name: kitty
         state: present
         update_cache: true
+      when: install_kitty | bool
 
     - name: Install Zenith (System Resource Monitor)
       community.general.pacman:
         name: zenith
         state: present
         update_cache: true
+      when: install_zenith | bool
 
     - name: Install Cull (Disk Usage Analyzer)
       yay:
         name: cull-bin
         state: present
+      when: install_cull | bool
 
     - name: Install Caligula (Disk Imager)
       community.general.pacman:
         name: caligula
         state: present
         update_cache: true
+      when: install_caligula | bool
