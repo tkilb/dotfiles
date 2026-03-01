@@ -1,5 +1,5 @@
 # MACHINE references:
-#   linux-book | linux-box | steam-deck | work-book
+#   linux-book | linux-box | pi-server | steam-deck | work-book
 
 - name: ansible
   path: ~/.ansible
@@ -32,6 +32,21 @@
     - pi-server
     - steam-deck
     - work-book
+
+- name: MangoHud
+  path: ~/.config/MangoHud
+  machines:
+    - linux-box
+
+- name: moltendriver
+  path: ~/.config/moltendriver
+  machines:
+    - linux-box
+
+- name: moltengamepad
+  path: ~/.config/moltengamepad/
+  machines:
+    - linux-box
 
 - name: nvim
   path: ~/.config/nvim

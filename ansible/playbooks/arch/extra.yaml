@@ -3,6 +3,12 @@
   hosts: localhost
   become: true # Necessary to run with root privileges
   tasks:
+    - name: Install Kitty
+      community.general.pacman:
+        name: kitty
+        state: present
+        update_cache: true
+
     - name: Install Zenith (System Resource Monitor)
       community.general.pacman:
         name: zenith
@@ -13,3 +19,9 @@
       yay:
         name: cull-bin
         state: present
+
+    - name: Install Caligula (Disk Imager)
+      community.general.pacman:
+        name: caligula
+        state: present
+        update_cache: true

@@ -3,15 +3,9 @@
   hosts: localhost
   become: true # Necessary to run with root privileges
   tasks:
-    - name: Install NeoVim
+    - name: Install wl-clipboard
       community.general.pacman:
-        name: neovim
-        state: present
-        update_cache: true
-
-    - name: Install Kitty
-      community.general.pacman:
-        name: kitty
+        name: wl-clipboard
         state: present
         update_cache: true
 
@@ -24,6 +18,12 @@
     - name: Install Yazi
       community.general.pacman:
         name: yazi
+        state: present
+        update_cache: true
+
+    - name: Install NeoVim
+      community.general.pacman:
+        name: neovim
         state: present
         update_cache: true
 
