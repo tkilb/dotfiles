@@ -22,7 +22,10 @@
           - rofi-wayland
           - dunst
           - swww
+          - adwaita-icon-theme
+          - nwg-look
         state: present
+        update_cache: true
 
     - name: Install Utilities (Lock, Idle, Clipboard)
       community.general.pacman:
