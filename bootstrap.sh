@@ -185,7 +185,7 @@ echo "✓ linker symlinked"
 echo "Symlinking syncer to ~/.local/bin/syncer..."
 ln -sf "$DOTFILES_DIR/tools/syncer/syncer.sh" "$HOME/.local/bin/syncer"
 echo "✓ syncer symlinked"
-eecho ""
+echo ""
 
 # Prompt for machine name
 echo "Please enter a name for this machine (e.g., macbook-pro, work-laptop):"
