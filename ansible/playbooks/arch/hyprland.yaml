@@ -1,0 +1,61 @@
+---
+- name: Install Hyprland and Essential Wayland Tooling
+  hosts: localhost
+  become: true # Necessary to run with root privileges
+
+  tasks:
+    - name: Install Hyprland and Portals
+      community.general.pacman:
+        name:
+          - hyprland
+          - xdg-desktop-portal-hyprland
+          - xdg-desktop-portal-gtk
+          - qt5-wayland
+          - qt6-wayland
+        state: present
+        update_cache: true
+
+    - name: Install UI Elements (Bar, Launcher, Notifications)
+      community.general.pacman:
+        name:
+          - waybar
+          - rofi-wayland
+          - dunst
+          - swww
+        state: present
+
+    - name: Install Utilities (Lock, Idle, Clipboard)
+      community.general.pacman:
+        name:
+          - hyprlock
+          - hypridle
+          - wl-clipboard
+          - cliphist
+        state: present
+
+    - name: Install Screenshot and Media tools
+      community.general.pacman:
+        name:
+          - grim
+          - slurp
+          - swappy
+          - brightnessctl
+          - playerctl
+          - pavucontrol
+        state: present
+
+    - name: Install System Applets
+      community.general.pacman:
+        name:
+          - network-manager-applet
+          - blueman
+          - polkit-kde-agent
+        state: present
+
+    - name: Install File Manager and dependencies
+      community.general.pacman:
+        name:
+          - nautilus
+          - gvfs
+          - gvfs-mtp
+        state: present

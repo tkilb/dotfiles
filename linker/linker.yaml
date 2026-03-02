@@ -16,6 +16,12 @@
     - linux-book
     - linux-box
 
+- name: hypr
+  path: ~/.config/hypr
+  machines:
+    - linux-book
+    - linux-box
+
 - name: kitty
   path: ~/.config/kitty
   machines:
