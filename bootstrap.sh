@@ -233,6 +233,12 @@ ln -sf "$DOTFILES_DIR/tools/syncer/syncer.sh" "$HOME/.local/bin/syncer"
 echo "✓ syncer symlinked"
 echo ""
 
+# Create standard workspace directories
+echo "Creating workspace directories..."
+mkdir -p ~/General ~/Staging ~/Scratch ~/Spike
+echo "✓ Workspace directories created"
+echo ""
+
 # Prompt for machine name
 echo "Please enter a name for this machine (e.g., macbook-pro, work-laptop):"
 read -r MACHINE_NAME
