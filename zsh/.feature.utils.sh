@@ -10,7 +10,6 @@ alias joinf="sed 's/^\ *//g' | cut -d\" \" -f1 | tr '\n' ' '"
 alias joinfnh="sed 's/^\ *//g' | tail -n +2 | cut -d\" \" -f1 | tr '\n' ' '"
 alias l1='ls -1'
 alias lastdir='ls -1 | tail -n 1'
-alias leanc="nvim /Users/tylerkilburn/.dotfiles/system/Alfred.alfredpreferences/workflows/user.workflow.98B91D14-0DAA-46EA-9EEC-83A20D453E82/bin/lean"
 alias lgrep="ls -1A | grep -i $@"
 alias lh='ls -lad .*'
 alias lisp='sbcl'

@@ -57,7 +57,7 @@
     - work-book
 
 - path: ~/Programs/spotify-cli
-  origin: git@github.com:tylerkilburn/spotify-cli.git 
+  origin: git@github.com:tkilb/spotify-cli.git 
   cron: "0 19 * * *" # Every day at 7 PM
   machines:
     - linux-box
@@ -71,7 +71,6 @@
     - work-book
 
 - path: ~/Notes/work
-  origin: git@gitlab.com:carfax/users/tylerkilburn/notes-work.git
   cron: "0 17 * * *" # Every day at 5 PM
   machines:
     - work-book

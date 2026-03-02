@@ -169,7 +169,7 @@
           "BTTTriggerClass" : "BTTTriggerTypeKeyboardShortcut",
           "BTTPredefinedActionType" : 206,
           "BTTPredefinedActionName" : "Execute Shell Script \/ Task",
-          "BTTShellTaskActionConfig" : "\/Users\/tylerkilburn\/Scripts\/killitall.sh:::(null):::killitall",
+          "BTTShellTaskActionConfig" : "\/Users\/$USERNAME\/Scripts\/killitall.sh:::(null):::killitall",
           "BTTAdditionalConfiguration" : "10092544",
           "BTTEnabled2" : 1,
           "BTTUUID" : "666FDCD5-7CF8-4770-9A34-0F17DE701169",

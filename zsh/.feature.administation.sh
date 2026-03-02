@@ -23,8 +23,8 @@ alias vim="nvim"
 # Personal Linux Machines
 ##################################################
 if [[ "$MACHINE" =~ ^(linux-book|linux-box)$ ]]; then
-  alias bak-d2="rsync --progress --partial --archive --delete /run/user/1000/gvfs/smb-share:server=192.168.0.123,share=d2/ /run/media/tylerkilburn/onsite-backup/d2"
-  alias bak-d3="rsync --progress --partial --archive --delete /run/user/1000/gvfs/smb-share:server=192.168.0.123,share=d3/ /run/media/tylerkilburn/onsite-backup/d3"
+  alias bak-d2="rsync --progress --partial --archive --delete /run/user/1000/gvfs/smb-share:server=192.168.0.123,share=d2/ /run/media/$USERNAME/onsite-backup/d2"
+  alias bak-d3="rsync --progress --partial --archive --delete /run/user/1000/gvfs/smb-share:server=192.168.0.123,share=d3/ /run/media/$USERNAME/onsite-backup/d3"
   alias system-update="yay -Syyuu"
 fi
 

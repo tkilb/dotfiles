@@ -11,4 +11,4 @@ You will create a custom plugin for Ansible. This plugin will allow playbooks to
 - Plugins should not fail with cryptic messages when there is an installation issue
 - Use ~/.dotfiles/ansible/playbooks/ai.yaml as a test
 - You may update ai.yaml in any way you need to make it work with the plugin
-- Should not require tylerkilburn be added to sudo-ers for passwordless access, this is a security concern
+- Should not require user be added to sudo-ers for passwordless access, this is a security concern
