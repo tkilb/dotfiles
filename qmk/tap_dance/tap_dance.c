@@ -2,10 +2,8 @@
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    //        case SFT_T(KC_SPC):
-    //            return TAPPING_TERM + 1250;
-    //        case LT(1, KC_GRV):
-    //            return 130;
+  case LALT_T(KC_Z): // EDGE_Z: Custom Alt-on-hold delay (150ms)
+    return 150;
   case U_TD_EXLM:
     return 80;
   // case U_TD_QUES:

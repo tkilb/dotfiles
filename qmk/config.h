@@ -2,7 +2,7 @@
 
 // default but used in macros
 #undef TAPPING_TERM
-#define TAPPING_TERM 200
+#define TAPPING_TERM 180
 #define PERMISSIVE_HOLD
 #define QUICK_TAP_TERM 0
 

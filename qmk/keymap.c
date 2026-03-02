@@ -57,9 +57,9 @@ const key_override_t override_shift_right_paren = ko_make_basic(MOD_MASK_SHIFT, 
 const key_override_t override_shift_semi = ko_make_basic(MOD_MASK_SHIFT, EDGE_COMM, KC_SCLN); // Shift , is ;
 const key_override_t override_shift_colon = ko_make_basic(MOD_MASK_SHIFT, EDGE_DOT, KC_COLN); // Shift . is :
 
-// EDGE_SLSH: unmodified tap = ?, shift+tap = !
-const key_override_t override_slash_to_question = ko_make_with_layers_and_negmods(0, LALT_T(KC_SLSH), LSFT(KC_SLSH), ~0, MOD_MASK_SHIFT); // No shift: / becomes ?
-const key_override_t override_shift_question = ko_make_basic(MOD_MASK_SHIFT, LALT_T(KC_SLSH), KC_EXLM); // Shift+/ is !
+// EDGE_SLSH: unmodified tap = !, shift+tap = ?
+const key_override_t override_slash_to_excl = ko_make_with_layers_and_negmods(0, LALT_T(KC_SLSH), LSFT(KC_SLSH), ~0, MOD_MASK_SHIFT); // No shift: / becomes !
+const key_override_t override_shift_excl = ko_make_basic(MOD_MASK_SHIFT, LALT_T(KC_SLSH), KC_QUES); // Shift+/ is ?
 
 const key_override_t *key_overrides[] = {
     &override_window_switch,
@@ -67,8 +67,8 @@ const key_override_t *key_overrides[] = {
     &override_shift_right_paren,
     &override_shift_semi,
     &override_shift_colon,
-    &override_slash_to_question,
-    &override_shift_question
+    &override_slash_to_excl,
+    &override_shift_excl
 };
 
 // Base Left Side

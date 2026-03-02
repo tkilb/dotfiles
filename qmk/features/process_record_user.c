@@ -6,8 +6,9 @@ static bool alt_key_pressed = false;
 static bool alt_key_registered = false;
 
 void matrix_scan_user(void) {
+  // EDGE_SLSH (CUST_ALT_QUE): Custom Alt-on-hold delay (150ms)
   // If key is held and timer expired, register Alt
-  if (alt_key_pressed && !alt_key_registered && timer_elapsed(alt_key_timer) >= TAPPING_TERM) {
+  if (alt_key_pressed && !alt_key_registered && timer_elapsed(alt_key_timer) >= 150) {
     register_mods(MOD_BIT(KC_LALT));
     alt_key_registered = true;
   }
@@ -46,9 +47,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         // Send the symbol based on Shift state
         if (temp_mods & MOD_MASK_SHIFT) {
-          tap_code16(KC_EXLM);
-        } else {
           tap_code16(KC_QUES);
+        } else {
+          tap_code16(KC_EXLM);
         }
 
         // Restore physical mods
