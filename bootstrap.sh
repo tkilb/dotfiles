@@ -76,6 +76,21 @@ else
 fi
 echo ""
 
+# Symlink .zshrc
+echo "Symlinking .zshrc..."
+if [[ -L "$HOME/.zshrc" ]]; then
+  echo "✓ .zshrc is already a symlink"
+else
+  # Back up existing .zshrc if it's a regular file
+  if [[ -f "$HOME/.zshrc" ]]; then
+    mv "$HOME/.zshrc" "$HOME/.zshrc.pre-bootstrap"
+    echo "✓ Existing .zshrc backed up to .zshrc.pre-bootstrap"
+  fi
+  ln -sf "$HOME/.dotfiles/zsh/.zshrc" "$HOME/.zshrc"
+  echo "✓ .zshrc symlinked to ~/.dotfiles/zsh/.zshrc"
+fi
+echo ""
+
 # Set Zsh as default shell
 if [[ "$(basename "$SHELL")" == "zsh" ]]; then
   echo "✓ Zsh is already the default shell"
