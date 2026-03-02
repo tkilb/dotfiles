@@ -81,10 +81,41 @@ if [[ "$(basename "$SHELL")" == "zsh" ]]; then
   echo "✓ Zsh is already the default shell"
 else
   echo "Setting Zsh as default shell..."
-  chsh -s "$(which zsh)"
+  sudo chsh -s "$(which zsh)" "$USER"
   echo "✓ Zsh set as default shell. Please log out and back in for changes to take effect."
 fi
 echo ""
+
+# Install OpenSSH
+if command -v ssh &>/dev/null; then
+  echo "✓ OpenSSH is already installed"
+else
+  echo "Installing OpenSSH..."
+  if [[ "$OS" == "arch" ]]; then
+    sudo pacman -S --noconfirm openssh
+  elif [[ "$OS" == "debian" ]]; then
+    sudo apt install openssh-client -y
+  fi
+  echo "✓ OpenSSH installed"
+fi
+echo ""
+
+# Install yay (Arch Linux only)
+if [[ "$OS" == "arch" ]]; then
+  if command -v yay &>/dev/null; then
+    echo "✓ yay is already installed"
+  else
+    echo "Installing yay..."
+    sudo pacman -S --noconfirm --needed git base-devel
+    YAY_TMP=$(mktemp -d)
+    git clone https://aur.archlinux.org/yay.git "$YAY_TMP"
+    # makepkg cannot be run as root, so we run it as the current user
+    (cd "$YAY_TMP" && makepkg -si --noconfirm)
+    rm -rf "$YAY_TMP"
+    echo "✓ yay installed"
+  fi
+  echo ""
+fi
 
 # Create .ssh directory if it doesn't exist
 mkdir -p ~/.ssh
