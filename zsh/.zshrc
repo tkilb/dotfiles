@@ -33,7 +33,6 @@ done
 # loop through and source modules with .feature. prefix
 source $_ZSH_DOT_FILE_DIR/.core.path.sh
 source $_ZSH_DOT_FILE_DIR/.core.settings.sh
-source $_ZSH_DOT_FILE_DIR/.core.install.sh
 source $_ZSH_DOT_FILE_DIR/.core.zsh.sh
 source $_ZSH_DOT_FILE_DIR/.core.prompt.sh
 
