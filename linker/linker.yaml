@@ -1,6 +1,11 @@
 # MACHINE references:
 #   linux-book | linux-box | pi-server | steam-deck | work-book
 
+- name: aerospace
+  path: ~/.config/aerospace
+  machines:
+    - work-book
+
 - name: ansible
   path: ~/.ansible
   machines:
