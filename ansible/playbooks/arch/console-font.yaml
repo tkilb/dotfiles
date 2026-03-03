@@ -1,6 +1,6 @@
 ---
 - name: Install and set Arch Linux console font
-  hosts: all
+  hosts: localhost
   become: true
   tasks:
     - name: Install terminus-font package
@@ -12,8 +12,8 @@
     - name: Set console font in /etc/vconsole.conf
       ansible.builtin.lineinfile:
         path: /etc/vconsole.conf
-        regexp: '^FONT='
-        line: 'FONT=ter-d32b.psf.gz'
+        regexp: "^FONT="
+        line: "FONT=ter-d32b.psf.gz"
         state: present
       notify: Reload vconsole.conf
 
@@ -21,3 +21,4 @@
     - name: Reload vconsole.conf
       ansible.builtin.command: systemctl restart systemd-vconsole-setup.service
       listen: "Reload vconsole.conf"
+
