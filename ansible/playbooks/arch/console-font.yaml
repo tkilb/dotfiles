@@ -1,0 +1,47 @@
+---
+- name: Install and set Arch Linux console font
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Install terminus-font package
+      community.general.pacman:
+        name: terminus-font
+        state: present
+        update_cache: true
+
+    - name: Set console font in /etc/vconsole.conf
+      ansible.builtin.lineinfile:
+        path: /etc/vconsole.conf
+        regexp: "^FONT="
+        line: "FONT=ter-d32b.psf.gz"
+        state: present
+      notify: Reload vconsole.conf
+
+    - name: Create /boot/grub/fonts directory
+      ansible.builtin.file:
+        path: /boot/grub/fonts
+        state: directory
+        mode: '0755'
+
+    - name: Generate GRUB font (terminus_32.pf2)
+      ansible.builtin.command: grub-mkfont -s 32 -o /boot/grub/fonts/terminus_32.pf2 /usr/share/kbd/consolefonts/ter-u32n.psf.gz
+      args:
+        creates: /boot/grub/fonts/terminus_32.pf2
+
+    - name: Set GRUB_FONT in /etc/default/grub
+      ansible.builtin.lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_FONT='
+        line: 'GRUB_FONT="/boot/grub/fonts/terminus_32.pf2"'
+        state: present
+      notify: Update GRUB config
+
+  handlers:
+    - name: Reload vconsole.conf
+      ansible.builtin.command: systemctl restart systemd-vconsole-setup.service
+      listen: "Reload vconsole.conf"
+
+    - name: Update GRUB config
+      ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg
+      listen: "Update GRUB config"
+
