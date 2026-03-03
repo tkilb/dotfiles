@@ -18,8 +18,6 @@ alias ll='ls -l'
 alias ncode='kcode && code . || code .'
 alias nx='npx nx'
 alias p='prettier --write'
-alias pbcopy='wl-copy'
-alias pbpaste='wl-paste'
 alias pingg='ping 8.8.8.8'
 alias pwdp='pwd -P'
 alias rmtmp='rm tmp.*'
@@ -32,6 +30,11 @@ alias xrm="xargs rm $@"
 
 alias mrm="rm ...makefile"
 alias mm="m m"
+
+if [[ "$(uname)" != "Darwin" ]]; then
+  alias pbcopy='wl-copy'
+  alias pbpaste='wl-paste'
+fi
 
 lorem() {
   echo 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' | pbcopy
