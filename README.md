@@ -1,28 +1,14 @@
 # Dotfiles
 
-## Arch Linux Installation
-
-To install Arch Linux using the provided `archinstall.json` configuration:
-
-### Increase Font Size if Necessary
-
-```sh
-setfont -d
-```
-
-```sh
-archinstall --config-url https://raw.githubusercontent.com/tkilb/dotfiles/main/archinstall.json
-```
-
-## Post-Installation Bootstrap
-
-Run the bootstrap script directly without cloning:
+## Dotfiles Bootstrap
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/tkilb/dotfiles/main/bootstrap.sh | bash
 ```
 
-## Arch ISO Minimal Network Configuration on Wifi
+## Arch Linux Installation
+
+### Network Configuration on Wifi
 
 ```sh
 iwctl
@@ -39,4 +25,24 @@ quit
 ```sh
 pacman-key --init
 pacman-key --populate archlinux
+```
+
+### Arch Install
+
+```sh
+archinstall --config-url https://raw.githubusercontent.com/tkilb/dotfiles/main/archinstall.json
+```
+
+## Post-Installation
+
+### Inncrease Font Size if Necessary
+
+```sh
+setfont -d
+```
+
+### Network Configuration on Wifi
+
+```sh
+nmcli device wifi connect <SSID>
 ```
