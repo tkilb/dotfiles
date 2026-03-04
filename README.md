@@ -5,7 +5,7 @@
 To install Arch Linux using the provided `archinstall.json` configuration:
 
 ```sh
-archinstall --config https://raw.githubusercontent.com/tkilb/dotfiles/main/archinstall.json
+archinstall --config-url https://raw.githubusercontent.com/tkilb/dotfiles/main/archinstall.json
 ```
 
 ## Post-Installation Bootstrap
