@@ -4,6 +4,12 @@
 
 To install Arch Linux using the provided `archinstall.json` configuration:
 
+### Increase Font Size if Necessary
+
+```sh
+setfont -d
+```
+
 ```sh
 archinstall --config-url https://raw.githubusercontent.com/tkilb/dotfiles/main/archinstall.json
 ```
