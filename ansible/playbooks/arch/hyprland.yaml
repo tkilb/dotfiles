@@ -8,57 +8,26 @@
       community.general.pacman:
         name:
           - hyprland
-          - xdg-desktop-portal-hyprland
-          - xdg-desktop-portal-gtk
-          - qt5-wayland
-          - qt6-wayland
         state: present
         update_cache: true
 
-    - name: Install UI Elements (Bar, Launcher, Notifications)
+    - name: Install Waybar
       community.general.pacman:
         name:
           - waybar
-          - rofi-wayland
-          - dunst
-          - swww
-          - adwaita-icon-theme
-          - nwg-look
         state: present
         update_cache: true
 
-    - name: Install Utilities (Lock, Idle, Clipboard)
+    - name: Install Launcher
       community.general.pacman:
         name:
-          - hyprlock
-          - hypridle
-          - wl-clipboard
-          - cliphist
+          - wofi
         state: present
+        update_cache: true
 
-    - name: Install Screenshot and Media tools
+    - name: Install Hyprshot
       community.general.pacman:
         name:
-          - grim
-          - slurp
-          - swappy
-          - brightnessctl
-          - playerctl
-          - pavucontrol
+          - hyprshot
         state: present
-
-    - name: Install System Applets
-      community.general.pacman:
-        name:
-          - network-manager-applet
-          - blueman
-          - polkit-kde-agent
-        state: present
-
-    - name: Install File Manager and dependencies
-      community.general.pacman:
-        name:
-          - nautilus
-          - gvfs
-          - gvfs-mtp
-        state: present
+        update_cache: true

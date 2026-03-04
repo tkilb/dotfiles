@@ -5,20 +5,32 @@
 
   vars_prompt:
     - name: install_kitty
-      prompt: "Install Kitty? (y/n)"
-      default: "yes"
+      prompt: "Install Kitty? (n/y)"
+      default: "no"
       private: no
     - name: install_zenith
-      prompt: "Install Zenith? (y/n)"
-      default: "yes"
+      prompt: "Install Zenith? (n/y)"
+      default: "no"
       private: no
     - name: install_cull
-      prompt: "Install Cull? (y/n)"
-      default: "yes"
+      prompt: "Install Cull? (n/y)"
+      default: "no"
       private: no
     - name: install_caligula
-      prompt: "Install Caligula? (y/n)"
-      default: "yes"
+      prompt: "Install Caligula? (n/y)"
+      default: "no"
+      private: no
+    - name: install_firefox
+      prompt: "Install Firefox? (n/y)"
+      default: "no"
+      private: no
+    - name: install_zen_browser
+      prompt: "Install Zen Browser? (n/y)"
+      default: "no"
+      private: no
+    - name: install_bitwarden
+      prompt: "Install Bitwarden? (n/y)"
+      default: "no"
       private: no
 
   tasks:
@@ -48,3 +60,23 @@
         state: present
         update_cache: true
       when: install_caligula | bool
+
+    - name: Install Firefox
+      community.general.pacman:
+        name: firefox
+        state: present
+        update_cache: true
+      when: install_firefox | bool
+
+    - name: Install Zen Browser
+      yay:
+        name: zen-browser-bin
+        state: present
+      when: install_zen_browser | bool
+
+    - name: Install Bitwarden
+      community.general.pacman:
+        name: bitwarden
+        state: present
+        update_cache: true
+      when: install_bitwarden | bool
