@@ -15,3 +15,22 @@ Run the bootstrap script directly without cloning:
 ```sh
 curl -fsSL https://raw.githubusercontent.com/tkilb/dotfiles/main/bootstrap.sh | bash
 ```
+
+## Arch ISO Minimal Network Configuration on Wifi
+
+```sh
+iwctl
+
+station wlan0 show
+station wlan0 scan
+station wlan0 connect <SSID>
+
+quit
+```
+
+### Update GPG Keys
+
+```sh
+pacman-key --init
+pacman-key --populate archlinux
+```
