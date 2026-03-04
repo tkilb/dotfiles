@@ -8,10 +8,10 @@
       community.general.pacman:
         name:
           - hyprland
-          - xdg-desktop-portal-hyprland
-          - xdg-desktop-portal-gtk
-          - qt5-wayland
-          - qt6-wayland
+          # - xdg-desktop-portal-hyprland
+          # - xdg-desktop-portal-gtk
+          # - qt5-wayland
+          # - qt6-wayland
         state: present
         update_cache: true
 
