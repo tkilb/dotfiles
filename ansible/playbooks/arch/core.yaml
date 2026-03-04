@@ -45,6 +45,12 @@
         state: present
         update_cache: true
 
+    - name: Install NPM
+      community.general.pacman:
+        name: npm
+        state: present
+        update_cache: true
+
     - name: Install Prettier
       community.general.pacman:
         name: prettier

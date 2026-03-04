@@ -167,7 +167,7 @@
     "type": "nm"
   },
   "ntp": true,
-  "packages": ["git", "terminus-font"],
+  "packages": ["git", "less", "terminus-font", "which"],
   "parallel_downloads": 0,
   "profile_config": {
     "gfx_driver": null,
@@ -187,4 +187,3 @@
   "timezone": "EST",
   "version": "3.0.15"
 }
-
