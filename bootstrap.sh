@@ -19,6 +19,28 @@ else
   exit 1
 fi
 
+# Install Git
+if command -v git &>/dev/null; then
+  echo "✓ Git is already installed"
+else
+  echo "Installing Git..."
+  if [[ "$OS" == "arch" ]]; then
+    sudo pacman -S --noconfirm git
+  elif [[ "$OS" == "debian" ]]; then
+    sudo apt install git -y
+  else
+    brew install git
+  fi
+  echo "✓ Git installed"
+fi
+echo ""
+
+# Set global git merge strategy to rebase
+echo "Setting global git merge strategy to rebase..."
+git config --global pull.rebase true
+echo "✓ Global git merge strategy set to rebase"
+echo ""
+
 echo "Detected OS: $OS"
 echo ""
 
@@ -132,6 +154,25 @@ if [[ "$OS" == "arch" ]]; then
   echo ""
 fi
 
+# Set global git user name and email
+if ! git config --global user.name >/dev/null; then
+  echo "Please enter your Git name:"
+  read -r GIT_NAME </dev/tty
+  if [[ -n "$GIT_NAME" ]]; then
+    git config --global user.name "$GIT_NAME"
+    echo "✓ Git name set to: $GIT_NAME"
+  fi
+fi
+
+if ! git config --global user.email >/dev/null; then
+  echo "Please enter your Git email:"
+  read -r GIT_EMAIL </dev/tty
+  if [[ -n "$GIT_EMAIL" ]]; then
+    git config --global user.email "$GIT_EMAIL"
+    echo "✓ Git email set to: $GIT_EMAIL"
+  fi
+fi
+
 # Create .ssh directory if it doesn't exist
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
@@ -206,20 +247,20 @@ else
   echo "Cloning dotfiles repository..."
   git clone https://github.com/tkilb/dotfiles "$DOTFILES_DIR"
   echo "✓ Dotfiles repository cloned"
+fi
 
-  # Try to upgrade to SSH if possible
-  echo "Checking if SSH connection to GitHub is possible..."
-  if ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
-    echo "SSH connection successful! Upgrading remote to SSH..."
-    cd "$DOTFILES_DIR"
-    git remote set-url origin git@github.com:tkilb/dotfiles.git
-    echo "✓ Remote URL updated to SSH"
-    cd - >/dev/null
-  else
-    echo "SSH connection not yet configured. Remote URL will remain HTTPS."
-    echo "You can manually change it later with:"
-    echo "  cd $DOTFILES_DIR && git remote set-url origin git@github.com:tkilb/dotfiles.git"
-  fi
+# Try to upgrade to SSH if possible
+echo "Checking if SSH connection to GitHub is possible..."
+if ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
+  echo "SSH connection successful! Upgrading remote to SSH..."
+  cd "$DOTFILES_DIR"
+  git remote set-url origin git@github.com:tkilb/dotfiles.git
+  echo "✓ Remote URL updated to SSH"
+  cd - >/dev/null
+else
+  echo "SSH connection not yet configured. Remote URL will remain HTTPS."
+  echo "You can manually change it later with:"
+  echo "  cd $DOTFILES_DIR && git remote set-url origin git@github.com:tkilb/dotfiles.git"
 fi
 echo ""
 
@@ -239,31 +280,22 @@ mkdir -p ~/General ~/Staging ~/Scratch ~/Spike
 echo "✓ Workspace directories created"
 echo ""
 
-# Prompt for machine name
-echo "Please enter a name for this machine (e.g., macbook-pro, work-laptop):"
-read -r MACHINE_NAME
+# Prompt for machine name only if ~/.profile is empty or MACHINE is not set
+if
+  [[ ! -s ~/.profile ]] || ! grep -q "export MACHINE=" ~/.profile 2>/dev/null
+then
+  echo "Please enter a name for this machine:"
+  read -r MACHINE_NAME
 
-if [[ -n "$MACHINE_NAME" ]]; then
-  # Add MACHINE variable to appropriate profile file
-  if [[ "$OS" == "macos" ]]; then
-    PROFILE_FILE=~/.zprofile
+  if [[ -n "$MACHINE_NAME" ]]; then
+    echo "export MACHINE=\"$MACHINE_NAME\"" >>~/.profile
+    echo "✓ MACHINE variable added to ~/.profile"
+    export MACHINE="$MACHINE_NAME"
+    echo "✓ MACHINE set to: $MACHINE_NAME"
   else
-    PROFILE_FILE=~/.profile
+    echo "⚠ No machine name provided. Skipping MACHINE variable setup."
   fi
-
-  if [[ -f "$PROFILE_FILE" ]] && grep -q "export MACHINE=" "$PROFILE_FILE"; then
-    echo "✓ MACHINE variable already set in $PROFILE_FILE"
-  else
-    echo "export MACHINE=\"$MACHINE_NAME\"" >>"$PROFILE_FILE"
-    echo "✓ MACHINE variable added to $PROFILE_FILE"
-  fi
-
-  export MACHINE="$MACHINE_NAME"
-  echo "✓ MACHINE set to: $MACHINE_NAME"
-else
-  echo "⚠ No machine name provided. Skipping MACHINE variable setup."
 fi
-echo ""
 
 # Display public keys
 echo "=================================="

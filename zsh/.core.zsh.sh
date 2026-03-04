@@ -6,12 +6,6 @@ if [[ "$MACHINE" == "work-book" ]]; then
   )
 fi
 
-# if [[ "$OS" == "mac" ]]; then
-#     plugins=(
-#         "${plugins[@]}"
-#     )
-# fi
-
 if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]; then
   git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 fi

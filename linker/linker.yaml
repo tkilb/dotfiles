@@ -91,6 +91,12 @@
     - linux-book
     - linux-box
 
+- name: waybar
+  path: ~/.config/waybar
+  machines:
+    - linux-book
+    - linux-box
+
 - name: yazi
   path: ~/.config/yazi
   machines:
