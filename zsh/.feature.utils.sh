@@ -8,26 +8,20 @@ alias grepi="grep -i $1"
 alias join="sed 's/^\ *//g' | tr '\n' ' '"
 alias joinf="sed 's/^\ *//g' | cut -d\" \" -f1 | tr '\n' ' '"
 alias joinfnh="sed 's/^\ *//g' | tail -n +2 | cut -d\" \" -f1 | tr '\n' ' '"
-alias l1='ls -1'
 alias lastdir='ls -1 | tail -n 1'
 alias lgrep="ls -1A | grep -i $@"
 alias lh='ls -lad .*'
-alias lisp='sbcl'
-alias lja='ls -lA'
+alias la='ls -lA'
 alias ll='ls -l'
 alias ncode='kcode && code . || code .'
 alias nx='npx nx'
 alias p='prettier --write'
 alias pingg='ping 8.8.8.8'
 alias pwdp='pwd -P'
-alias rmtmp='rm tmp.*'
 alias sri='openssl dgst -sha384 -binary | openssl base64 -A | sed -e "s/^/sha384-/;"'
-alias subl="\"/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl\""
-alias tnode="ts-node"
 alias uuid16="python -c 'import sys,uuid; sys.stdout.write(uuid.uuid4().hex)' | cut -c1-16 | pbcopy && pbpaste"
 alias uuid="python -c 'import sys,uuid; sys.stdout.write(uuid.uuid4().hex)' | pbcopy && pbpaste && echo"
 alias xrm="xargs rm $@"
-
 alias mrm="rm ...makefile"
 alias mm="m m"
 
@@ -54,22 +48,6 @@ m() {
   fi
 }
 
-scratch() {
-  local _datestamp=$(date +"%Y%m%d-%H%M%S" | tr -d ':')
-  local _name=${1:-$_datestamp}
-  local _dir="$HOME/Scratch/scratch_$_name"
-  mkdir $_dir
-  cd $_dir
-}
-
-scratch-code() {
-  local _datestamp=$(date +"%Y%m%d-%H%M%S" | tr -d ':')
-  local _name=${1:-$_datestamp}
-  local _dir="$HOME/Scratch/scratch_$_name"
-  mkdir $_dir
-  code $_dir
-}
-
 size() {
   ls -lAh $1
   #ls -lAh $1 | awk '{print $2, "\t", $5, "\t", $9}'
@@ -77,15 +55,4 @@ size() {
 
 sizeb() {
   ls -lA $1 | awk '{print $2, "\t", $5, "\t", $9}'
-}
-
-spike() {
-  local _name=${1}
-  local _dir="$HOME/Spikes/$_name"
-  mkdir $_dir
-  cd $_dir
-}
-
-unscratch() {
-  rm -rf $HOME/Scratch/scratch_*
 }

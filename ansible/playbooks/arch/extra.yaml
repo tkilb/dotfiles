@@ -24,6 +24,10 @@
       prompt: "Install Firefox? (n/y)"
       default: "no"
       private: no
+    - name: install_zen_browser
+      prompt: "Install Zen Browser? (n/y)"
+      default: "no"
+      private: no
     - name: install_bitwarden
       prompt: "Install Bitwarden? (n/y)"
       default: "no"
@@ -63,6 +67,12 @@
         state: present
         update_cache: true
       when: install_firefox | bool
+
+    - name: Install Zen Browser
+      yay:
+        name: zen-browser-bin
+        state: present
+      when: install_zen_browser | bool
 
     - name: Install Bitwarden
       community.general.pacman:

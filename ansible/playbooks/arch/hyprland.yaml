@@ -8,72 +8,26 @@
       community.general.pacman:
         name:
           - hyprland
-          # - xdg-desktop-portal-hyprland
-          # - xdg-desktop-portal-gtk
-          # - qt5-wayland
-          # - qt6-wayland
         state: present
         update_cache: true
 
-    # - name: Install Screenshot Tooling
-    #   community.general.pacman:
-    #     name:
-    #       - hyprshot
-    #       - grim
-    #       - slurp
-    #     state: present
-    #
-    # - name: Sway Notification Center
-    #   community.general.pacman:
-    #     name:
-    #       - swaync
-    #     state: present
-################################################################################
-# - name: Install UI Elements (Bar, Launcher, Notifications)
-#   community.general.pacman:
-#     name:
-#       - waybar
-#       - rofi-wayland
-#       - dunst
-#       - swww
-#       - adwaita-icon-theme
-#       - nwg-look
-#     state: present
-#     update_cache: true
+    - name: Install Waybar
+      community.general.pacman:
+        name:
+          - waybar
+        state: present
+        update_cache: true
 
-# - name: Install Utilities (Lock, Idle, Clipboard)
-#   community.general.pacman:
-#     name:
-#       - hyprlock
-#       - hypridle
-#       - wl-clipboard
-#       - cliphist
-#     state: present
+    - name: Install Launcher
+      community.general.pacman:
+        name:
+          - wofi
+        state: present
+        update_cache: true
 
-# - name: Install Screenshot and Media tools
-#   community.general.pacman:
-#     name:
-#       - hypershot
-#       - grim
-#       - slurp
-#       - swappy
-#       - brightnessctl
-#       - playerctl
-#       - pavucontrol
-#     state: present
-
-# - name: Install System Applets
-#   community.general.pacman:
-#     name:
-#       - network-manager-applet
-#       - blueman
-#       - polkit-kde-agent
-#     state: present
-#
-# - name: Install File Manager and dependencies
-#   community.general.pacman:
-#     name:
-#       - nautilus
-#       - gvfs
-#       - gvfs-mtp
-#     state: present
+    - name: Install Hyprshot
+      community.general.pacman:
+        name:
+          - hyprshot
+        state: present
+        update_cache: true
