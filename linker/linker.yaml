@@ -21,6 +21,13 @@
     - linux-book
     - linux-box
 
+- name: gophertube
+  path: ~/.config/gophertube
+  machines:
+    - linux-book
+    - linux-box
+    - work-book
+
 - name: hypr
   path: ~/.config/hypr
   machines:

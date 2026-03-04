@@ -15,8 +15,8 @@ return {
   dependencies = {
     { "nvim-lua/plenary.nvim", lazy = true },
   },
+
   keys = {
-    -- 👇 in this section, choose your own key mappings!
     {
       "+",
       mode = { "n", "v" },
@@ -35,6 +35,7 @@ return {
       desc = "Open the file manager in nvim's working directory",
     },
   },
+
   ---@type YaziConfig | {}
   opts = {
     -- if you want to open yazi instead of netrw, see below for more info
@@ -43,7 +44,7 @@ return {
       show_help = "<f1>",
     },
   },
-  -- 👇 if you use `open_for_directories=true`, this is recommended
+
   init = function()
     -- mark netrw as loaded so it's not loaded at all.
     --
