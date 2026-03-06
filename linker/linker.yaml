@@ -42,6 +42,14 @@
     - steam-deck
     - work-book
 
+- name: lazygit
+  path: ~/.config/lazygit
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - work-book
+
 - name: linker
   path: ~/.config/linker
   machines:

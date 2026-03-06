@@ -8,16 +8,6 @@ _ZSH_DOT_FILE_DIR=$HOME/.dotfiles/zsh/
 [ -z "$MACHINE" ] && echo "WARNING: MACHINE is not set!"
 
 ##################################################
-# Environment Variables
-##################################################
-if [ "$MACHINE" = "steam-deck" ]; then
-  export NVIM_PLUGIN_DISABLED_LSP_CONFIG="true"
-  export NVIM_PLUGIN_DISABLED_NONE_LS="true"
-  export NVIM_PLUGIN_DISABLED_TREESITTER="true"
-  export NVIM_PLUGIN_DISABLED_TYPESCRIPT_TOOLS="true"
-fi
-
-##################################################
 # Source Paths
 ##################################################
 machineList=("shared" "$MACHINE")
@@ -30,12 +20,13 @@ for machine in ${machineList}; do
   fi
 done
 
-# loop through and source modules with .feature. prefix
+# Source core files
 source $_ZSH_DOT_FILE_DIR/.core.path.sh
 source $_ZSH_DOT_FILE_DIR/.core.settings.sh
 source $_ZSH_DOT_FILE_DIR/.core.zsh.sh
 source $_ZSH_DOT_FILE_DIR/.core.prompt.sh
 
+# Source feature files
 for f in $_ZSH_DOT_FILE_DIR/.*; do
   if [[ $f =~ \.feature\..*\.sh$ ]]; then
     source $f
