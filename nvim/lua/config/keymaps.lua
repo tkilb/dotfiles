@@ -102,11 +102,14 @@ wkey({
 -- Git Signs
 wkey({ "<leader>ub", "<cmd>Gitsigns toggle_current_line_blame<cr>", icon = "󰊢 ", desc = "Toggle Blame", mode = "n" })
 
+-- LazyGit (flipped behavior)
+-- wkey({
+--   { "<leader>gg", function() Snacks.lazygit.open({ cwd = vim.fn.getcwd() }) end, icon = " ", desc = "Lazygit (cwd)", mode = "n" },
+--   { "<leader>gG", function() Snacks.lazygit.open() end, icon = " ", desc = "Lazygit (Root Dir)", mode = "n" },
+-- })
+
 -- Goto
 wkey({ "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<cr>", icon = " ", desc = "Preview Definition", mode = "n" })
-
--- NeoGit
-map("n", "<leader>gg", "<cmd>Neogit<cr>")
 
 -- Oil
 map("n", "-", "<cmd>Oil<cr>", { desc = "Oil" })
