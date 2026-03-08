@@ -1,19 +1,23 @@
 #!/bin/bash
 AEROSPACE="/opt/homebrew/bin/aerospace"
 
-# Get current window and workspace
-current_window=$($AEROSPACE list-windows --focused --format '%{window-id}' 2>/dev/null)
+# Get current workspace
 current_workspace=$($AEROSPACE list-workspaces --focused --format '%{workspace}' 2>/dev/null)
+current_window=$($AEROSPACE list-windows --focused --format '%{window-id}' 2>/dev/null)
 
-# Try to move the window to the left within the current workspace
-$AEROSPACE move left 2>/dev/null
+# Try to focus left to see if there's a window there
+$AEROSPACE focus left 2>/dev/null
+focused_after_left=$($AEROSPACE list-windows --focused --format '%{window-id}' 2>/dev/null)
 
-# Check if the window actually moved
-new_window=$($AEROSPACE list-windows --focused --format '%{window-id}' 2>/dev/null)
+# Focus back to original window
+$AEROSPACE focus --window-id "$current_window" 2>/dev/null
 
-# If the window didn't move (no window to the left), move to previous workspace
-if [ "$current_window" = "$new_window" ]; then
-    # Get the previous workspace
+# If focus changed when we went left, there's a window to the left - swap with it
+if [ "$current_window" != "$focused_after_left" ]; then
+    # There's a window to the left, so move left
+    $AEROSPACE move left
+else
+    # No window to the left, move to previous workspace
     prev_workspace=$($AEROSPACE list-workspaces --monitor focused --format '%{workspace}' | grep -B1 "^${current_workspace}$" | head -n1)
     
     # If we're at the first workspace, wrap to the last
