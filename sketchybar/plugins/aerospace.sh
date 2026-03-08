@@ -3,10 +3,19 @@
 # make sure it's executable with:
 # chmod +x ~/.config/sketchybar/plugins/aerospace.sh
 
+ORANGE=0xFFD65D0E  # Gruvbox orange
+FG=0xFFEBDBB2      # Cream foreground
+
+# Get focused window info
+focused_app=""
+if [ "$1" = "$FOCUSED_WORKSPACE" ]; then
+  focused_app=$(aerospace list-windows --focused --format '%{app-name}' 2>/dev/null)
+fi
+
 # Get apps in the workspace
 apps=$(aerospace list-windows --workspace "$1" | awk -F'|' '{gsub(/^ *| *$/, "", $2); print $2}')
 
-# Build icon strip
+# Build icon strip (can't color individual icons, so just build the strip)
 icon_strip=" "
 if [ "${apps}" != "" ]; then
   while read -r app; do
@@ -18,8 +27,8 @@ fi
 
 # Set colors and icons
 if [ "$1" = "$FOCUSED_WORKSPACE" ]; then
-  sketchybar --set $NAME background.color=0x44FFFFFF background.border_width=2 label="$icon_strip"
+  sketchybar --set space.$1 background.color=0x44FFFFFF background.border_width=2 label="$icon_strip"
   # If you want orange background, use: background.color=0xB0D65D0E
 else
-  sketchybar --set $NAME background.color=0x44FFFFFF background.border_width=0 label="$icon_strip"
+  sketchybar --set space.$1 background.color=0x44FFFFFF background.border_width=0 label="$icon_strip"
 fi

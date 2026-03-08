@@ -104,12 +104,12 @@ exec-on-workspace-change = [
     C = 3 # Postman
 
 [gaps]
-    inner.horizontal = 2
+    inner.horizontal = 4
     inner.vertical =   4
     outer.left =       4
     outer.bottom =     0
     outer.top =        10
-    outer.right =      2
+    outer.right =      4
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
