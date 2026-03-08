@@ -1,0 +1,28 @@
+---
+- name: Install Gaming Software
+  hosts: localhost
+  become: true # Necessary to run with root privileges
+
+  vars_prompt:
+    - name: install_steam
+      prompt: "Install steam? (n/y)"
+      default: "no"
+      private: no
+    - name: install_dealve
+      prompt: "Install Dealve? (n/y)"
+      default: "no"
+      private: no
+
+  tasks:
+    - name: Install Steam
+      community.general.pacman:
+        name: steam
+        state: present
+        update_cache: true
+      when: install_steam | bool
+
+    - name: Install Dealve
+      yay:
+        name: dealve
+        state: present
+      when: install_dealve | bool
