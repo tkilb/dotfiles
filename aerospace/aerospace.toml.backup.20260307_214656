@@ -150,12 +150,8 @@ exec-on-workspace-change = [
     alt-j = 'focus down'
     alt-k = 'focus up'
     alt-l = 'focus right'
-    alt-left = 'exec-and-forget /bin/bash ~/.config/aerospace/aerospace-focus-left.sh'
-    alt-right = 'exec-and-forget /bin/bash ~/.config/aerospace/aerospace-focus-right.sh'
-    
-    # Hidden bindings for programmatic triggering from scripts
-    f13 = 'workspace next --wrap-around'
-    f14 = 'workspace prev --wrap-around'
+    alt-left = 'workspace prev'
+    alt-right = 'workspace next'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move
     alt-shift-h = 'move left'
@@ -256,3 +252,4 @@ exec-on-workspace-change = [
     alt-shift-j = ['join-with down', 'mode main']
     alt-shift-k = ['join-with up', 'mode main']
     alt-shift-l = ['join-with right', 'mode main']
+
