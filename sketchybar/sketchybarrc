@@ -120,14 +120,30 @@ source "$ITEM_DIR/front_app.sh"
 # volume is registered. More info about the event system can be found here:
 # https://felixkratz.github.io/SketchyBar/config/events
 
-sketchybar --add item clock right \
+  # --add item pomodoro right \
+  # --set pomodoro \
+  # label="🍅 25m" \
+  # update_freq=1 \
+  # icon.color=$RED \
+  # label.color=$FG \
+  # background.color=$BG_SECONDARY \
+  # background.border_color=$RED \
+  # background.border_width=1 \
+  # background.corner_radius=5 \
+  # background.padding_left=8 \
+  # background.padding_right=8 \
+  # click_script="$CONFIG_DIR/pomodoro.sh toggle" \
+sketchybar \
+  --add item clock right \
   --set clock update_freq=10 icon.color=$BLUE padding_left=0 padding_right=0 script="$PLUGIN_DIR/clock.sh" \
-  --add item battery right \
-  --set battery update_freq=120 icon.color=$GREEN script="$PLUGIN_DIR/battery.sh" \
-  --subscribe battery system_woke power_source_change \
   --add item volume right \
   --set volume icon.color=$PURPLE script="$PLUGIN_DIR/volume.sh" \
   --subscribe volume volume_change \
+  --add item memory right \
+  --set memory update_freq=5 script="$PLUGIN_DIR/memory.sh" \
+  --add item battery right \
+  --set battery update_freq=120 icon.color=$GREEN script="$PLUGIN_DIR/battery.sh" \
+  --subscribe battery system_woke power_source_change \
   --add item ping right \
   --set ping update_freq=5 icon="󰖩" icon.color=$GREEN script="$PLUGIN_DIR/ping.sh" \
   --add item swap e \
@@ -135,6 +151,9 @@ sketchybar --add item clock right \
   label.font="Hack Nerd Font:Italic:13.0" \
   icon.color=0x44FFFFFF \
   label.color=0x44FFFFFF
+
+# # Initialize pomodoro timer
+# "$CONFIG_DIR/pomodoro.sh" init
 
 sketchybar --update
 

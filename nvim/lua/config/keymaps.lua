@@ -139,6 +139,13 @@ wkey({
   { "U", "<cmd>UndotreeToggle<cr>", icon="", desc = "UndoTree", mode = "n" },
 })
 
+-- Terminal
+-- Override LazyVim's default <C-/> behavior to properly toggle terminal
+del({ "n", "t" }, "<C-/>")
+del({ "n", "t" }, "<C-_>") -- In terminal emulators, Ctrl+/ often sends Ctrl+_
+map({ "n", "t" }, "<C-/>", function() Snacks.terminal.toggle() end, { desc = "Toggle Terminal" })
+map({ "n", "t" }, "<C-_>", function() Snacks.terminal.toggle() end, { desc = "Toggle Terminal" })
+
 -- Misc
 map("n", "<C-h>", "<C-w>h")
 map("n", "<C-j>", "<C-w>j")
