@@ -18,7 +18,8 @@ fi
 
 # Set colors and icons
 if [ "$1" = "$FOCUSED_WORKSPACE" ]; then
-  sketchybar --set $NAME background.color=0xB0D65D0E background.border_width=2 label="$icon_strip"
+  sketchybar --set $NAME background.color=0x44FFFFFF background.border_width=2 label="$icon_strip"
+  # If you want orange background, use: background.color=0xB0D65D0E
 else
   sketchybar --set $NAME background.color=0x44FFFFFF background.border_width=0 label="$icon_strip"
 fi
