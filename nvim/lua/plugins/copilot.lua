@@ -16,6 +16,9 @@ return {
       -- Use the static embedded language server version (no auto-bump via npx)
       vim.g.copilot_version = false
 
+      -- Disable Copilot by default
+      vim.cmd("Copilot disable")
+
       -- Toggle Copilot predictions on and off
       vim.api.nvim_create_user_command("CopilotToggle", function()
         local enabled = vim.fn["copilot#Enabled"]() == 1
