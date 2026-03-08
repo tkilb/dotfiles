@@ -59,7 +59,7 @@ on-mode-changed = []
 exec-on-workspace-change = [
   '/bin/bash',
   '-c',
-  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE; /bin/bash ~/.config/aerospace/update-borders.sh'
 ]
 
 # Possible values: (qwerty|dvorak|colemak)

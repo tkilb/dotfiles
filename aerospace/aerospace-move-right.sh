@@ -30,4 +30,9 @@ else
     
     # Focus the new workspace
     $AEROSPACE workspace $next_workspace
+    
+    # Move window all the way to the left (leftmost position)
+    for i in {1..20}; do
+        $AEROSPACE move left 2>/dev/null || break
+    done
 fi
