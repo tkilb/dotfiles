@@ -18,11 +18,12 @@ if [ "$current_window" != "$focused_after_right" ]; then
     $AEROSPACE move right
 else
     # No window to the right, move to next workspace
-    next_workspace=$($AEROSPACE list-workspaces --monitor focused --format '%{workspace}' | grep -A1 "^${current_workspace}$" | tail -n1)
+    all_workspaces=$($AEROSPACE list-workspaces --all)
+    next_workspace=$(echo "$all_workspaces" | grep -A1 "^${current_workspace}$" | tail -n1)
     
     # If we're at the last workspace, wrap to the first
     if [ "$next_workspace" = "$current_workspace" ] || [ -z "$next_workspace" ]; then
-        next_workspace=$($AEROSPACE list-workspaces --monitor focused --format '%{workspace}' | head -n1)
+        next_workspace=$(echo "$all_workspaces" | head -n1)
     fi
     
     # Move window to the next workspace
