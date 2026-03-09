@@ -53,9 +53,9 @@ for monitor in $(aerospace list-monitors --format "%{monitor-appkit-nsscreen-scr
   for sid in $(aerospace list-workspaces --monitor "$monitor"); do
     # Determine which display this workspace should be shown on
     display_id="1"
-    if [ "$sid" = "8" ]; then
+    if [ "$sid" = "B" ]; then
       display_id="2"
-    elif [ "$sid" = "9" ]; then
+    elif [ "$sid" = "C" ]; then
       display_id="3"
     fi
     
