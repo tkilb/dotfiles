@@ -31,7 +31,7 @@
 #define EDGE_D      LSFT_T(KC_D)
 #define EDGE_V      KC_V
 // Right
-#define EDGE_QUOTE  MT(MOD_LALT | MOD_LCTL | MOD_LGUI, KC_QUOTE)
+#define EDGE_QUOTE  MT(MOD_LALT | MOD_LCTL, KC_QUOTE)
 #define KC_O      KC_O
 #define EDGE_K      KC_K
 #define EDGE_H      LSFT_T(KC_H)
