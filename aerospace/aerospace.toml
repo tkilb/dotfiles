@@ -112,8 +112,8 @@ exec-on-workspace-change = [
     alt-j = 'focus down'
     alt-k = 'focus up'
     alt-l = 'focus right'
-    ctrl-alt-left = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-focus-left.sh'
-    ctrl-alt-right = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-focus-right.sh'
+    cmd-shift-comma = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-focus-left.sh'
+    cmd-shift-period = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-focus-right.sh'
     
     # Hidden bindings for programmatic triggering from scripts
     f13 = 'workspace next --wrap-around'
@@ -124,8 +124,8 @@ exec-on-workspace-change = [
     ctrl-alt-shift-j = 'move down'
     ctrl-alt-shift-k = 'move up'
     ctrl-alt-shift-l = 'move right'
-    ctrl-alt-shift-left = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-move-left.sh'
-    ctrl-alt-shift-right = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-move-right.sh'
+    ctrl-alt-left = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-move-left.sh'
+    ctrl-alt-right = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-move-right.sh'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#resize
     alt-minus = 'resize smart -50'

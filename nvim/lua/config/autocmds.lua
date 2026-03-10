@@ -14,3 +14,11 @@ vim.api.nvim_create_autocmd("BufEnter", {
     vim.b.autoformat = false
   end,
 })
+
+-- Disable auto-commenting on new lines
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    vim.opt_local.formatoptions:remove({ "c", "r", "o" })
+  end,
+})
