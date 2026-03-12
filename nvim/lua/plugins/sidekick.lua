@@ -28,6 +28,51 @@ return {
       tools = {
         copilot = { cmd = { vim.fn.expand("~/.local/bin/copilot"), "--no-auto-update" } },
       },
+      prompts = {
+        -- Default prompts from sidekick.nvim
+        changes = "Can you review my changes?",
+        diagnostics = "Can you help me fix the diagnostics in {file}?\n{diagnostics}",
+        diagnostics_all = "Can you help me fix these diagnostics?\n{diagnostics_all}",
+        document = "Add documentation to {function|line}",
+        explain = "Explain {this}",
+        fix = "Can you fix {this}?",
+        optimize = "How can {this} be optimized?",
+        review = "Can you review {file} for any issues or improvements?",
+        tests = "Can you write tests for {this}?",
+        -- Simple context prompts
+        buffers = "{buffers}",
+        file = "{file}",
+        line = "{line}",
+        position = "{position}",
+        quickfix = "{quickfix}",
+        selection = "{selection}",
+        ["function"] = "{function}",
+        class = "{class}",
+        -- Custom prompt: Repository analysis
+        repo_summary = function(ctx)
+          local prompt_file = vim.fn.expand("~/.dotfiles/ai/AI_REPO_SUMMARY.md")
+          local f = io.open(prompt_file, "r")
+          if not f then
+            return "Error: Could not read " .. prompt_file
+          end
+          local content = f:read("*all")
+          f:close()
+
+          -- Get the git repository root for the current buffer
+          local git_root = vim.fn.systemlist(
+            "git -C " .. vim.fn.shellescape(vim.fn.expand("%:p:h")) .. " rev-parse --show-toplevel 2>/dev/null"
+          )[1]
+          if not git_root or git_root == "" then
+            git_root = vim.fn.getcwd()
+          end
+
+          return string.format(
+            "%s\n\n---\n\nTARGET REPOSITORY: %s\n\nPlease verify this is the correct repository before proceeding with the analysis.",
+            content,
+            git_root
+          )
+        end,
+      },
     },
     nes = {
       enabled = false,
