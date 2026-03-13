@@ -5,6 +5,16 @@
   path: ~/.config/aerospace
   machines:
     - work-book
+- name: anki
+  path: ~/.local/share/anki2
+  machines:
+    - linux-book
+    - linux-box
+
+# - name: anki
+#   path: ~/
+#   machines:
+#     - work-book
 
 - name: ansible
   path: ~/.ansible
