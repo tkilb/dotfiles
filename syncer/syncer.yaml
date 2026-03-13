@@ -27,7 +27,7 @@
     - steam-deck
     - work-book
 
-- path: ~/.local/share/anki2
+- path: ~/.local/share/Anki2
   origin: git@github.com:tkilb/anki.git
   cron: "0 17 * * *" # Every day at 5 PM
   machines:
