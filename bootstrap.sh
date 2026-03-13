@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -e
 
 echo "=================================="
@@ -189,15 +188,6 @@ else
   KEYS_GENERATED=true
   echo "✓ SSH key id_rsa generated"
 fi
-
-if [[ -f ~/.ssh/id_rsa_personal-notes ]]; then
-  echo "✓ SSH key id_rsa_personal-notes already exists"
-else
-  echo "Generating SSH key: id_rsa_personal-notes"
-  ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa_personal-notes -N ""
-  KEYS_GENERATED=true
-  echo "✓ SSH key id_rsa_personal-notes generated"
-fi
 echo ""
 
 # Create SSH config
@@ -205,22 +195,6 @@ SSH_CONFIG=~/.ssh/config
 if [[ -f "$SSH_CONFIG" ]]; then
   echo "✓ SSH config already exists"
   # Check if our config is already present
-  if ! grep -q "Host github.com-personal-notes" "$SSH_CONFIG"; then
-    echo "Adding GitHub configuration to existing SSH config..."
-    cat >>"$SSH_CONFIG" <<'EOF'
-
-Host github.com
-    HostName github.com
-    User git
-    IdentityFile ~/.ssh/id_rsa
-
-Host github.com-personal-notes
-    HostName github.com
-    User git
-    IdentityFile ~/.ssh/id_rsa_personal-notes
-EOF
-    echo "✓ GitHub configuration added to SSH config"
-  fi
 else
   echo "Creating SSH config..."
   cat >"$SSH_CONFIG" <<'EOF'
@@ -228,11 +202,6 @@ Host github.com
     HostName github.com
     User git
     IdentityFile ~/.ssh/id_rsa
-
-Host github.com-personal-notes
-    HostName github.com
-    User git
-    IdentityFile ~/.ssh/id_rsa_personal-notes
 EOF
   chmod 600 "$SSH_CONFIG"
   echo "✓ SSH config created"
@@ -312,12 +281,6 @@ fi
 echo ""
 echo "Add this key to your GitHub account at: https://github.com/settings/keys"
 echo ""
-echo "=================================="
-echo ""
-echo "Public key for id_rsa_personal-notes:"
-cat ~/.ssh/id_rsa_personal-notes.pub
-echo ""
-echo "Add this key to your GitHub account at: https://github.com/settings/keys"
 echo ""
 echo "=================================="
 echo "Bootstrap complete! 🎉"
