@@ -5,6 +5,7 @@
   path: ~/.config/aerospace
   machines:
     - work-book
+
 - name: anki
   path: ~/.local/share/anki2
   machines:
