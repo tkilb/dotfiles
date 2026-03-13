@@ -18,6 +18,7 @@ return {
   opts = {
     keymaps = {
       ["<C-t>"] = false,
+      ["<C-l>"] = "actions.refresh",
     },
     -- Set to false to disable all of the above keymaps
     view_options = {
