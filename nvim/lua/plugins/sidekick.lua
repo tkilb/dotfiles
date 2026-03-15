@@ -25,9 +25,6 @@ return {
           winhighlight = "Normal:TerminalNormal,NormalNC:TerminalNormal,EndOfBuffer:TerminalNormal,SignColumn:TerminalNormal",
         },
       },
-      tools = {
-        copilot = { cmd = { vim.fn.expand("~/.local/bin/copilot"), "--no-auto-update" } },
-      },
       prompts = {
         -- Default prompts from sidekick.nvim
         changes = "Can you review my changes?",
