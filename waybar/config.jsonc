@@ -9,25 +9,35 @@
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["hyprland/window"],
   "modules-right": [
-    "pulseaudio",
-    "network",
-    "cpu",
-    "memory",
-    "temperature",
+    "custom/ping",
     "battery",
-    "clock",
-    "tray",
-    "custom/power",
+    "memory",
+    "pulseaudio",
+    "clock#date",
+    "clock#time",
   ],
   // Modules configuration
+  "custom/ping": {
+    "format": "  {}ms",
+    "interval": 5,
+    "exec": "ping -c 1 8.8.8.8 | sed -n 's/.*time=\\([0-9.]*\\) ms.*/\\1/p'",
+    "tooltip": false,
+  },
+  "clock#date": {
+    "format": "󰃭 {:%m-%d}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+  },
+  "clock#time": {
+    "format": "{:%I:%M %p}",
+  },
   "hyprland/workspaces": {
     "disable-scroll": true,
     "all-outputs": true,
     "warp-on-scroll": false,
     "format": "{name}",
     "persistent-workspaces": {
-      "*": [1, 2, 3, 4, 5, 6]
-    }
+      "*": [1, 2, 3, 4, 5, 6],
+    },
   },
   "keyboard-state": {
     "numlock": true,
@@ -99,7 +109,7 @@
     "tooltip": false,
   },
   "memory": {
-    "format": "{}% ",
+    "format": "{used:0.1f} 󰘚",
   },
   "temperature": {
     // "thermal-zone": 2,
@@ -122,12 +132,12 @@
     },
     "format": "{capacity}% {icon}",
     "format-full": "{capacity}% {icon}",
-    "format-charging": "{capacity}% ",
-    "format-plugged": "{capacity}% ",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󰂄 {capacity}%",
     "format-alt": "{time} {icon}",
     // "format-good": "", // An empty format will hide the module
     // "format-full": "",
-    "format-icons": ["", "", "", "", ""],
+    "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
   },
   "battery#bat2": {
     "bat": "BAT2",
@@ -154,20 +164,18 @@
   },
   "pulseaudio": {
     // "scroll-step": 1, // %, can be a float
-    "format": "{volume}% {icon} {format_source}",
-    "format-bluetooth": "{volume}% {icon} {format_source}",
-    "format-bluetooth-muted": " {icon} {format_source}",
-    "format-muted": " {format_source}",
-    "format-source": "{volume}% ",
-    "format-source-muted": "",
+    "format": "{icon} {volume}%",
+    "format-bluetooth": "{volume}% {icon}󰂯",
+    "format-bluetooth-muted": "󰂯",
+    "format-muted": "󰝟",
     "format-icons": {
-      "headphone": "",
-      "hands-free": "",
-      "headset": "",
-      "phone": "",
-      "portable": "",
-      "car": "",
-      "default": ["", "", ""],
+      "headphone": "󰋋",
+      "hands-free": "󰋎",
+      "headset": "󰋎",
+      "phone": "󰏲",
+      "portable": "󰏲",
+      "car": "󰄄",
+      "default": ["󰕿", "󰖀", "󰕾"],
     },
     "on-click": "pavucontrol",
   },

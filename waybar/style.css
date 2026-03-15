@@ -9,7 +9,7 @@
 @define-color red #cc241d;
 
 * {
-    font-family: "Hack Nerd Font", "SF Pro", sans-serif;
+    font-family: "FiraCode Nerd Font", "Symbols Nerd Font", "SF Pro", sans-serif;
     font-size: 14px;
     min-height: 0;
 }
@@ -70,7 +70,15 @@ window#waybar {
     border-radius: 5px;
 }
 
-#clock {
+#clock.date {
+    color: @blue;
+}
+
+#clock.time {
+    color: @blue;
+}
+
+#custom-ping {
     color: @blue;
 }
 
@@ -79,7 +87,7 @@ window#waybar {
 }
 
 #memory {
-    color: @orange;
+    color: @green;
 }
 
 #battery {
