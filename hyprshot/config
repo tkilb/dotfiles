@@ -1,0 +1,17 @@
+# Hyprshot configuration
+# See https://github.com/hyprland-community/hyprshot for options
+
+# Screenshot mode: region, window, output, or active
+mode=region
+
+# Image editor to open after capture (comment out to disable)
+editor=swappy
+
+# Output directory for screenshots
+outputDir=~/Pictures/Screenshots
+
+# Filename format (supports strftime format)
+filenameFormat=screenshot-%Y-%m-%d_%H-%M-%S.png
+
+# Audio indicator for video recording
+audioIndicator=both
