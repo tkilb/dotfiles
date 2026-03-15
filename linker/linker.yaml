@@ -39,6 +39,12 @@
     - linux-book
     - linux-box
 
+- name: hyprshot
+  path: ~/.config/hyprshot
+  machines:
+    - linux-book
+    - linux-box
+
 - name: kitty
   path: ~/.config/kitty
   machines:
