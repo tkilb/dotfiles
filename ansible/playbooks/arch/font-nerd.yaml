@@ -1,16 +1,10 @@
 ---
-- name: Install Fira Code Nerd Font
+- name: Install Nerd Font
   hosts: localhost
   become: true
   tasks:
-    - name: Install Fira Code (Base)
+    - name: Install Symbols Nerd Font Mono
       community.general.pacman:
-        name: ttf-fira-code
-        state: present
-        update_cache: true
-
-    - name: Install Fira Code Nerd Font
-      community.general.pacman:
-        name: ttf-firacode-nerd
+        name: ttf-nerd-font-symbols-common
         state: present
         update_cache: true
