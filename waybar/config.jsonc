@@ -34,7 +34,19 @@
     "disable-scroll": true,
     "all-outputs": true,
     "warp-on-scroll": false,
-    "format": "{name}",
+    "format": "{name} {windows}",
+    "window-format": "{icon}",
+    "window-rewrite-default": "󱂬",
+    "window-rewrite": {
+      "class<kitty>": "󰄛",
+      "class<firefox>": "󰈹",
+      "class<dolphin>": "󰉋",
+      "class<wofi>": "󰀻",
+      "class<zen>": "󰇧",
+      "class<steam>": "󰓓",
+      "class<discord>": "󰙯",
+      "class<bitwarden>": "󰌆",
+    },
     "persistent-workspaces": {
       "*": [1, 2, 3, 4, 5, 6],
     },
@@ -75,7 +87,7 @@
       "on": " ",
     },
     "single-icons": {
-      "on": "1 ",
+      "on": "",
     },
     "state-icons": {
       "paused": "",
