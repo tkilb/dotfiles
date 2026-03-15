@@ -39,16 +39,23 @@
         state: present
         update_cache: true
 
-    - name: Install Hyprlock
+    - name: Install Hypr Lock
       community.general.pacman:
         name:
           - hyprlock
         state: present
         update_cache: true
 
-    - name: Install Hypridle
+    - name: Install Hypr Idle
       community.general.pacman:
         name:
           - hypridle
+        state: present
+        update_cache: true
+
+    - name: Install Hypr Paper
+      community.general.pacman:
+        name:
+          - hyprpaper
         state: present
         update_cache: true
