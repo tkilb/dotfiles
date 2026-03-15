@@ -31,3 +31,10 @@
           - hyprshot
         state: present
         update_cache: true
+
+    - name: Install Sway Notification Center
+      community.general.pacman:
+        name:
+          - swaync
+        state: present
+        update_cache: true

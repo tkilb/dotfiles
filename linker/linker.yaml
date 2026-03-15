@@ -39,7 +39,7 @@
     - linux-book
     - linux-box
 
-- name: hyprshot
+- name: hypr
   path: ~/.config/hyprshot
   machines:
     - linux-book
