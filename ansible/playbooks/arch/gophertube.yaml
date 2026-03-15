@@ -1,6 +1,7 @@
 ---
 - name: Clone and Install GopherTube
   hosts: localhost
+  become: true # Necessary to run with root privileges
   connection: local
   vars:
     go_repo_url: https://github.com/KrishnaSSH/GopherTube
@@ -14,6 +15,16 @@
         path: "{{ ansible_env.HOME }}/development"
         state: directory
         mode: "0755"
+
+    - name: Ensure dependencies are installed
+      community.general.pacman:
+        name:
+          - chafa
+          - fzf
+          - mpv
+          - yt-dlp
+        state: present
+        update_cache: true
 
     - name: Clone Go repository
       ansible.builtin.git:

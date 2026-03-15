@@ -1,0 +1,111 @@
+@define-color bg_primary rgba(40, 40, 40, 0.88);
+@define-color bg_secondary rgba(60, 56, 54, 0.88);
+@define-color fg #ebdbb2;
+@define-color orange #d65d0e;
+@define-color yellow #d79921;
+@define-color green #98971a;
+@define-color blue #458588;
+@define-color purple #b16286;
+@define-color red #cc241d;
+
+* {
+    font-family: "Hack Nerd Font", "SF Pro", sans-serif;
+    font-size: 14px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: transparent;
+    color: @fg;
+}
+
+#waybar > box {
+    margin: 5px;
+    background-color: @bg_primary;
+    border-radius: 10px;
+    padding: 0 5px;
+}
+
+#workspaces {
+    background-color: transparent;
+    margin: 5px;
+    padding: 0;
+}
+
+#workspaces button {
+    padding: 0 10px;
+    background-color: @bg_secondary;
+    color: @fg;
+    border-radius: 5px;
+    margin: 0 2px;
+    border: 1px solid transparent;
+}
+
+#workspaces button.active {
+    border: 1px solid @yellow;
+    color: @yellow;
+}
+
+#workspaces button.urgent {
+    background-color: @red;
+    color: @fg;
+}
+
+#workspaces button:hover {
+    background-color: @bg_secondary;
+    border: 1px solid @orange;
+}
+
+#window {
+    padding: 0 10px;
+    background-color: @bg_secondary;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.modules-right > widget > label {
+    padding: 0 10px;
+    margin: 5px 2px;
+    background-color: @bg_secondary;
+    border-radius: 5px;
+}
+
+#clock {
+    color: @blue;
+}
+
+#pulseaudio {
+    color: @purple;
+}
+
+#memory {
+    color: @orange;
+}
+
+#battery {
+    color: @green;
+}
+
+#network {
+    color: @green;
+}
+
+#cpu {
+    color: @yellow;
+}
+
+#temperature {
+    color: @red;
+}
+
+#tray {
+    padding: 0 10px;
+    margin: 5px 2px;
+    background-color: @bg_secondary;
+    border-radius: 5px;
+}
+
+#custom-power {
+    color: @red;
+    padding: 0 10px;
+}
