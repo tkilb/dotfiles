@@ -3,7 +3,7 @@
 
 ###|   _   |   P   |   R   |   M   |   I   |       |   T   |       |       |
 ###|===============================================================================
-#5#|       |   _   |   _   |   _   |   v   |       |       |
+#5#|       |   0   |   9   |   _   |   v   |       |       |
 #4#|       |   8   |   7   |   8   |   5   |       |       |
 #3#|   f   |   1   |   2   |   3   |   4   |   q   |   r   |   =   |  tab  |  esc  
 #2#|       |  lctr | lshft |  spc  |   e   |       |       |
@@ -13,7 +13,7 @@
 #################################
 cyborg.pe         = key(key_f)
 
-cyborg.p5         = key(key_u)
+cyborg.p5         = key(key_0)
 cyborg.p4         = key(key_8)
 cyborg.p3         = key(key_1)
 cyborg.p2         = key(key_leftctrl)
@@ -21,7 +21,7 @@ cyborg.p1         = key(key_leftalt)
 
 # Ring
 #################################
-cyborg.r5         = key(key_i)
+cyborg.r5         = key(key_9)
 cyborg.r4         = key(key_7)
 cyborg.r3         = key(key_2)
 cyborg.r2         = key(key_leftshift)
