@@ -18,5 +18,15 @@ post=$(hyprctl -j activewindow | jq -r ".address")
 
 # If focus didnt move, switch workspace
 if [[ $post = $pre ]]; then
-  hyprctl dispatch workspace "$workspace"
+  if [[ $workspace == "r+1" ]]; then
+    current_workspace=$(hyprctl activeworkspace -j | jq -r ".id")
+    new_workspace=$(( (current_workspace % 6) + 1 ))
+    hyprctl dispatch workspace $new_workspace
+  elif [[ $workspace == "r-1" ]]; then
+    current_workspace=$(hyprctl activeworkspace -j | jq -r ".id")
+    new_workspace=$(( (current_workspace + 4) % 6 + 1 ))
+    hyprctl dispatch workspace $new_workspace
+  else
+    hyprctl dispatch workspace "$workspace"
+  fi
 fi

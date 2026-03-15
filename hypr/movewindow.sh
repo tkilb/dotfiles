@@ -18,5 +18,15 @@ post=$(hyprctl -j activewindow | jq -r ".address")
 
 # If window didnt move, move it to the next workspace
 if [[ $post = $pre ]]; then
-  hyprctl dispatch movetoworkspace "$workspace"
+  if [[ $workspace == "r+1" ]]; then
+    current_workspace=$(hyprctl activeworkspace -j | jq -r ".id")
+    new_workspace=$(( (current_workspace % 6) + 1 ))
+    hyprctl dispatch movetoworkspace $new_workspace
+  elif [[ $workspace == "r-1" ]]; then
+    current_workspace=$(hyprctl activeworkspace -j | jq -r ".id")
+    new_workspace=$(( (current_workspace + 4) % 6 + 1 ))
+    hyprctl dispatch movetoworkspace $new_workspace
+  else
+    hyprctl dispatch movetoworkspace "$workspace"
+  fi
 fi
