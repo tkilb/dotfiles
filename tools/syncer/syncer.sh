@@ -300,7 +300,8 @@ sync_repository() {
     # Pull with strategy to favor remote on conflicts
     log_message "Pulling latest changes for $repo_path..."
     git pull origin "$current_branch" --strategy=recursive --strategy-option=theirs >>"$LOG_FILE" 2>&1
-    if [ $? -eq 0 ]; then
+    local pull_status=$?
+    if [ $pull_status -eq 0 ]; then
         log_message "Successfully pulled changes in $repo_path"
     else
         log_message "ERROR: Failed to pull changes in $repo_path"
@@ -309,10 +310,16 @@ sync_repository() {
     # Push local commits
     log_message "Pushing local commits for $repo_path..."
     git push origin "$current_branch" >>"$LOG_FILE" 2>&1
-    if [ $? -eq 0 ]; then
+    local push_status=$?
+    if [ $push_status -eq 0 ]; then
         log_message "Successfully pushed changes in $repo_path"
     else
         log_message "WARNING: Failed to push changes in $repo_path (may be up to date or no upstream)"
+    fi
+
+    if [ $pull_status -ne 0 ] || [ $push_status -ne 0 ]; then
+        log_message "Completed sync with errors for repository: $repo_path"
+        return 1
     fi
 
     log_message "Completed sync for repository: $repo_path"
@@ -322,6 +329,7 @@ sync_repository() {
 # Main execution
 main() {
     local cron_mode="$1"
+    local sync_errors=0
     
     # Rotate logs if needed
     rotate_logs
@@ -381,6 +389,7 @@ main() {
         # Validate cron format
         if ! validate_cron "$cron_schedule"; then
             log_message "ERROR: Invalid cron format for repository '$repo_path': '$cron_schedule'. Expected format: 'minute hour day month weekday' (e.g., '*/5 * * * *'). Skipping this repository."
+            ((sync_errors++))
             continue
         fi
         
@@ -388,15 +397,23 @@ main() {
         if [ "$cron_mode" = "true" ]; then
             if should_sync "$repo_path" "$cron_schedule"; then
                 log_message "It's time to sync repository: $repo_path"
-                sync_repository "$repo_path" "$repo_origin"
+                if ! sync_repository "$repo_path" "$repo_origin"; then
+                    ((sync_errors++))
+                fi
             else
                 log_message "Skipping repository (not scheduled to sync now): $repo_path"
             fi
         else
             log_message "Syncing repository (manual mode): $repo_path"
-            sync_repository "$repo_path" "$repo_origin"
+            if ! sync_repository "$repo_path" "$repo_origin"; then
+                ((sync_errors++))
+            fi
         fi
     done
+
+    if [ "$sync_errors" -gt 0 ]; then
+        log_message "ERROR: Sync completed with $sync_errors repository issues."
+    fi
 
     log_message "=== Syncer completed ==="
 }

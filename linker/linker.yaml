@@ -6,6 +6,11 @@
   machines:
     - work-book
 
+# - name: anki
+#   path: ~/
+#   machines:
+#     - work-book
+
 - name: ansible
   path: ~/.ansible
   machines:

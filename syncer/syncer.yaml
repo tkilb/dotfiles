@@ -27,18 +27,6 @@
     - steam-deck
     - work-book
 
-  path: ~/Programs/molten-driver
-  origin: git@github.com:tkilb/molten-driver.git
-  cron: "0 19 * * *" # Every day at 7 PM
-  machines:
-    - linux-box
-
-  path: ~/Programs/molten-gamepad
-  origin: git@github.com:tkilb/molten-driver.git
-  cron: "0 19 * * *" # Every day at 7 PM
-  machines:
-    - linux-box
-
 - path: ~/Notes/nvim
   origin: git@github.com:tkilb/notes-nvim.git
   cron: "0 * * * *" # Every hour
@@ -48,19 +36,13 @@
     - work-book
 
 - path: ~/Notes/personal
-  origin: git@github.com-personal-notes:tkilb-notes-personal/notes-personal.git
+  origin: git@github.com:tkilb/notes-personal.git
   cron: "*/5 * * * *" # Every 5 minutes
   machines:
     - linux-book
     - linux-box
     - steam-deck
     - work-book
-
-- path: ~/Programs/spotify-cli
-  origin: git@github.com:tkilb/spotify-cli.git 
-  cron: "0 19 * * *" # Every day at 7 PM
-  machines:
-    - linux-box
 
 - path: ~/Notes/tech
   origin: git@github.com:tkilb/notes-tech.git
@@ -74,3 +56,22 @@
   cron: "0 17 * * *" # Every day at 5 PM
   machines:
     - work-book
+
+  path: ~/Programs/molten-driver
+  origin: git@github.com:tkilb/molten-driver.git
+  cron: "0 19 * * *" # Every day at 7 PM
+  machines:
+    - linux-box
+
+  path: ~/Programs/molten-gamepad
+  origin: git@github.com:tkilb/molten-driver.git
+  cron: "0 19 * * *" # Every day at 7 PM
+  machines:
+    - linux-box
+
+- path: ~/Programs/spotify-cli
+  origin: git@github.com:tylerkilburn/spotify-cli.git 
+  cron: "0 19 * * *" # Every day at 7 PM
+  machines:
+    - linux-box
+
