@@ -5,6 +5,6 @@
   tasks:
     - name: Install Symbols Nerd Font Mono
       community.general.pacman:
-        name: ttf-nerd-font-symbols-common
+        name: ttf-nerd-fonts-symbols-common
         state: present
         update_cache: true
