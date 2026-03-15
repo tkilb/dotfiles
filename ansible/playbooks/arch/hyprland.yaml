@@ -38,3 +38,10 @@
           - swaync
         state: present
         update_cache: true
+
+    - name: Install Hyprlock
+      community.general.pacman:
+        name:
+          - hyprlock
+        state: present
+        update_cache: true
