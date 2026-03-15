@@ -27,14 +27,6 @@
     - steam-deck
     - work-book
 
-- path: ~/.local/share/Anki2
-  origin: git@github.com:tkilb/anki.git
-  cron: "0 17 * * *" # Every day at 5 PM
-  machines:
-    - linux-book
-    - linux-box
-    - work-book
-
 - path: ~/Notes/nvim
   origin: git@github.com:tkilb/notes-nvim.git
   cron: "0 * * * *" # Every hour
@@ -44,7 +36,7 @@
     - work-book
 
 - path: ~/Notes/personal
-  origin: git@github.com-personal-notes:tkilb-notes-personal/notes-personal.git
+  origin: git@github.com:tkilb/notes-personal.git
   cron: "*/5 * * * *" # Every 5 minutes
   machines:
     - linux-book
