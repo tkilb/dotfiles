@@ -9,7 +9,7 @@ config-version = 2
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [
     'layout tiles',
-    'exec-and-forget borders active_color=0xFFD79921 inactive_color=0xff494d64 width=5.0',
+    'exec-and-forget borders active_color=0xFF458588 inactive_color=0xff494d64 width=5.0',
     'exec-and-forget sketchybar --reload'
 ]
 
@@ -61,7 +61,7 @@ on-mode-changed = []
 exec-on-workspace-change = [
   '/bin/bash',
   '-c',
-  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE; /bin/bash ~/.config/aerospace/scripts/update-borders.sh'
+  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
 ]
 
 # Possible values: (qwerty|dvorak|colemak)
@@ -104,7 +104,7 @@ exec-on-workspace-change = [
 # Fallback value (if you omit the key): mode.main.binding = {}
 [mode.main.binding]
     # See: https://nikitabobko.github.io/AeroSpace/commands#layout
-    ctrl-alt-slash = 'layout tiles horizontal vertical'
+    ctrl-alt-backslash = 'layout tiles horizontal vertical'
     ctrl-alt-comma = 'layout accordion horizontal vertical'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#focus
@@ -118,6 +118,9 @@ exec-on-workspace-change = [
     # Hidden bindings for programmatic triggering from scripts
     f13 = 'workspace next --wrap-around'
     f14 = 'workspace prev --wrap-around'
+
+    # Sort apps to their assigned workspaces (Chrome→2, Kitty→3, Gather→6)
+    ctrl-alt-a = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-sort-apps.sh'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move
     ctrl-alt-shift-h = 'move left'

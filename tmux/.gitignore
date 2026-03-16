@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# Except...
+!.gitignore
+!plugins/tpm/
+!plugins/tmux/scripts
+!plugins/tmux/dracula.tmux
