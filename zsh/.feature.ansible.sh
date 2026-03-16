@@ -6,8 +6,9 @@ playbook() {
 
   while getopts "md" _opt; do
     case $_opt in
-    m) _playbook_dir="$HOME/.dotfiles/ansible/playbooks/mac" ;;
     d) _playbook_dir="$HOME/.dotfiles/ansible/playbooks/debian" ;;
+    f) _playbook_dir="$HOME/.dotfiles/ansible/playbooks/fedora" ;;
+    m) _playbook_dir="$HOME/.dotfiles/ansible/playbooks/mac" ;;
     esac
   done
   shift $((OPTIND - 1))
