@@ -11,10 +11,12 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   OS="macos"
 elif [[ -f /etc/arch-release ]]; then
   OS="arch"
+elif [[ -f /etc/fedora-release ]]; then
+  OS="fedora"
 elif [[ -f /etc/os-release && $(grep -Ei '^ID(_LIKE)?=.*debian' /etc/os-release) ]]; then
   OS="debian"
 else
-  echo "Unsupported OS. This script only supports MacOS, Arch and Debian."
+  echo "Unsupported OS. This script only supports MacOS, Arch, Fedora, and Debian."
   exit 1
 fi
 
@@ -25,6 +27,8 @@ else
   echo "Installing Git..."
   if [[ "$OS" == "arch" ]]; then
     sudo pacman -S --noconfirm git
+  elif [[ "$OS" == "fedora" ]]; then
+    sudo dnf install -y git
   elif [[ "$OS" == "debian" ]]; then
     sudo apt install git -y
   else
@@ -62,6 +66,8 @@ else
   echo "Installing Ansible..."
   if [[ "$OS" == "arch" ]]; then
     sudo pacman -S --noconfirm ansible
+  elif [[ "$OS" == "fedora" ]]; then
+    sudo dnf install -y ansible
   elif [[ "$OS" == "debian" ]]; then
     sudo apt install ansible -y
   else
@@ -78,6 +84,8 @@ else
   echo "Installing Zsh..."
   if [[ "$OS" == "arch" ]]; then
     sudo pacman -S --noconfirm zsh
+  elif [[ "$OS" == "fedora" ]]; then
+    sudo dnf install -y zsh
   elif [[ "$OS" == "debian" ]]; then
     sudo apt install zsh -y
   else
@@ -102,7 +110,7 @@ echo "Symlinking .zshrc..."
 if [[ -L "$HOME/.zshrc" ]]; then
   echo "✓ .zshrc is already a symlink"
 else
-  # Back up existing .zshrc if it's a regular file
+  # Back up existing .zshrc if it is a regular file
   if [[ -f "$HOME/.zshrc" ]]; then
     mv "$HOME/.zshrc" "$HOME/.zshrc.pre-bootstrap"
     echo "✓ Existing .zshrc backed up to .zshrc.pre-bootstrap"
@@ -129,6 +137,8 @@ else
   echo "Installing OpenSSH..."
   if [[ "$OS" == "arch" ]]; then
     sudo pacman -S --noconfirm openssh
+  elif [[ "$OS" == "fedora" ]]; then
+    sudo dnf install -y openssh-clients
   elif [[ "$OS" == "debian" ]]; then
     sudo apt install openssh-client -y
   fi
@@ -172,7 +182,7 @@ if ! git config --global user.email >/dev/null; then
   fi
 fi
 
-# Create .ssh directory if it doesn't exist
+# Create .ssh directory if it does not exist
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 
@@ -194,15 +204,12 @@ echo ""
 SSH_CONFIG=~/.ssh/config
 if [[ -f "$SSH_CONFIG" ]]; then
   echo "✓ SSH config already exists"
-  # Check if our config is already present
 else
   echo "Creating SSH config..."
-  cat >"$SSH_CONFIG" <<'EOF'
-Host github.com
-    HostName github.com
-    User git
-    IdentityFile ~/.ssh/id_rsa
-EOF
+  echo "Host github.com" >"$SSH_CONFIG"
+  echo "    HostName github.com" >>"$SSH_CONFIG"
+  echo "    User git" >>"$SSH_CONFIG"
+  echo "    IdentityFile ~/.ssh/id_rsa" >>"$SSH_CONFIG"
   chmod 600 "$SSH_CONFIG"
   echo "✓ SSH config created"
 fi
@@ -281,7 +288,6 @@ fi
 echo ""
 echo "Add this key to your GitHub account at: https://github.com/settings/keys"
 echo ""
-echo ""
 echo "=================================="
-echo "Bootstrap complete! 🎉"
+echo "BOOTSTRAP COMPLETE"
 echo "=================================="
