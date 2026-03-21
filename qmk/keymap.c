@@ -17,6 +17,7 @@
 #define U_LT1 LGUI_T(KC_ESC)
 #define U_LT2 LT(U_NAV, KC_SPC) // LSFT_T(KC_SPC)
 #define U_LT3 ALL_T(KC_ENT)
+#define U_LT3  MT(MOD_LSFT | MOD_LALT | MOD_LCTL, KC_QUOTE)
 
 #define U_RT3 LT(U_NUM, KC_BSPC)
 #define U_RT2 KC_LSFT
