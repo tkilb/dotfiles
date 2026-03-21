@@ -16,6 +16,31 @@ void matrix_scan_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+  case EDGE_COMM:
+  case EDGE_DOT:
+    if (record->event.pressed) {
+      uint8_t mods = get_mods();
+      // If ONLY Shift is held (no Ctrl/Alt/GUI), remap the tap
+      if ((mods & MOD_MASK_SHIFT) && !(mods & (MOD_MASK_CTRL | MOD_MASK_ALT | MOD_MASK_GUI))) {
+        // Clean up all mod states for a pure symbol tap
+        clear_mods();
+        clear_weak_mods();
+        send_keyboard_report();
+
+        if (keycode == EDGE_COMM) {
+          tap_code(KC_SCLN);
+        } else {
+          tap_code16(KC_COLN);
+        }
+
+        // Restore physical mods
+        set_mods(mods);
+        send_keyboard_report();
+        return false;
+      }
+    }
+    return true;
+
   case CUST_ALT_QUE:
     if (record->event.pressed) {
       // Key pressed - start timer but don't register Alt yet
