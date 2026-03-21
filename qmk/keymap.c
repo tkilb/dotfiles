@@ -54,8 +54,8 @@ const key_override_t override_window_switch = ko_make_basic(MOD_MASK_GUI, ALL_T(
 const key_override_t override_shift_left_paren = ko_make_basic(MOD_MASK_SHIFT, KC_LPRN, KC_LABK); // Shift , is ;
 const key_override_t override_shift_right_paren = ko_make_basic(MOD_MASK_SHIFT, KC_RPRN, KC_RABK); // Shift , is ;
 
-const key_override_t override_shift_semi = ko_make_with_layers_and_negmods(0, EDGE_COMM, KC_SCLN, ~0, MOD_MASK_CAG); // Shift , is ; (Not on Hyper)
-const key_override_t override_shift_colon = ko_make_with_layers_and_negmods(0, EDGE_DOT, KC_COLN, ~0, MOD_MASK_CAG); // Shift . is : (Not on Hyper)
+const key_override_t override_shift_semi = ko_make_with_layers_and_negmods(0, EDGE_COMM, KC_SCLN, MOD_MASK_SHIFT, (MOD_MASK_CTRL | MOD_MASK_ALT)); // Shift , is ; (Not on Hyper)
+const key_override_t override_shift_colon = ko_make_with_layers_and_negmods(0, EDGE_DOT, KC_COLN, MOD_MASK_SHIFT, (MOD_MASK_ALT | MOD_MASK_GUI)); // Shift . is : (Not on Hyper)
 
 // EDGE_SLSH: unmodified tap = !, shift+tap = ?
 const key_override_t override_slash_to_excl = ko_make_with_layers_and_negmods(0, LALT_T(KC_SLSH), LSFT(KC_SLSH), ~0, MOD_MASK_SHIFT); // No shift: / becomes !
