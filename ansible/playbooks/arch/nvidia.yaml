@@ -1,5 +1,5 @@
 ---
-- name: Install NVIDIA Drivers and Wayland Support
+- name: Install NVIDIA Drivers (Minimal)
   hosts: localhost
   become: true
 
@@ -29,62 +29,3 @@
           - lib32-vulkan-icd-loader
         state: present
         update_cache: true
-
-    - name: Create NVIDIA DRM Kernel Parameter Config
-      ansible.builtin.copy:
-        dest: /etc/modprobe.d/nvidia-drm.conf
-        content: |
-          options nvidia_drm modeset=1
-        owner: root
-        group: root
-        mode: '0644'
-      notify: Rebuild Initramfs
-
-    - name: Add NVIDIA Modules to Initramfs
-      ansible.builtin.shell:
-        cmd: grep -q 'nvidia ' /etc/mkinitcpio.conf || sed -i -E 's/^(MODULES=\()([^)]*)(\))$/\1\2 nvidia nvidia_modeset nvidia_uvm nvidia_drm\3/' /etc/mkinitcpio.conf
-      register: add_mkinitcpio_modules
-      changed_when: add_mkinitcpio_modules.rc != 0
-      failed_when: false
-      notify: Rebuild Initramfs
-
-    - name: Add NVIDIA DRM Kernel Parameter
-      ansible.builtin.shell:
-        cmd: grep -q 'nvidia-drm.modeset=1' /etc/default/grub || sed -i -E 's/^(GRUB_CMDLINE_LINUX_DEFAULT=")(.*)(")$/\1\2 nvidia-drm.modeset=1\3/' /etc/default/grub
-      register: add_grub_param
-      changed_when: add_grub_param.rc != 0
-      failed_when: false
-      notify:
-        - Rebuild Initramfs
-        - Update GRUB
-
-    - name: Set NVIDIA Power Management to Preserve Video Memory
-      ansible.builtin.lineinfile:
-        path: /etc/modprobe.d/nvidia.conf
-        regexp: '^options nvidia NVreg_PreserveVideoMemoryAllocations='
-        line: 'options nvidia NVreg_PreserveVideoMemoryAllocations=1'
-        create: true
-      notify: Rebuild Initramfs
-
-    - name: Enable NVIDIA Power Management Services
-      ansible.builtin.command:
-        cmd: systemctl enable --now nvidia-{{ item }}.service
-      loop:
-        - suspend
-        - resume
-        - hibernate
-      changed_when: false
-      failed_when: false
-
-  handlers:
-    - name: Rebuild Initramfs
-      ansible.builtin.command:
-        cmd: mkinitcpio -P
-      changed_when: true
-      listen: Rebuild Initramfs
-
-    - name: Update GRUB
-      ansible.builtin.command:
-        cmd: grub-mkconfig -o /boot/grub/grub.cfg
-      changed_when: true
-      listen: Update GRUB
