@@ -35,7 +35,7 @@ archinstall --config-url https://raw.githubusercontent.com/tkilb/dotfiles/main/a
 
 ## Post-Installation
 
-### Inncrease Font Size if Necessary
+### Increase Font Size if Necessary
 
 ```sh
 setfont -d

@@ -87,7 +87,40 @@
         state: present
         update_cache: true
 
+    - name: Set Ly Edge Margin
+      ansible.builtin.lineinfile:
+        path: /etc/ly/config.ini
+        regexp: '^edge_margin'
+        line: 'edge_margin = 2'
+      notify: Reboot Machine
+
+    - name: Set Ly Background Color
+      ansible.builtin.lineinfile:
+        path: /etc/ly/config.ini
+        regexp: '^bg ='
+        line: 'bg = 0x001a1a1a'
+      notify: Reboot Machine
+
+    - name: Set Ly Default Input Focus
+      ansible.builtin.lineinfile:
+        path: /etc/ly/config.ini
+        regexp: '^default_input'
+        line: 'default_input = password'
+      notify: Reboot Machine
+
     - name: Enable Ly Display Manager
       ansible.builtin.command:
-        cmd: systemctl enable --now ly@tty1.service
-      changed_when: true
+        cmd: systemctl enable ly@tty1.service
+      changed_when: false
+
+    - name: Disable Getty on TTY1
+      ansible.builtin.command:
+        cmd: systemctl disable getty@tty1.service
+      changed_when: false
+
+  handlers:
+    - name: Reboot Machine
+      ansible.builtin.reboot:
+        reboot_timeout: 120
+        msg: "Rebooting to apply ly configuration changes"
+      listen: Reboot Machine

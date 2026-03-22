@@ -184,6 +184,6 @@
     "algorithm": "zstd",
     "enabled": true
   },
-  "timezone": "EST",
+  "timezone": "America/New_York",
   "version": "3.0.15"
 }

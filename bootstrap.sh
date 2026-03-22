@@ -75,6 +75,12 @@ else
   fi
   echo "✓ Ansible installed"
 fi
+
+# Remove default .ansible directory if it is not a symlink
+if [[ -d "$HOME/.ansible" ]] && [[ ! -L "$HOME/.ansible" ]]; then
+  rm -rf "$HOME/.ansible"
+  echo "✓ Default .ansible directory removed"
+fi
 echo ""
 
 # Install Zsh
@@ -205,13 +211,17 @@ SSH_CONFIG=~/.ssh/config
 if [[ -f "$SSH_CONFIG" ]]; then
   echo "✓ SSH config already exists"
 else
-  echo "Creating SSH config..."
-  echo "Host github.com" >"$SSH_CONFIG"
-  echo "    HostName github.com" >>"$SSH_CONFIG"
-  echo "    User git" >>"$SSH_CONFIG"
-  echo "    IdentityFile ~/.ssh/id_rsa" >>"$SSH_CONFIG"
-  chmod 600 "$SSH_CONFIG"
-  echo "✓ SSH config created"
+  if [[ -f ~/.ssh/id_rsa ]]; then
+    echo "Creating SSH config..."
+    echo "Host github.com" >"$SSH_CONFIG"
+    echo "    HostName github.com" >>"$SSH_CONFIG"
+    echo "    User git" >>"$SSH_CONFIG"
+    echo "    IdentityFile ~/.ssh/id_rsa" >>"$SSH_CONFIG"
+    chmod 600 "$SSH_CONFIG"
+    echo "✓ SSH config created"
+  else
+    echo "⚠ SSH key not found, skipping SSH config creation"
+  fi
 fi
 echo ""
 
@@ -227,12 +237,12 @@ fi
 
 # Try to upgrade to SSH if possible
 echo "Checking if SSH connection to GitHub is possible..."
-if ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
+if ssh -T git@github.com 2>&1 | grep -qE "(successfully authenticated|Hi .+! You've successfully authenticated)"; then
   echo "SSH connection successful! Upgrading remote to SSH..."
   cd "$DOTFILES_DIR"
   git remote set-url origin git@github.com:tkilb/dotfiles.git
   echo "✓ Remote URL updated to SSH"
-  cd - >/dev/null
+  cd - >/dev/null 2>&1
 else
   echo "SSH connection not yet configured. Remote URL will remain HTTPS."
   echo "You can manually change it later with:"
@@ -264,6 +274,10 @@ then
   read -r MACHINE_NAME
 
   if [[ -n "$MACHINE_NAME" ]]; then
+    # Ensure ~/.profile ends with a newline before appending
+    if [[ -s ~/.profile ]] && [[ "$(tail -c1 ~/.profile | wc -l)" -eq 0 ]]; then
+      echo "" >> ~/.profile
+    fi
     echo "export MACHINE=\"$MACHINE_NAME\"" >>~/.profile
     echo "✓ MACHINE variable added to ~/.profile"
     export MACHINE="$MACHINE_NAME"
