@@ -24,6 +24,15 @@
         line: 'MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)'
       notify: Regenerate initramfs
 
+    - name: Disable GSP firmware to prevent Ampere GPU hangs
+      ansible.builtin.copy:
+        dest: /etc/modprobe.d/nvidia.conf
+        content: |
+          # Disable GSP firmware - required for Ampere (RTX 3080) stability
+          options nvidia NVreg_EnableGpuFirmware=0
+        mode: '0644'
+      notify: Regenerate initramfs
+
     - name: Install NVIDIA driver packages with 32-bit support
       community.general.pacman:
         name: "{{ nvidia_packages }}"
@@ -37,6 +46,13 @@
         regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
         line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet nvidia-drm.modeset=1 nvidia_drm.fbdev=0"'
       notify: Update GRUB
+
+    - name: Create systemd DRI device dependency for display manager
+      ansible.builtin.copy:
+        dest: /etc/udev/rules.d/99-systemd-dri-devices.rules
+        content: |
+          ACTION=="add", KERNEL=="card*", SUBSYSTEM=="drm", TAG+="systemd"
+        mode: '0644'
 
     - name: Create NVIDIA application profiles directory
       ansible.builtin.file:
