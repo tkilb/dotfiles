@@ -1,5 +1,5 @@
 ---
-- name: Install NVIDIA Drivers (Minimal)
+- name: Install NVIDIA Drivers for RTX 3080 (Wayland/Hyprland)
   hosts: localhost
   become: true
 
@@ -29,3 +29,47 @@
           - lib32-vulkan-icd-loader
         state: present
         update_cache: true
+
+    - name: Blacklist nouveau
+      ansible.builtin.copy:
+        dest: /etc/modprobe.d/nouveau.conf
+        content: |
+          blacklist nouveau
+          options nouveau modeset=0
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable NVIDIA DRM Modeset (Required for Wayland)
+      ansible.builtin.copy:
+        dest: /etc/modprobe.d/nvidia-drm.conf
+        content: |
+          options nvidia_drm modeset=1
+          options nvidia_drm fbdev=1
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Add NVIDIA DRM Kernel Parameter
+      ansible.builtin.shell:
+        cmd: grep -q 'nvidia-drm.modeset=1' /etc/default/grub || sed -i -E 's/^(GRUB_CMDLINE_LINUX_DEFAULT=")(.*)(")$/\1\2 nvidia-drm.modeset=1\3/' /etc/default/grub
+      register: grub_param
+      changed_when: grub_param.rc != 0
+      failed_when: false
+      notify: Update GRUB
+
+    - name: Enable NVIDIA Power Management Services
+      ansible.builtin.systemd:
+        name: nvidia-{{ item }}
+        enabled: true
+      loop:
+        - suspend
+        - resume
+        - hibernate
+      failed_when: false
+
+  handlers:
+    - name: Update GRUB
+      ansible.builtin.command:
+        cmd: grub-mkconfig -o /boot/grub/grub.cfg
+      changed_when: true
