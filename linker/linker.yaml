@@ -81,7 +81,7 @@
     - linux-box
 
 - name: moltengamepad
-  path: ~/.config/moltengamepad/
+  path: ~/.config/moltengamepad
   machines:
     - linux-box
 

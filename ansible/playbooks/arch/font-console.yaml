@@ -3,9 +3,11 @@
   hosts: localhost
   become: true
   tasks:
-    - name: Install terminus-font package
+    - name: Install terminus-font and ttf-terminus-nerd packages
       community.general.pacman:
-        name: terminus-font
+        name:
+          - terminus-font
+          - ttf-terminus-nerd
         state: present
         update_cache: true
 
@@ -23,25 +25,32 @@
         state: directory
         mode: '0755'
 
+    - name: Remove corrupt terminus fonts
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /boot/grub/fonts/terminus_32.pf2
+        - /boot/grub/fonts/terminus_64.pf2
+
     - name: Generate GRUB font (terminus_32.pf2)
-      ansible.builtin.command: grub-mkfont -s 32 -o /boot/grub/fonts/terminus_32.pf2 /usr/share/kbd/consolefonts/ter-u32n.psf.gz
+      ansible.builtin.command: grub-mkfont -s 32 -o /boot/grub/fonts/terminus_32.pf2 /usr/share/fonts/TTF/TerminessNerdFont-Regular.ttf
       args:
         creates: /boot/grub/fonts/terminus_32.pf2
+
+    - name: Generate GRUB font (terminus_64.pf2 - 2x larger)
+      ansible.builtin.command: grub-mkfont -s 64 -o /boot/grub/fonts/terminus_64.pf2 /usr/share/fonts/TTF/TerminessNerdFont-Regular.ttf
+      args:
+        creates: /boot/grub/fonts/terminus_64.pf2
 
     - name: Set GRUB_FONT in /etc/default/grub
       ansible.builtin.lineinfile:
         path: /etc/default/grub
         regexp: '^GRUB_FONT='
-        line: 'GRUB_FONT="/boot/grub/fonts/terminus_32.pf2"'
+        line: 'GRUB_FONT="/boot/grub/fonts/terminus_64.pf2"'
         state: present
-      notify: Update GRUB config
 
-  handlers:
-    - name: Reload vconsole.conf
-      ansible.builtin.command: systemctl restart systemd-vconsole-setup.service
-      listen: "Reload vconsole.conf"
-
-    - name: Update GRUB config
+    - name: Generate GRUB configuration
       ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg
-      listen: "Update GRUB config"
+      changed_when: false
 

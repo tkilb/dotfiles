@@ -1,0 +1,92 @@
+---
+- name: Install NVIDIA Drivers and Wayland Support
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Install NVIDIA Drivers
+      community.general.pacman:
+        name:
+          - nvidia-open
+          - nvidia-settings
+          - nvidia-utils
+          - lib32-nvidia-utils
+        state: present
+        update_cache: true
+
+    - name: Install EGL Wayland Support
+      community.general.pacman:
+        name:
+          - egl-wayland
+        state: present
+        update_cache: true
+
+    - name: Install Vulkan Support
+      community.general.pacman:
+        name:
+          - vulkan-headers
+          - vulkan-tools
+          - lib32-vulkan-icd-loader
+        state: present
+        update_cache: true
+
+    - name: Enable NVIDIA DRM Modesetting
+      ansible.builtin.command:
+        cmd: nvidia-modprobe -m=0 -u
+      changed_when: false
+      failed_when: false
+
+    - name: Create NVIDIA DRM Kernel Parameter Config
+      ansible.builtin.copy:
+        dest: /etc/modprobe.d/nvidia-drm.conf
+        content: |
+          options nvidia_drm modeset=1 fbdev=1
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Rebuild Initramfs
+
+    - name: Add NVIDIA Modules to Initramfs
+      ansible.builtin.lineinfile:
+        path: /etc/mkinitcpio.conf
+        regexp: '^MODULES='
+        line: 'MODULES=(nvidia nvidia-drm nvidia-modeset nvidia-uvm)'
+        create: false
+      notify: Rebuild Initramfs
+
+    - name: Set NVIDIA DRM Kernel Parameter
+      ansible.builtin.lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
+        line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet nvidia-drm.modeset=1"'
+        create: false
+      notify:
+        - Rebuild Initramfs
+        - Update GRUB
+
+    - name: Set NVIDIA Power Management to Preserve Video Memory
+      ansible.builtin.lineinfile:
+        path: /etc/modprobe.d/nvidia.conf
+        regexp: '^options nvidia NVreg_PreserveVideoMemoryAllocations='
+        line: 'options nvidia NVreg_PreserveVideoMemoryAllocations=1'
+        create: true
+      notify: Rebuild Initramfs
+
+    - name: Enable NVIDIA Power Management Service
+      ansible.builtin.command:
+        cmd: systemctl enable --now nvidia-suspend.service nvidia-hibernate.service nvidia-resume.service
+      changed_when: false
+      failed_when: false
+
+  handlers:
+    - name: Rebuild Initramfs
+      ansible.builtin.command:
+        cmd: mkinitcpio -P
+      changed_when: true
+      listen: Rebuild Initramfs
+
+    - name: Update GRUB
+      ansible.builtin.command:
+        cmd: grub-mkconfig -o /boot/grub/grub.cfg
+      changed_when: true
+      listen: Update GRUB

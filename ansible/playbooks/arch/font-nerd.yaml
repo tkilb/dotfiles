@@ -3,8 +3,10 @@
   hosts: localhost
   become: true
   tasks:
-    - name: Install Symbols Nerd Font Mono
+    - name: Install FiraCode Nerd Font
       community.general.pacman:
-        name: ttf-nerd-fonts-symbols-common
+        name:
+          - ttf-firacode-nerd
+          - ttf-nerd-fonts-symbols-common
         state: present
         update_cache: true
