@@ -1,72 +1,75 @@
 ---
 - name: Install NVIDIA Drivers for RTX 3080 (Wayland/Hyprland)
   hosts: localhost
-  become: true
+  become: true # Necessary to run with root privileges
+
+  vars:
+    nvidia_packages:
+      - nvidia-open
+      - nvidia-utils
+      - lib32-nvidia-utils
 
   tasks:
-    - name: Install NVIDIA Drivers
+    - name: Install NVIDIA driver packages with 32-bit support
       community.general.pacman:
-        name:
-          - nvidia-open
-          - nvidia-settings
-          - nvidia-utils
-          - lib32-nvidia-utils
+        name: "{{ nvidia_packages }}"
         state: present
         update_cache: true
 
-    - name: Install EGL Wayland Support
-      community.general.pacman:
-        name:
-          - egl-wayland
-        state: present
-        update_cache: true
-
-    - name: Install Vulkan Support
-      community.general.pacman:
-        name:
-          - vulkan-headers
-          - vulkan-tools
-          - lib32-vulkan-icd-loader
-        state: present
-        update_cache: true
-
-    - name: Blacklist nouveau
-      ansible.builtin.copy:
-        dest: /etc/modprobe.d/nouveau.conf
-        content: |
-          blacklist nouveau
-          options nouveau modeset=0
-        owner: root
-        group: root
-        mode: '0644'
-
-    - name: Enable NVIDIA DRM Modeset (Required for Wayland)
-      ansible.builtin.copy:
-        dest: /etc/modprobe.d/nvidia-drm.conf
-        content: |
-          options nvidia_drm modeset=1
-          options nvidia_drm fbdev=1
-        owner: root
-        group: root
-        mode: '0644'
-
-    - name: Add NVIDIA DRM Kernel Parameter
-      ansible.builtin.shell:
-        cmd: grep -q 'nvidia-drm.modeset=1' /etc/default/grub || sed -i -E 's/^(GRUB_CMDLINE_LINUX_DEFAULT=")(.*)(")$/\1\2 nvidia-drm.modeset=1\3/' /etc/default/grub
-      register: grub_param
-      changed_when: grub_param.rc != 0
-      failed_when: false
+    - name: Enable DRM kernel mode setting for Wayland
+      ansible.builtin.lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
+        line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet nvidia-drm.modeset=1 nvidia-drm.fbdev=1"'
       notify: Update GRUB
 
-    - name: Enable NVIDIA Power Management Services
-      ansible.builtin.systemd:
-        name: nvidia-{{ item }}
-        enabled: true
-      loop:
-        - suspend
-        - resume
-        - hibernate
-      failed_when: false
+    - name: Create NVIDIA application profiles directory
+      ansible.builtin.file:
+        path: /etc/nvidia/nvidia-application-profiles-rc.d
+        state: directory
+        mode: '0755'
+
+    - name: Configure VRAM optimization for Wayland compositors
+      ansible.builtin.copy:
+        dest: /etc/nvidia/nvidia-application-profiles-rc.d/50-limit-free-buffer-pool-in-wayland-compositors.json
+        content: |
+          {
+              "rules": [
+                  {
+                      "pattern": {
+                          "feature": "procname",
+                          "matches": "Hyprland"
+                      },
+                      "profile": "Limit free buffer pool on Wayland compositors"
+                  },
+                  {
+                      "pattern": {
+                          "feature": "procname",
+                          "matches": "niri"
+                      },
+                      "profile": "Limit free buffer pool on Wayland compositors"
+                  }
+              ],
+              "profiles": [
+                  {
+                      "name": "Limit free buffer pool on Wayland compositors",
+                      "settings": [
+                          {
+                              "key": "GLVidHeapReuseRatio",
+                              "value": 0
+                          }
+                      ]
+                  }
+              ]
+          }
+        mode: '0644'
+
+    - name: Print post-reboot verification instructions
+      ansible.builtin.debug:
+        msg:
+          - "After reboot, verify NVIDIA DRM is enabled:"
+          - "  cat /sys/module/nvidia_drm/parameters/modeset  # Should return 'Y'"
+          - "  cat /sys/module/nvidia_drm/parameters/fbdev   # Should return 'Y'"
 
   handlers:
     - name: Update GRUB
