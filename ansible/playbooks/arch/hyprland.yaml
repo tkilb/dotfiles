@@ -59,3 +59,28 @@
           - hyprpaper
         state: present
         update_cache: true
+
+    - name: Install GNOME Themes Extra for Dark Mode Support
+      community.general.pacman:
+        name:
+          - gnome-themes-extra
+        state: present
+        update_cache: true
+
+    - name: Set Dark Color Scheme
+      ansible.builtin.command:
+        cmd: gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+      become: false
+      changed_when: false
+
+    - name: Install Ly Display Manager
+      community.general.pacman:
+        name:
+          - ly
+        state: present
+        update_cache: true
+
+    - name: Enable Ly Display Manager
+      ansible.builtin.command:
+        cmd: systemctl enable --now ly@tty1.service
+      changed_when: true
