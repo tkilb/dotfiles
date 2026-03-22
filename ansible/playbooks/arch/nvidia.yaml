@@ -1,7 +1,7 @@
 ---
 - name: Install NVIDIA Drivers for RTX 3080 (Wayland/Hyprland)
   hosts: localhost
-  become: true # Necessary to run with root privileges
+  become: true
 
   vars:
     nvidia_packages:
@@ -10,17 +10,32 @@
       - lib32-nvidia-utils
 
   tasks:
+    - name: Configure mkinitcpio with kms hook and NVIDIA modules
+      ansible.builtin.lineinfile:
+        path: /etc/mkinitcpio.conf
+        regexp: '^HOOKS='
+        line: 'HOOKS=(base udev autodetect microcode modconf kms block filesystems keyboard fsck)'
+      notify: Regenerate initramfs
+
+    - name: Add NVIDIA modules to mkinitcpio
+      ansible.builtin.lineinfile:
+        path: /etc/mkinitcpio.conf
+        regexp: '^MODULES='
+        line: 'MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)'
+      notify: Regenerate initramfs
+
     - name: Install NVIDIA driver packages with 32-bit support
       community.general.pacman:
         name: "{{ nvidia_packages }}"
         state: present
         update_cache: true
+        extra_args: --noconfirm
 
     - name: Enable DRM kernel mode setting for Wayland
       ansible.builtin.lineinfile:
         path: /etc/default/grub
         regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
-        line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet nvidia-drm.modeset=1 nvidia-drm.fbdev=1"'
+        line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet nvidia-drm.modeset=1 nvidia_drm.fbdev=0"'
       notify: Update GRUB
 
     - name: Create NVIDIA application profiles directory
@@ -41,13 +56,6 @@
                           "matches": "Hyprland"
                       },
                       "profile": "Limit free buffer pool on Wayland compositors"
-                  },
-                  {
-                      "pattern": {
-                          "feature": "procname",
-                          "matches": "niri"
-                      },
-                      "profile": "Limit free buffer pool on Wayland compositors"
                   }
               ],
               "profiles": [
@@ -64,14 +72,12 @@
           }
         mode: '0644'
 
-    - name: Print post-reboot verification instructions
-      ansible.builtin.debug:
-        msg:
-          - "After reboot, verify NVIDIA DRM is enabled:"
-          - "  cat /sys/module/nvidia_drm/parameters/modeset  # Should return 'Y'"
-          - "  cat /sys/module/nvidia_drm/parameters/fbdev   # Should return 'Y'"
-
   handlers:
+    - name: Regenerate initramfs
+      ansible.builtin.command:
+        cmd: mkinitcpio -P
+      changed_when: true
+
     - name: Update GRUB
       ansible.builtin.command:
         cmd: grub-mkconfig -o /boot/grub/grub.cfg
