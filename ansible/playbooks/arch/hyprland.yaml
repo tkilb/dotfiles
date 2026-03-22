@@ -60,6 +60,13 @@
         state: present
         update_cache: true
 
+    - name: Install Brightness Control
+      community.general.pacman:
+        name:
+          - brightnessctl
+        state: present
+        update_cache: true
+
     - name: Install GNOME Themes Extra for Dark Mode Support
       community.general.pacman:
         name:
