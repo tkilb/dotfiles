@@ -30,12 +30,6 @@
         state: present
         update_cache: true
 
-    - name: Enable NVIDIA DRM Modesetting
-      ansible.builtin.command:
-        cmd: nvidia-modprobe -m=0 -u
-      changed_when: false
-      failed_when: false
-
     - name: Create NVIDIA DRM Kernel Parameter Config
       ansible.builtin.copy:
         dest: /etc/modprobe.d/nvidia-drm.conf
@@ -46,12 +40,30 @@
         mode: '0644'
       notify: Rebuild Initramfs
 
-    - name: Set NVIDIA DRM Kernel Parameter
-      ansible.builtin.lineinfile:
-        path: /etc/default/grub
-        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
-        line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet nvidia-drm.modeset=1"'
-        create: false
+    - name: Add NVIDIA Modules to Initramfs
+      ansible.builtin.shell:
+        cmd: |
+          if ! grep -q 'nvidia ' /etc/mkinitcpio.conf; then
+            sed -i -E 's/^(MODULES=\()([^)]*)(\))$/\1\2 nvidia nvidia_modeset nvidia_uvm nvidia_drm\3/' /etc/mkinitcpio.conf
+            exit 0
+          fi
+          exit 1
+        warn: false
+      changed_when: add_mkinitcpio_modules.rc == 0
+      register: add_mkinitcpio_modules
+      notify: Rebuild Initramfs
+
+    - name: Add NVIDIA DRM Kernel Parameter
+      ansible.builtin.shell:
+        cmd: |
+          if ! grep -q 'nvidia-drm.modeset=1' /etc/default/grub; then
+            sed -i -E 's/^(GRUB_CMDLINE_LINUX_DEFAULT=")(.*)(")$/\1\2 nvidia-drm.modeset=1\3/' /etc/default/grub
+            exit 0
+          fi
+          exit 1
+        warn: false
+      changed_when: add_grub_param.rc == 0
+      register: add_grub_param
       notify:
         - Rebuild Initramfs
         - Update GRUB
@@ -64,9 +76,13 @@
         create: true
       notify: Rebuild Initramfs
 
-    - name: Enable NVIDIA Power Management Service
+    - name: Enable NVIDIA Power Management Services
       ansible.builtin.command:
-        cmd: systemctl enable --now nvidia-suspend.service
+        cmd: systemctl enable --now nvidia-{{ item }}.service
+      loop:
+        - suspend
+        - resume
+        - hibernate
       changed_when: false
       failed_when: false
 
