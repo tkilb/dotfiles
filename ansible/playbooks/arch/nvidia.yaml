@@ -4,7 +4,6 @@
   become: true
 
   vars:
-    # dkms is the most robust way to handle NVIDIA on Arch
     nvidia_packages:
       - nvidia-dkms
       - nvidia-utils
@@ -44,51 +43,46 @@
         replace: 'HOOKS=(\1 kms)'
       notify: Regenerate initramfs
 
-    - name: Ensure microcode hook is in mkinitcpio.conf
-      ansible.builtin.replace:
-        path: /etc/mkinitcpio.conf
-        regexp: '^HOOKS=\((?!.*microcode)(.*)\)'
-        replace: 'HOOKS=(microcode \1)'
-      notify: Regenerate initramfs
-
-    - name: Add NVIDIA modules to mkinitcpio.conf
+    - name: Disable Early KMS (Fixes "Initial ramdisk" hang)
       ansible.builtin.lineinfile:
         path: /etc/mkinitcpio.conf
         regexp: '^MODULES=\('
-        line: 'MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)'
+        line: "MODULES=()"
       notify: Regenerate initramfs
 
-    - name: Configure NVIDIA DRM modeset and GSP firmware
+    - name: Configure NVIDIA DRM and GSP firmware
       ansible.builtin.copy:
         dest: /etc/modprobe.d/nvidia.conf
         content: |
           # Enable DRM Kernel Mode Setting
           options nvidia-drm modeset=1
-          # Enable GSP firmware for Ampere (RTX 3080) - REQUIRED for stability
+          # Enable fbdev for Wayland/Hyprland stability
+          options nvidia-drm fbdev=1
+          # Enable GSP firmware for Ampere (RTX 3080)
           options nvidia NVreg_EnableGpuFirmware=1
-        mode: '0644'
+        mode: "0644"
       notify: Regenerate initramfs
 
-    - name: Configure GRUB command line for NVIDIA
+    - name: Configure GRUB command line (Safe modeset)
       ansible.builtin.replace:
         path: /etc/default/grub
         regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="(?!.*nvidia-drm.modeset=1)(.*)"'
         replace: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 nvidia-drm.modeset=1"'
       notify: Update GRUB
 
-    - name: Create systemd DRI device dependency for display manager
+    - name: Create systemd DRI device dependency
       ansible.builtin.copy:
         dest: /etc/udev/rules.d/99-systemd-dri-devices.rules
         content: |
           ACTION=="add", KERNEL=="card*", SUBSYSTEM=="drm", TAG+="systemd"
-        mode: '0644'
+        mode: "0644"
 
     # CRITICAL: DO NOT DELETE. These profiles prevent VRAM stuttering and crashes in Hyprland.
     - name: Create NVIDIA application profiles directory
       ansible.builtin.file:
         path: /etc/nvidia/nvidia-application-profiles-rc.d
         state: directory
-        mode: '0755'
+        mode: "0755"
 
     - name: Configure VRAM optimization for Hyprland
       ansible.builtin.copy:
@@ -116,7 +110,7 @@
                   }
               ]
           }
-        mode: '0644'
+        mode: "0644"
 
   handlers:
     - name: Regenerate initramfs
