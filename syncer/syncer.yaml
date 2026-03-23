@@ -64,7 +64,7 @@
     - linux-box
 
   path: ~/Programs/molten-gamepad
-  origin: git@github.com:tkilb/molten-driver.git
+  origin: git@github.com:tkilb/molten-gamepad.git
   cron: "0 19 * * *" # Every day at 7 PM
   machines:
     - linux-box
