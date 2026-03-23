@@ -13,14 +13,17 @@
       - dkms
 
   tasks:
-    - name: Enable multilib repository
+    - name: Remove previous multilib block to prevent duplicates
       ansible.builtin.blockinfile:
         path: /etc/pacman.conf
         marker: "# {mark} ANSIBLE MANAGED MULTILIB"
-        insertafter: "^#\\[multilib\\]"
-        block: |
-          [multilib]
-          Include = /etc/pacman.d/mirrorlist
+        state: absent
+
+    - name: Enable multilib repository by uncommenting
+      ansible.builtin.replace:
+        path: /etc/pacman.conf
+        regexp: '^#\[multilib\]\n#Include = /etc/pacman.d/mirrorlist'
+        replace: '[multilib]\nInclude = /etc/pacman.d/mirrorlist'
 
     - name: Detect CPU vendor for microcode
       ansible.builtin.shell: grep -q "Intel" /proc/cpuinfo && echo "intel-ucode" || echo "amd-ucode"
@@ -42,11 +45,15 @@
         headers_package: "linux-{{ kernel_suffix.stdout }}-headers"
       when: kernel_suffix.stdout != ""
 
+    - name: Force update pacman cache
+      ansible.builtin.command: pacman -Sy
+      changed_when: true
+
     - name: Install microcode, headers, and NVIDIA driver packages
       community.general.pacman:
         name: "{{ [ucode_package.stdout, headers_package] + nvidia_packages }}"
         state: present
-        update_cache: true
+        update_cache: false # We already ran pacman -Sy
         extra_args: --noconfirm
 
     - name: Ensure kms hook is in mkinitcpio.conf
