@@ -4,56 +4,37 @@
   become: true
 
   vars:
-    # dkms version is safer as it works with any kernel (linux, lts, zen)
+    # dkms is the most robust way to handle NVIDIA on Arch
     nvidia_packages:
       - nvidia-dkms
       - nvidia-utils
       - lib32-nvidia-utils
       - nvidia-settings
       - dkms
+      - base-devel
+      - linux-headers
 
   tasks:
-    - name: Remove previous multilib block to prevent duplicates
-      ansible.builtin.blockinfile:
-        path: /etc/pacman.conf
-        marker: "# {mark} ANSIBLE MANAGED MULTILIB"
-        state: absent
-
-    - name: Enable multilib repository by uncommenting
+    - name: Enable multilib repository
       ansible.builtin.replace:
         path: /etc/pacman.conf
-        regexp: '^#\[multilib\]\n#Include = /etc/pacman.d/mirrorlist'
-        replace: '[multilib]\nInclude = /etc/pacman.d/mirrorlist'
+        regexp: '^#\s*\[multilib\]\s*\n#\s*Include = /etc/pacman.d/mirrorlist'
+        replace: "[multilib]\nInclude = /etc/pacman.d/mirrorlist"
 
     - name: Detect CPU vendor for microcode
       ansible.builtin.shell: grep -q "Intel" /proc/cpuinfo && echo "intel-ucode" || echo "amd-ucode"
       register: ucode_package
       changed_when: false
 
-    - name: Detect running kernel for headers
-      ansible.builtin.shell: uname -r | sed 's/.*-\([a-z]*\)$//'
-      register: kernel_suffix
-      changed_when: false
-
-    - name: Set kernel headers package name
-      ansible.builtin.set_fact:
-        headers_package: "linux-headers"
-      when: kernel_suffix.stdout == ""
-
-    - name: Set kernel headers package name for custom kernels
-      ansible.builtin.set_fact:
-        headers_package: "linux-{{ kernel_suffix.stdout }}-headers"
-      when: kernel_suffix.stdout != ""
-
-    - name: Force update pacman cache
+    - name: Update package databases
       ansible.builtin.command: pacman -Sy
       changed_when: true
 
-    - name: Install microcode, headers, and NVIDIA driver packages
+    - name: Install microcode and NVIDIA driver packages
       community.general.pacman:
-        name: "{{ [ucode_package.stdout, headers_package] + nvidia_packages }}"
+        name: "{{ [ucode_package.stdout] + nvidia_packages }}"
         state: present
-        update_cache: false # We already ran pacman -Sy
+        update_cache: false
         extra_args: --noconfirm
 
     - name: Ensure kms hook is in mkinitcpio.conf
@@ -83,7 +64,7 @@
         content: |
           # Enable DRM Kernel Mode Setting
           options nvidia-drm modeset=1
-          # Enable GSP firmware for Ampere and later (RTX 3080)
+          # Enable GSP firmware for Ampere (RTX 3080) - REQUIRED for stability
           options nvidia NVreg_EnableGpuFirmware=1
         mode: '0644'
       notify: Regenerate initramfs
@@ -102,15 +83,16 @@
           ACTION=="add", KERNEL=="card*", SUBSYSTEM=="drm", TAG+="systemd"
         mode: '0644'
 
+    # CRITICAL: DO NOT DELETE. These profiles prevent VRAM stuttering and crashes in Hyprland.
     - name: Create NVIDIA application profiles directory
       ansible.builtin.file:
         path: /etc/nvidia/nvidia-application-profiles-rc.d
         state: directory
         mode: '0755'
 
-    - name: Configure VRAM optimization for Wayland compositors
+    - name: Configure VRAM optimization for Hyprland
       ansible.builtin.copy:
-        dest: /etc/nvidia/nvidia-application-profiles-rc.d/50-limit-free-buffer-pool-in-wayland-compositors.json
+        dest: /etc/nvidia/nvidia-application-profiles-rc.d/50-hyprland.json
         content: |
           {
               "rules": [
