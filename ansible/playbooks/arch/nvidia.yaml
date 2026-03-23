@@ -1,131 +1,108 @@
 ---
-- name: Install NVIDIA Drivers for RTX 3080 (Wayland/Hyprland) - DEBUG VERSION
+- name: Install NVIDIA Drivers for RTX 3080 (Wayland/Hyprland)
   hosts: localhost
   become: true
 
-  vars:
-    nvidia_packages:
-      - nvidia-dkms
-      - nvidia-utils
-      - lib32-nvidia-utils
-      - nvidia-settings
-      - dkms
-      - base-devel
-      - linux-headers
-
   tasks:
-    - name: Enable multilib repository
+    - name: Enable multilib repository in /etc/pacman.conf
       ansible.builtin.replace:
         path: /etc/pacman.conf
-        regexp: '(?m)^#\s*\[multilib\]\s*\n#\s*Include = /etc/pacman.d/mirrorlist'
+        regexp: '^#\[multilib\]\n#Include = /etc/pacman.d/mirrorlist'
         replace: "[multilib]\nInclude = /etc/pacman.d/mirrorlist"
+      register: multilib_enabled
 
-    - name: Detect CPU vendor for microcode
-      ansible.builtin.shell: grep -q "Intel" /proc/cpuinfo && echo "intel-ucode" || echo "amd-ucode"
-      register: ucode_package
-      changed_when: false
-
-    - name: Update package databases
-      ansible.builtin.command: pacman -Sy
-      changed_when: true
-
-    - name: Install microcode and NVIDIA driver packages
+    - name: Update pacman cache if multilib was enabled
       community.general.pacman:
-        name: "{{ [ucode_package.stdout] + nvidia_packages }}"
+        update_cache: true
+      when: multilib_enabled.changed
+
+    - name: Install NVIDIA drivers and related packages
+      community.general.pacman:
+        name:
+          - nvidia-dkms
+          - nvidia-utils
+          - lib32-nvidia-utils
+          - nvidia-settings
+          - linux-headers
+          - base-devel
         state: present
-        update_cache: false
-        extra_args: --noconfirm
+        update_cache: true
 
-    - name: Ensure microcode hook is in mkinitcpio.conf
-      ansible.builtin.replace:
-        path: /etc/mkinitcpio.conf
-        regexp: '^HOOKS=\((?!.*microcode)(.*)\)'
-        replace: 'HOOKS=(microcode \1)'
-      notify: Regenerate initramfs
-
-    - name: Ensure kms hook is in mkinitcpio.conf
-      ansible.builtin.replace:
-        path: /etc/mkinitcpio.conf
-        regexp: '^HOOKS=\((?!.*kms)(.*)\)'
-        replace: 'HOOKS=(\1 kms)'
-      notify: Regenerate initramfs
-
-    - name: Disable Early KMS (Fixes "Initial ramdisk" boot hang)
-      ansible.builtin.lineinfile:
-        path: /etc/mkinitcpio.conf
-        regexp: '^MODULES=\('
-        line: 'MODULES=()'
-      notify: Regenerate initramfs
-
-    - name: Configure NVIDIA DRM and GSP firmware (DEBUG: GSP OFF)
-      ansible.builtin.copy:
-        dest: /etc/modprobe.d/nvidia.conf
-        content: |
-          # Enable DRM Kernel Mode Setting
-          options nvidia-drm modeset=1
-          # Enable fbdev for Wayland/Hyprland stability
-          options nvidia-drm fbdev=1
-          # DEBUG: Disable GSP firmware - try this if it hangs with GSP on
-          options nvidia NVreg_EnableGpuFirmware=0
-        mode: '0644'
-      notify: Regenerate initramfs
-
-    - name: Configure GRUB command line (DEBUG: REMOVE QUIET)
+    - name: Configure kernel parameters for NVIDIA DRM (GRUB)
       ansible.builtin.replace:
         path: /etc/default/grub
-        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="(.*)quiet(.*)"'
-        replace: 'GRUB_CMDLINE_LINUX_DEFAULT="\1\2 nvidia-drm.modeset=1"'
+        regexp: '^(GRUB_CMDLINE_LINUX_DEFAULT=")((?:(?!nvidia-drm\.modeset=1).)*?)"'
+        replace: '\1nvidia-drm.modeset=1 nvidia-drm.fbdev=1 \2"'
       notify: Update GRUB
 
-    - name: Create systemd DRI device dependency
-      ansible.builtin.copy:
-        dest: /etc/udev/rules.d/99-systemd-dri-devices.rules
-        content: |
-          ACTION=="add", KERNEL=="card*", SUBSYSTEM=="drm", TAG+="systemd"
-        mode: '0644'
+    - name: Add NVIDIA modules for early loading in mkinitcpio
+      ansible.builtin.replace:
+        path: /etc/mkinitcpio.conf
+        regexp: '^MODULES=\((.*?)\)'
+        replace: 'MODULES=(\1 nvidia nvidia_modeset nvidia_uvm nvidia_drm)'
+      notify: Regenerate initramfs
 
-    # CRITICAL: DO NOT DELETE. These profiles prevent VRAM stuttering and crashes in Hyprland.
-    - name: Create NVIDIA application profiles directory
+    - name: Remove "kms" from HOOKS in mkinitcpio to avoid conflicts
+      ansible.builtin.replace:
+        path: /etc/mkinitcpio.conf
+        regexp: '(?<=\()(.+?\s)?kms(\s.+?|)(?=\))'
+        replace: '\1\2'
+      notify: Regenerate initramfs
+
+    - name: Create /etc/pacman.d/hooks/ directory if it doesn't exist
       ansible.builtin.file:
-        path: /etc/nvidia/nvidia-application-profiles-rc.d
+        path: /etc/pacman.d/hooks
         state: directory
         mode: '0755'
 
-    - name: Configure VRAM optimization for Hyprland
+    - name: Create pacman hook for NVIDIA initcpio regeneration
       ansible.builtin.copy:
-        dest: /etc/nvidia/nvidia-application-profiles-rc.d/50-hyprland.json
+        dest: /etc/pacman.d/hooks/nvidia.hook
         content: |
-          {
-              "rules": [
-                  {
-                      "pattern": {
-                          "feature": "procname",
-                          "matches": "Hyprland"
-                      },
-                      "profile": "Limit free buffer pool on Wayland compositors"
-                  }
-              ],
-              "profiles": [
-                  {
-                      "name": "Limit free buffer pool on Wayland compositors",
-                      "settings": [
-                          {
-                              "key": "GLVidHeapReuseRatio",
-                              "value": 0
-                          }
-                      ]
-                  }
-              ]
-          }
+          [Trigger]
+          Operation=Install
+          Operation=Upgrade
+          Operation=Remove
+          Type=Package
+          Target=nvidia
+          Target=nvidia-dkms
+
+          [Action]
+          Description=Update Nvidia module in initcpio
+          Depends=mkinitcpio
+          When=PostTransaction
+          Exec=/usr/bin/mkinitcpio -P
         mode: '0644'
 
-  handlers:
-    - name: Regenerate initramfs
-      ansible.builtin.command:
-        cmd: mkinitcpio -P
-      changed_when: true
+    - name: Create NVIDIA modprobe configuration
+      ansible.builtin.copy:
+        dest: /etc/modprobe.d/nvidia.conf
+        content: |
+          options nvidia-drm modeset=1 fbdev=1
+        mode: '0644'
 
+    - name: Configure NVIDIA Environment Variables for Hyprland
+      ansible.builtin.blockinfile:
+        path: /etc/environment
+        block: |
+          LIBVA_DRIVER_NAME=nvidia
+          XDG_SESSION_TYPE=wayland
+          GBM_BACKEND=nvidia-drm
+          __GLX_VENDOR_LIBRARY_NAME=nvidia
+          WLR_NO_HARDWARE_CURSORS=1
+        marker: "# {mark} ANSIBLE MANAGED NVIDIA ENVIRONMENT VARIABLES"
+
+    - name: Inform user about completion and reboot
+      ansible.builtin.debug:
+        msg: "NVIDIA driver installation complete. Please reboot to apply changes."
+
+  handlers:
     - name: Update GRUB
       ansible.builtin.command:
         cmd: grub-mkconfig -o /boot/grub/grub.cfg
-      changed_when: true
+      listen: Update GRUB
+
+    - name: Regenerate initramfs
+      ansible.builtin.command:
+        cmd: mkinitcpio -P
+      listen: Regenerate initramfs
