@@ -1,10 +1,9 @@
 ---
-- name: Install NVIDIA Drivers for RTX 3080 (Wayland/Hyprland)
+- name: Install NVIDIA Drivers for RTX 3080 (Wayland/Hyprland) - DEBUG VERSION
   hosts: localhost
   become: true
 
   vars:
-    # dkms handles kernel updates automatically and is the most robust choice for Arch
     nvidia_packages:
       - nvidia-dkms
       - nvidia-utils
@@ -37,14 +36,14 @@
         update_cache: false
         extra_args: --noconfirm
 
-    - name: Ensure microcode hook is at the start of HOOKS
+    - name: Ensure microcode hook is in mkinitcpio.conf
       ansible.builtin.replace:
         path: /etc/mkinitcpio.conf
         regexp: '^HOOKS=\((?!.*microcode)(.*)\)'
         replace: 'HOOKS=(microcode \1)'
       notify: Regenerate initramfs
 
-    - name: Ensure kms hook is in HOOKS
+    - name: Ensure kms hook is in mkinitcpio.conf
       ansible.builtin.replace:
         path: /etc/mkinitcpio.conf
         regexp: '^HOOKS=\((?!.*kms)(.*)\)'
@@ -58,7 +57,7 @@
         line: 'MODULES=()'
       notify: Regenerate initramfs
 
-    - name: Configure NVIDIA DRM and GSP firmware
+    - name: Configure NVIDIA DRM and GSP firmware (DEBUG: GSP OFF)
       ansible.builtin.copy:
         dest: /etc/modprobe.d/nvidia.conf
         content: |
@@ -66,16 +65,16 @@
           options nvidia-drm modeset=1
           # Enable fbdev for Wayland/Hyprland stability
           options nvidia-drm fbdev=1
-          # Enable GSP firmware for Ampere (RTX 3080) - Fixes initialization hangs
-          options nvidia NVreg_EnableGpuFirmware=1
+          # DEBUG: Disable GSP firmware - try this if it hangs with GSP on
+          options nvidia NVreg_EnableGpuFirmware=0
         mode: '0644'
       notify: Regenerate initramfs
 
-    - name: Configure GRUB command line for NVIDIA
+    - name: Configure GRUB command line (DEBUG: REMOVE QUIET)
       ansible.builtin.replace:
         path: /etc/default/grub
-        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="(?!.*nvidia-drm.modeset=1)(.*)"'
-        replace: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 nvidia-drm.modeset=1"'
+        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="(.*)quiet(.*)"'
+        replace: 'GRUB_CMDLINE_LINUX_DEFAULT="\1\2 nvidia-drm.modeset=1"'
       notify: Update GRUB
 
     - name: Create systemd DRI device dependency
