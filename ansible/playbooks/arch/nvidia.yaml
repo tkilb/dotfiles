@@ -10,18 +10,18 @@
       - lib32-nvidia-utils
 
   tasks:
-    - name: Configure mkinitcpio with kms hook and NVIDIA modules
+    - name: Configure mkinitcpio with kms hook (no NVIDIA modules)
       ansible.builtin.lineinfile:
         path: /etc/mkinitcpio.conf
         regexp: '^HOOKS='
         line: 'HOOKS=(base udev autodetect microcode modconf kms block filesystems keyboard fsck)'
       notify: Regenerate initramfs
 
-    - name: Add NVIDIA modules to mkinitcpio
+    - name: Set empty MODULES in mkinitcpio
       ansible.builtin.lineinfile:
         path: /etc/mkinitcpio.conf
         regexp: '^MODULES='
-        line: 'MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)'
+        line: 'MODULES=()'
       notify: Regenerate initramfs
 
     - name: Disable GSP firmware to prevent Ampere GPU hangs
@@ -31,7 +31,6 @@
           # Disable GSP firmware - required for Ampere (RTX 3080) stability
           options nvidia NVreg_EnableGpuFirmware=0
         mode: '0644'
-      notify: Regenerate initramfs
 
     - name: Install NVIDIA driver packages with 32-bit support
       community.general.pacman:
