@@ -4,46 +4,63 @@
   become: true
 
   vars:
+    # Proprietary drivers are typically more stable on Ampere for fresh installs
     nvidia_packages:
-      - nvidia-open
+      - nvidia
       - nvidia-utils
       - lib32-nvidia-utils
+      - nvidia-settings
 
   tasks:
-    - name: Configure mkinitcpio with kms hook (no NVIDIA modules)
-      ansible.builtin.lineinfile:
-        path: /etc/mkinitcpio.conf
-        regexp: '^HOOKS='
-        line: 'HOOKS=(base udev autodetect microcode modconf kms block filesystems keyboard fsck)'
-      notify: Regenerate initramfs
+    - name: Detect CPU vendor for microcode
+      ansible.builtin.shell: grep -q "Intel" /proc/cpuinfo && echo "intel-ucode" || echo "amd-ucode"
+      register: ucode_package
+      changed_when: false
 
-    - name: Set empty MODULES in mkinitcpio
-      ansible.builtin.lineinfile:
-        path: /etc/mkinitcpio.conf
-        regexp: '^MODULES='
-        line: 'MODULES=()'
-      notify: Regenerate initramfs
-
-    - name: Disable GSP firmware to prevent Ampere GPU hangs
-      ansible.builtin.copy:
-        dest: /etc/modprobe.d/nvidia.conf
-        content: |
-          # Disable GSP firmware - required for Ampere (RTX 3080) stability
-          options nvidia NVreg_EnableGpuFirmware=0
-        mode: '0644'
-
-    - name: Install NVIDIA driver packages with 32-bit support
+    - name: Install microcode and NVIDIA driver packages
       community.general.pacman:
-        name: "{{ nvidia_packages }}"
+        name: "{{ [ucode_package.stdout] + nvidia_packages }}"
         state: present
         update_cache: true
         extra_args: --noconfirm
 
-    - name: Enable DRM kernel mode setting for Wayland
+    - name: Ensure kms hook is in mkinitcpio.conf
+      ansible.builtin.replace:
+        path: /etc/mkinitcpio.conf
+        regexp: '^HOOKS=\((?!.*kms)(.*)\)'
+        replace: 'HOOKS=(\1 kms)'
+      notify: Regenerate initramfs
+
+    - name: Ensure microcode hook is in mkinitcpio.conf (Arch modern standard)
+      ansible.builtin.replace:
+        path: /etc/mkinitcpio.conf
+        regexp: '^HOOKS=\((?!.*microcode)(.*)\)'
+        replace: 'HOOKS=(microcode \1)'
+      notify: Regenerate initramfs
+
+    - name: Add NVIDIA modules to mkinitcpio.conf
       ansible.builtin.lineinfile:
+        path: /etc/mkinitcpio.conf
+        regexp: '^MODULES=\('
+        line: 'MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)'
+      notify: Regenerate initramfs
+
+    - name: Configure NVIDIA DRM modeset and GSP firmware
+      ansible.builtin.copy:
+        dest: /etc/modprobe.d/nvidia.conf
+        content: |
+          # Enable DRM Kernel Mode Setting
+          options nvidia-drm modeset=1
+          # Enable GSP firmware for Ampere and later (RTX 3080)
+          options nvidia NVreg_EnableGpuFirmware=1
+        mode: '0644'
+      notify: Regenerate initramfs
+
+    - name: Configure GRUB command line for NVIDIA
+      ansible.builtin.replace:
         path: /etc/default/grub
-        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
-        line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet nvidia-drm.modeset=1 nvidia_drm.fbdev=0"'
+        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="(?!.*nvidia-drm.modeset=1)(.*)"'
+        replace: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 nvidia-drm.modeset=1"'
       notify: Update GRUB
 
     - name: Create systemd DRI device dependency for display manager

@@ -3,6 +3,12 @@
   hosts: localhost
   become: true # Necessary to run with root privileges
 
+  vars_prompt:
+    - name: configure_nvidia_env
+      prompt: "Configure NVIDIA environment variables for Wayland? (n/y)"
+      default: "no"
+      private: no
+
   tasks:
     - name: Install Hyprland and Portals
       community.general.pacman:
@@ -60,6 +66,13 @@
         state: present
         update_cache: true
 
+    - name: Install XDG Utils for Default Applications
+      community.general.pacman:
+        name:
+          - xdg-utils
+        state: present
+        update_cache: true
+
     - name: Install Brightness Control
       community.general.pacman:
         name:
@@ -112,6 +125,18 @@
       ansible.builtin.command:
         cmd: systemctl enable ly@tty1.service
       changed_when: false
+
+    - name: Configure NVIDIA Environment Variables for Hyprland
+      ansible.builtin.blockinfile:
+        path: /etc/environment
+        block: |
+          LIBVA_DRIVER_NAME=nvidia
+          XDG_SESSION_TYPE=wayland
+          GBM_BACKEND=nvidia-drm
+          __GLX_VENDOR_LIBRARY_NAME=nvidia
+          WLR_NO_HARDWARE_CURSORS=1
+        marker: "# {mark} ANSIBLE MANAGED NVIDIA ENVIRONMENT VARIABLES"
+      when: configure_nvidia_env | bool
 
     - name: Disable Getty on TTY1
       ansible.builtin.command:
