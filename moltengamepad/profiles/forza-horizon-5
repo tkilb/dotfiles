@@ -1,68 +1,89 @@
-# PROFILE: cyborg
+# PROFILE: forza-horizon-5
 #################################
 
-###|   _   |   P   |   R   |   M   |   I   |       |   T   |       |       |
-###|===============================================================================
-#5#|       |   u   |   i   |   o   |   p   |       |       |
-#4#|       |   q   |   y   |   t   |   5   |       |       |
-#3#|   0   |   1   |   2   |   3   |   4   |   r   |   bs  |   =   |  tab  |  esc  
-#2#|       |  lctr | lshft |  spc  |   e   |       |       |
-#1#|       |  lalt |   z   |   x   |   m   |       |       |
-
-###|   _   |   P   |   R   |   M   |   I   |       |   T   |       |       |
-###|===============================================================================
-#5#|       |   _   |   _   |   _   |   _   |       |       |
-#4#|       |   _   |   _   |   _   |   _   |       |       |
-#3#|   _   |   _   |   _   |   w   |   _   |  ent  |   bs  |   =   |  tab  |  esc  
-#2#|       |   _   |   a   |   s   |   d   |       |       |
-#1#|       |   _   |   _   |   _   |   _   |       |       |
-
-# Pinkie
+# Peddals
 #################################
-cyborg.pe         = key(key_0)
+tlcm.abs_x          = tr2_axis
+tlcm.abs_z          = tl2_axis
+tlcm.abs_y          = pedal2btn(tl)
 
-cyborg.p5         = key(key_u)
-cyborg.p4         = key(key_q)
-cyborg.p3         = key(key_1)
-cyborg.p2         = key(key_leftctrl)
-cyborg.p1         = key(key_leftalt)
-
-# Ring
+# Right Stick
 #################################
-cyborg.r5         = key(key_i)
-cyborg.r4         = key(key_y)
-cyborg.r3         = key(key_2)
-cyborg.r2         = key(key_a)
-cyborg.r1         = key(key_z)
+# Axis
+vkb-right.abs_x     = left_x
+# vkb-right.abs_y     = 
 
-# Middle
+# Triggers
+vkb-right.t1a       = key(key_d)
+# vkb-right.t1b       = 
+vkb-right.g__t2a       = thumbr
+# vkb-right.t2b       = 
+
+# Thumbs
+vkb-right.g__th1      = thumbr
+# vkb-right.th2       = 
+
+# Sides
+vkb-right.g__i1        = select
+vkb-right.g__p1        = third
+
+# Hats
+# vkb-right.abs_hat0x = 
+# vkb-right.abs_hat0y = 
+
+# vkb-right.g__hat1u = 
+# vkb-right.g__hat1r = 
+# vkb-right.g__hat1d = 
+# vkb-right.g__hat1l = 
+# vkb-right.hat1c = 
+
+# vkb-right.hat2u = 
+# vkb-right.hat2r = 
+# vkb-right.hat2d = 
+# vkb-right.hat2l = 
+
+# Base
+# vkb-right.f1        = 
+# vkb-right.f2        = 
+# vkb-right.f3        = 
+
+
+# Left Stick
 #################################
-cyborg.m5         = key(key_o)
-cyborg.m4         = key(key_t)
-cyborg.m3         = key(key_w)
-cyborg.m2         = key(key_s)
-cyborg.m1         = key(key_x)
+# Axis
+# vkb-left.abs_x     = -right_x
+# vkb-left.abs_y     = right_y
 
-# Index
-#################################
-cyborg.i5         = key(key_p)
-cyborg.i4         = key(key_5)
-cyborg.i3         = key(key_4)
-cyborg.i2         = key(key_d)
-cyborg.i1         = key(key_m)
+# Triggers
+vkb-left.t1a       = key(key_a)
+# vkb-left.t1b       = 
+# vkb-left.t2a       = 
+# vkb-left.t2b       = 
 
-cyborg.ie         = key(key_enter)
+# Thumbs
+vkb-left.g__th1       = first
+vkb-left.g__th2       = fourth
 
-# Thumb
-#################################
-cyborg.t4         = key(key_backspace)
-cyborg.t3         = key(key_equal)
-cyborg.t2         = key(key_tab)
-cyborg.t1         = key(key_esc)
+# Sides
+vkb-left.g__i1          = thumbl
+vkb-left.g__p1        = second
 
-# Mouse
-#################################
-hyper-x.mouse3    = key(key_h)
-hyper-x.mouse4    = key(key_w)
-hyper-x.mouse5    = key(key_backslash)
+# Hats
+# vkb-left.abs_hat0x = 
+# vkb-left.abs_hat0y = 
+
+vkb-left.g__hat1u = up
+vkb-left.g__hat1r = right
+vkb-left.g__hat1d = down
+vkb-left.g__hat1l = left
+# vkb-left.hat1c = 
+
+# vkb-left.hat2u = 
+# vkb-left.hat2r = 
+# vkb-left.hat2d = 
+
+# Base
+# vkb-left.f1        = 
+# vkb-left.f2        = 
+# vkb-left.f3        = 
 
