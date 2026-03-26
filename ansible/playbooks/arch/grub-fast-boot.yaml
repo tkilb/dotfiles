@@ -1,0 +1,31 @@
+---
+- name: Configure GRUB for Fast Boot Without User Prompt
+  hosts: localhost
+  become: true # Necessary to run with root privileges
+
+  tasks:
+    - name: Set GRUB Timeout to Zero
+      ansible.builtin.lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_TIMEOUT='
+        line: 'GRUB_TIMEOUT=0'
+      notify: Update GRUB
+
+    - name: Set GRUB Timeout Style to Hidden
+      ansible.builtin.lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_TIMEOUT_STYLE='
+        line: 'GRUB_TIMEOUT_STYLE=hidden'
+      notify: Update GRUB
+
+    - name: Inform User to Reboot
+      ansible.builtin.debug:
+        msg: "GRUB configured for fast boot. Reboot manually to apply changes."
+      changed_when: false
+
+  handlers:
+    - name: Update GRUB
+      ansible.builtin.command:
+        cmd: grub-mkconfig -o /boot/grub/grub.cfg
+      changed_when: true
+      listen: Update GRUB

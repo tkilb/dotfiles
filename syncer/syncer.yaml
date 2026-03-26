@@ -57,21 +57,20 @@
   machines:
     - work-book
 
-  path: ~/Programs/molten-driver
+- path: ~/Programs/molten-driver
   origin: git@github.com:tkilb/molten-driver.git
   cron: "0 19 * * *" # Every day at 7 PM
   machines:
     - linux-box
 
-  path: ~/Programs/molten-gamepad
-  origin: git@github.com:tkilb/molten-driver.git
+- path: ~/Programs/molten-gamepad
+  origin: git@github.com:tkilb/molten-gamepad.git
   cron: "0 19 * * *" # Every day at 7 PM
   machines:
     - linux-box
 
 - path: ~/Programs/spotify-cli
-  origin: git@github.com:tylerkilburn/spotify-cli.git 
+  origin: git@github.com:tylerkilburn/spotify-cli.git
   cron: "0 19 * * *" # Every day at 7 PM
   machines:
     - linux-box
-

@@ -4,8 +4,16 @@
   become: true # Necessary to run with root privileges
 
   vars_prompt:
+    - name: mount_gaming_drive
+      prompt: "Mount gaming drive on boot? (n/y)"
+      default: "no"
+      private: no
     - name: install_steam
       prompt: "Install steam? (n/y)"
+      default: "no"
+      private: no
+    - name: install_mangohud
+      prompt: "Install MangoHud? (n/y)"
       default: "no"
       private: no
     - name: install_dealve
@@ -14,12 +22,35 @@
       private: no
 
   tasks:
+    - name: Create gaming drive mount point
+      ansible.builtin.file:
+        path: /mnt/gaming
+        state: directory
+        mode: "0755"
+      when: mount_gaming_drive | bool
+
+    - name: Mount gaming drive on boot
+      ansible.posix.mount:
+        path: /mnt/gaming
+        src: UUID=71120adf-28c2-42b3-bd44-363eacda02af
+        fstype: ext4
+        opts: defaults,noatime
+        state: mounted
+      when: mount_gaming_drive | bool
+
     - name: Install Steam
       community.general.pacman:
         name: steam
         state: present
         update_cache: true
       when: install_steam | bool
+
+    - name: Install MangoHud
+      community.general.pacman:
+        name: mangohud
+        state: present
+        update_cache: true
+      when: install_mangohud| bool
 
     - name: Install Dealve
       yay:

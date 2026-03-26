@@ -9,7 +9,6 @@ This document has a few key sections:
 3. A description of the root "gamepad" profile
 4. Extra details/advanced features
 
-
 ## Overview
 
 A Profile contains all the information one might want to configure about a device: the event mappings and the device options.
@@ -24,8 +23,7 @@ For demonstration purposes, this file will deal with `wiimote` driver, and will 
 
 ## Tour of Features
 
-This section is both a rough "getting started" guide and a collection of reference information. 
-
+This section is both a rough "getting started" guide and a collection of reference information.
 
 ### Changing a profile
 
@@ -71,59 +69,57 @@ Unfortunately this does not work for the gamepad profile, but it does work for t
 
 This prints out information of a device, which also includes its event list.
 
-
 ### Possible Output Events
 
 The following are specially recognized as gamepad button events for output. The entries are in this order (event code, MoltenGamepad name, description):
 
-*  {BTN_SOUTH, "first", "Primary face button (Confirm)"},
-*  {BTN_EAST, "second", "Second face button (Go Back)"},
-*  {BTN_WEST, "third", "Third face button"},
-*  {BTN_NORTH, "fourth", "Fourth face button"},
-*  {BTN_START, "start", "Start button"},
-*  {BTN_SELECT, "select", "Select button"},
-*  {BTN_MODE, "mode", "Special button, often with a logo"},
-*  {BTN_TL, "lt", "Upper left trigger"},
-*  {BTN_TL2,"lt2", "Lower left trigger"},
-*  {BTN_TR, "tr", "Upper right trigger"},
-*  {BTN_TR2, "tr2", "Lower left trigger"},
-*  {BTN_THUMBL, "thumbl", "Left thumb stick click"},
-*  {BTN_THUMBR, "thumbr", "Right thumb sitck click"},
-*  {BTN_DPAD_UP,"up", "Up on the dpad"},
-*  {BTN_DPAD_DOWN, "down", "Down on the dpad"},
-*  {BTN_DPAD_LEFT,"left", "Left on the dpad"},
-*  {BTN_DPAD_RIGHT,"right","Right on the dpad"},
+- {BTN_SOUTH, "first", "Primary face button (Confirm)"},
+- {BTN_EAST, "second", "Second face button (Go Back)"},
+- {BTN_WEST, "third", "Third face button"},
+- {BTN_NORTH, "fourth", "Fourth face button"},
+- {BTN_START, "start", "Start button"},
+- {BTN_SELECT, "select", "Select button"},
+- {BTN_MODE, "mode", "Special button, often with a logo"},
+- {BTN_TL, "lt", "Upper left trigger"},
+- {BTN_TL2,"lt2", "Lower left trigger"},
+- {BTN_TR, "rt", "Upper right trigger"},
+- {BTN_TR2, "rt2", "Lower left trigger"},
+- {BTN_THUMBL, "thumbl", "Left thumb stick click"},
+- {BTN_THUMBR, "thumbr", "Right thumb sitck click"},
+- {BTN_DPAD_UP,"up", "Up on the dpad"},
+- {BTN_DPAD_DOWN, "down", "Down on the dpad"},
+- {BTN_DPAD_LEFT,"left", "Left on the dpad"},
+- {BTN_DPAD_RIGHT,"right","Right on the dpad"},
 
 Those last four aren't available if your system is using an old event list in your kernel.
 
 The following are specially recognized as gamepad axis events for output:
 
-
-*  {ABS_X, "left_x", "Left stick X-axis"},
-*  {ABS_Y, "left_y", "Left stick Y-axis"},
-*  {ABS_RX, "right_x", "Right stick X-axis"},
-*  {ABS_RY, "right_y", "Right stick Y-axis"},
-*  {ABS_HAT2Y, "tl2_axis", "Analog lower left trigger"},
-*  {ABS_HAT2X, "tr2_axis", "Analog lower right trigger"},
+- {ABS_X, "left_x", "Left stick X-axis"},
+- {ABS_Y, "left_y", "Left stick Y-axis"},
+- {ABS_RX, "right_x", "Right stick X-axis"},
+- {ABS_RY, "right_y", "Right stick Y-axis"},
+- {ABS_HAT2Y, "tl2_axis", "Analog lower left trigger"},
+- {ABS_HAT2X, "tr2_axis", "Analog lower right trigger"},
 
 If the four dpad event codes were not available on your system, two extra axis events are added:
 
-* {ABS_HAT0X,"leftright", "left/right on the dpad"},
-* {ABS_HAT0Y, "updown", "up/own on the dpad"},
+- {ABS_HAT0X,"leftright", "left/right on the dpad"},
+- {ABS_HAT0Y, "updown", "up/own on the dpad"},
 
 (The `--dpad-as-hat` option does the appropriate mapping of four dpad events to a hat when your system has the four dpad event codes available. There is not much need for these two extra axes on such systems, but they are still available as `abs_hat0x` if truly needed.)
 
 In addition, the full range of evdev events (of type KEY or ABS) are also available, using lower case identifiers. Here are a subset just to demonstrate:
 
-* key_a
-* key_space
-* key_esc
-* btn_south
-* abs_x
-* key_playpause
-* key_nextsong
-* key_previoussong
-* key_volumeup
+- key_a
+- key_space
+- key_esc
+- btn_south
+- abs_x
+- key_playpause
+- key_nextsong
+- key_previoussong
+- key_volumeup
 
 ### Mapping a button to a button
 
@@ -153,10 +149,9 @@ Unlike an axis that represents absolute values, relative events express only cha
     wiimote.wm_a = rel_x+
     wiimote.wm_a = rel_x-
 
-The +/- represents whether the button should output in the positive or negative direction. 
+The +/- represents whether the button should output in the positive or negative direction.
 
 While pressed, a relative event will be generate at a regular rate.
-
 
 ### Mapping an axis to buttons
 
@@ -212,7 +207,7 @@ An event can be sent to multiple translators with `multi`:
 Recall that the virtual gamepad output slots cannot emit keyboard events. However, a special translator can redirect these events to the correct keyboard slot.
 
     wiimote.wm_a = key(key_a)
-    
+
 This maps the wiimote a button to `key_a` on the keyboard slot, regardless of what slot the wiimote is currently in.
 
 The device still must be assigned to slot for these events to occur.
@@ -220,7 +215,7 @@ The device still must be assigned to slot for these events to occur.
 ### Mouse Redirect
 
     wiimote.cc_left_x = mouse(rel_x)
-    
+
 Similar to the above.
 
 ## The Gamepad profile
@@ -237,17 +232,17 @@ For Wii devices, all such mappings affect only the classic controller control sc
 
 It has the following events:
 
-* left_x,left_y: The two axes of the left stick. Right and Down are the positive directions.
-* right_x, right_y: The two axes of the right stick. Same directions apply.
-* primary,secondary,third,fourth: The four action buttons, or "face" buttons. The exact arrangement is left to the driver.
-* up,down,left,right: The four digital events of a dpad.
-* updown, leftright: The two axes of a dpad that is represented as a hat.
-* start, select: the conventional extra buttons, often used for  in-game menus.
-* mode: The additional meta button common on modern game pads, like the Wii Home button or the Xbox Guide button.
-* tr, tl: The two upper shoulder buttons, or "bumpers".
-* tr2, tl2: The digital two lower shoulder buttons or trigger. (ONLY FOR DEVICES WITHOUT ANALOG TRIGGERS)
-* tr2_axis, tl2_axis: The analog axes for the two analog triggers, if present.
-* tr2_axis_btn, tl2_axis_btn: The generally superfluous digital events emitted by analog triggers. (ONLY FOR DEVICES WITH ANALOG TRIGGERS)
+- left_x,left_y: The two axes of the left stick. Right and Down are the positive directions.
+- right_x, right_y: The two axes of the right stick. Same directions apply.
+- primary,secondary,third,fourth: The four action buttons, or "face" buttons. The exact arrangement is left to the driver.
+- up,down,left,right: The four digital events of a dpad.
+- updown, leftright: The two axes of a dpad that is represented as a hat.
+- start, select: the conventional extra buttons, often used for in-game menus.
+- mode: The additional meta button common on modern game pads, like the Wii Home button or the Xbox Guide button.
+- tr, tl: The two upper shoulder buttons, or "bumpers".
+- tr2, tl2: The digital two lower shoulder buttons or trigger. (ONLY FOR DEVICES WITHOUT ANALOG TRIGGERS)
+- tr2_axis, tl2_axis: The analog axes for the two analog triggers, if present.
+- tr2_axis_btn, tl2_axis_btn: The generally superfluous digital events emitted by analog triggers. (ONLY FOR DEVICES WITH ANALOG TRIGGERS)
 
 Why the concern over "tr2_axis_btn"? When we have analog values, we generally want to ignore these events. But when we don't have analog values to read, we want to pay attention to the digital events.
 
@@ -268,15 +263,15 @@ These event translators can be specified directly.
     wiimote.wm_a = start
     #IS EQUIVALENT TO
     wiimote.wm_a = btn2btn(btn_start)
-    
+
 The following are available:
 
-* btn2btn(event code) maps a button to the specified event code.
-* axis2axis(event code, direction) maps an axis to the specified event code, where direction is +1 or -1
-* axis2btns(neg event code, pos event code) maps an axis to the two specified buttons
-* btn2axis(event code, direction) maps a button to the specified event code, where direction is +1 or -1
-* btn2rel(event code, speed) maps a button to a relative event, generating events periodically while held
-* axis2rel(event code, speed) maps an axis to a relative event, generating events periodically
+- btn2btn(event code) maps a button to the specified event code.
+- axis2axis(event code, direction) maps an axis to the specified event code, where direction is +1 or -1
+- axis2btns(neg event code, pos event code) maps an axis to the two specified buttons
+- btn2axis(event code, direction) maps a button to the specified event code, where direction is +1 or -1
+- btn2rel(event code, speed) maps a button to a relative event, generating events periodically while held
+- axis2rel(event code, speed) maps an axis to a relative event, generating events periodically
 
 See `print translators` for more details. It will show translator declarations like the following:
 
@@ -304,9 +299,7 @@ The following are all equivalent, noting that `ABS_X` is axis 0 and is the same 
 
 As mentioned in the section about mapping sticks, some translations really need to look at multiple events.
 
-
-
-`chord(key_trans)` fires its internal event whenever all of its inputs are pressed. ex. `wiimote.(wm_a,wm_b) = chord(tr)` will send a `tr` press when both the A and B buttons are held. The original events `wm_a` and `wm_b` are also fired. The chord is released when any of the involved buttons are released. 
+`chord(key_trans)` fires its internal event whenever all of its inputs are pressed. ex. `wiimote.(wm_a,wm_b) = chord(tr)` will send a `tr` press when both the A and B buttons are held. The original events `wm_a` and `wm_b` are also fired. The chord is released when any of the involved buttons are released.
 
 `exclusive(key_trans)` is an exclusive chord action, where all involved buttons must be pressed down at the same time. It exclusively fires its internal event, as if the involved buttons weren't pressed at all. For example, `wiimote.(wm_a,wm_b) = exclusive(tr)` will send the `wm_a` or `wm_b` events only if they are pressed separately. MoltenGamepad does not support creating complicated layers of exclusive chords, the behavior for two simultaneous overlapping exclusive chords is not well defined.
 
@@ -315,7 +308,7 @@ As mentioned in the section about mapping sticks, some translations really need 
 ## Saving
 
     save profiles to <filename>
-    
+
 Will save all currently used driver profiles (not device profiles!) to the specified file, placed in the `profiles` config directory.
 
 You'll likely want to put your filename in quotes.
@@ -325,7 +318,7 @@ You'll also likely want to open up this file later in your favorite text editor 
 ## Loading
 
     load profiles from <filename>
-    
+
 Will load profile mappings from the specified file. No concern is taken over whether this affects driver or device profiles, and any commands referencing currently nonexistent profiles will be ignored.
 
 Sometimes these files will be referred to as a "profile", but this is inacurrate. These files can contain information for many of the profiles in MG.
@@ -337,13 +330,13 @@ Specifying a profile name in square brackets will set the implicit profile name 
     [wiimote]
     wm_a = start
     wm_b = select
-    
-Note how `wm_a` sufficed, instead of `wiimote.wm_a`
 
+Note how `wm_a` sufficed, instead of `wiimote.wm_a`
 
 ## EXPERIMENTAL FEATURES. USE AT YOUR OWN RISK
 
 These features are in development, and the syntax is subject to change, and full functionality not guaranteed:
 
 ### Recursive load
- Profile files are allowed to use the load command, allowing for a form of inheritance, along with a bag of worms. This will likely be disabled in the future. 
+
+Profile files are allowed to use the load command, allowing for a form of inheritance, along with a bag of worms. This will likely be disabled in the future.
