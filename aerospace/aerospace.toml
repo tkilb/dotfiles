@@ -67,7 +67,7 @@ exec-on-workspace-change = [
 # Possible values: (qwerty|dvorak|colemak)
 # See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
 [key-mapping]
-    preset = 'colemak'
+    preset = 'qwerty'
 
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Possible values:
@@ -104,16 +104,18 @@ exec-on-workspace-change = [
 # Fallback value (if you omit the key): mode.main.binding = {}
 [mode.main.binding]
     # See: https://nikitabobko.github.io/AeroSpace/commands#layout
-    ctrl-alt-backslash = 'layout tiles horizontal vertical'
-    ctrl-alt-comma = 'layout accordion horizontal vertical'
+    ctrl-alt-shift-backslash = 'layout tiles horizontal vertical'
+    ctrl-alt-shift-comma = 'layout accordion horizontal vertical'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#focus
-    alt-h = 'focus left'
-    alt-j = 'focus down'
-    alt-k = 'focus up'
-    alt-l = 'focus right'
-    cmd-shift-comma = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-focus-left.sh'
-    cmd-shift-period = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-focus-right.sh'
+    # alt-h = 'focus left'
+    # alt-j = 'focus down'
+    # alt-k = 'focus up'
+    # alt-l = 'focus right'
+    ctrl-alt-shift-tab = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-focus-left.sh'
+    ctrl-alt-tab = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-focus-right.sh'
+    # cmd-shift-comma = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-focus-left.sh'
+    # cmd-shift-period = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-focus-right.sh'
     
     # Hidden bindings for programmatic triggering from scripts
     f13 = 'workspace next --wrap-around'
@@ -123,10 +125,10 @@ exec-on-workspace-change = [
     ctrl-alt-a = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-sort-apps.sh'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move
-    ctrl-alt-shift-h = 'move left'
-    ctrl-alt-shift-j = 'move down'
-    ctrl-alt-shift-k = 'move up'
-    ctrl-alt-shift-l = 'move right'
+    # ctrl-alt-shift-h = 'move left'
+    # ctrl-alt-shift-j = 'move down'
+    # ctrl-alt-shift-k = 'move up'
+    # ctrl-alt-shift-l = 'move right'
     ctrl-alt-left = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-move-left.sh'
     ctrl-alt-right = 'exec-and-forget /bin/bash ~/.config/aerospace/scripts/aerospace-move-right.sh'
 
@@ -135,15 +137,15 @@ exec-on-workspace-change = [
     alt-equal = 'resize smart +50'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-    alt-1 = 'workspace 1'
-    alt-2 = 'workspace 2'
-    alt-3 = 'workspace 3'
-    alt-4 = 'workspace 4'
-    alt-5 = 'workspace 5'
-    alt-6 = 'workspace 6'
+    ctrl-alt-h = 'workspace 1'
+    ctrl-alt-comma = 'workspace 2'
+    ctrl-alt-period = 'workspace 3'
+    ctrl-alt-n = 'workspace 4'
+    ctrl-alt-e = 'workspace 5'
+    ctrl-alt-i = 'workspace 6'
 
-    alt-8 = 'workspace B'
-    alt-9 = 'workspace C'
+    ctrl-alt-u = 'workspace B'
+    ctrl-alt-y = 'workspace C'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
     alt-shift-1 = 'move-node-to-workspace 1'
@@ -152,14 +154,14 @@ exec-on-workspace-change = [
     alt-shift-4 = 'move-node-to-workspace 4'
     alt-shift-5 = 'move-node-to-workspace 5'
     alt-shift-6 = 'move-node-to-workspace 6'
-    # alt-shift-7 = 'move-node-to-workspace 7'
+
     alt-shift-8 = 'move-node-to-workspace B'
     alt-shift-9 = 'move-node-to-workspace C'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
-    ctrl-alt-tab = 'workspace-back-and-forth'
+    # ctrl-alt-tab = 'workspace-back-and-forth'
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
-    ctrl-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+    # ctrl-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#mode
     ctrl-alt-shift-semicolon = 'mode service'
@@ -173,9 +175,8 @@ exec-on-workspace-change = [
     backspace = ['close-all-windows-but-current', 'mode main']
 
     # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
-    #s = ['layout sticky tiling', 'mode main']
 
-    ctrl-alt-shift-h = ['join-with left', 'mode main']
-    ctrl-alt-shift-j = ['join-with down', 'mode main']
-    ctrl-alt-shift-k = ['join-with up', 'mode main']
-    ctrl-alt-shift-l = ['join-with right', 'mode main']
+    # ctrl-alt-shift-h = ['join-with left', 'mode main']
+    # ctrl-alt-shift-j = ['join-with down', 'mode main']
+    # ctrl-alt-shift-k = ['join-with up', 'mode main']
+    # ctrl-alt-shift-l = ['join-with right', 'mode main']
