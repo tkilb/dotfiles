@@ -6,13 +6,13 @@
   vars:
     go_repo_url: https://github.com/KrishnaSSH/GopherTube
     cli_name: gophertube
-    clone_dir: "{{ ansible_env.HOME }}/development/{{ cli_name }}"
-    go_bin_path: "{{ ansible_env.HOME }}/go/bin"
+    clone_dir: "{{ lookup('env', 'HOME') }}/development/{{ cli_name }}"
+    go_bin_path: "{{ lookup('env', 'HOME') }}/go/bin"
 
   tasks:
     - name: Ensure development directory exists
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/development"
+        path: "{{ lookup('env', 'HOME') }}/development"
         state: directory
         mode: "0755"
 
@@ -38,11 +38,11 @@
         chdir: "{{ clone_dir }}"
       environment:
         GOBIN: "{{ go_bin_path }}"
-        PATH: "{{ ansible_env.PATH }}:{{ go_bin_path }}"
+        PATH: "{{ lookup('env', 'PATH') }}:{{ go_bin_path }}"
 
     - name: Ensure go/bin is in PATH in .bashrc
       ansible.builtin.lineinfile:
-        path: "{{ ansible_env.HOME }}/.bashrc"
+        path: "{{ lookup('env', 'HOME') }}/.bashrc"
         line: "export PATH=$PATH:{{ go_bin_path }}"
         create: yes
         state: present
