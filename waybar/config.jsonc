@@ -14,9 +14,40 @@
     "memory",
     "pulseaudio",
     "clock#date",
-    "clock#time",
+    "group/clock-drawer",
   ],
   // Modules configuration
+  "group/clock-drawer": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "not-memory",
+      "transition-left-to-right": false,
+      "click-to-reveal": true,
+    },
+    "modules": [
+      "clock#time",
+      "custom/dummy1",
+      "custom/dummy2",
+      "custom/dummy3",
+    ],
+  },
+  "clock#time": {
+    "format": "{:%I:%M %p}",
+    "tooltip": false,
+  },
+  "custom/dummy1": {
+    "format": "",
+    "tooltip": false,
+  },
+  "custom/dummy2": {
+    "format": "",
+    "tooltip": false,
+  },
+  "custom/dummy3": {
+    "format": "",
+    "tooltip": false,
+  },
   "custom/ping": {
     "format": "  {}ms",
     "interval": 5,
@@ -26,9 +57,6 @@
   "clock#date": {
     "format": "󰃭 {:%m-%d}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-  },
-  "clock#time": {
-    "format": "{:%I:%M %p}",
   },
   "hyprland/workspaces": {
     "disable-scroll": true,
