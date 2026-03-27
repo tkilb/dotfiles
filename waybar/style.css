@@ -113,6 +113,39 @@ window#waybar {
   border-radius: 5px;
 }
 
+/* Clock Drawer styling */
+#clock-drawer {
+  background-color: @bg_secondary;
+  border-radius: 5px;
+  margin: 5px 2px;
+  padding: 0 5px;
+}
+
+#clock-drawer #clock {
+  padding: 0 10px;
+  color: @blue;
+}
+
+/* Individual icons inside the drawer */
+#custom-dummy1,
+#custom-dummy2,
+#custom-dummy3 {
+  font-size: 16px;
+  padding: 0 10px;
+  color: @fg;
+  transition: all 0.3s ease;
+}
+
+#custom-dummy1:hover {
+  color: @orange;
+}
+#custom-dummy2:hover {
+  color: @yellow;
+}
+#custom-dummy3:hover {
+  color: @red;
+}
+
 #custom-power {
   color: @red;
   padding: 0 10px;
