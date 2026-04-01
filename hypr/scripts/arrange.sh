@@ -21,6 +21,12 @@ for app_class in "${!APP_WS[@]}"; do
   done
 done
 
+# Move all Steam games (steam_app_*) to workspace 1
+for addr in $(hyprctl clients -j | jq -r '.[] | select(.class | test("^steam_app_")) | .address'); do
+  hyprctl dispatch focuswindow "address:$addr"
+  hyprctl dispatch movetoworkspacesilent 1
+done
+
 # Restore focus to the original window
 hyprctl dispatch focuswindow "address:$focused_addr"
 
