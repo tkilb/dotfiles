@@ -2,10 +2,10 @@
 
 # Config: app_class -> workspace mappings (add/remove lines as needed)
 declare -A APP_WS=(
-  ["kitty"]=3
   ["zen"]=2
+  ["kitty"]=3
+  ["Discord"]=4
   ["Bitwarden"]=5
-  ["Discord"]=5
   ["steam"]=6
 )
 
