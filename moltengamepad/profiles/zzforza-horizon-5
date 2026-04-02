@@ -10,7 +10,7 @@ tlcm.abs_y          = pedal2btn(tl)
 # Right Stick
 #################################
 # Axis
-g920.abs_x     = left_x
+vkb-right.abs_x     = left_x
 # vkb-right.abs_y     = 
 
 # Triggers
