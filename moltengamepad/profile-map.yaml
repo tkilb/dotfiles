@@ -6,7 +6,10 @@ steam-apps:
   548430: deep-rock-galactic
   396750: everspace
   427520: factorio
-  1551360: forza-horizon-5
+  1551360:
+    name: forza-horizon-5
+    rumble: true
+    mimic-g920: true
   232090: kf2
   341800: mw5
   1144200: ready-or-not

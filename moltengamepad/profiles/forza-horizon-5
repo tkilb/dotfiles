@@ -1,89 +1,35 @@
 # PROFILE: forza-horizon-5
 #################################
 
-# Peddals
+# Pedals (Targeting Virtual Wheel Axes)
 #################################
-tlcm.abs_x          = tr2_axis
-tlcm.abs_z          = tl2_axis
-tlcm.abs_y          = pedal2btn(tl)
+tlcm.abs_x          = left_y    # Accelerator (ABS_Y on G920)
+tlcm.abs_z          = tl2_axis  # Brake (ABS_Z on G920)
+tlcm.abs_y          = tr2_axis  # Clutch (ABS_RZ on G920)
 
-# Right Stick
+# Steering
 #################################
-# Axis
 g920.abs_x     = left_x
-# vkb-right.abs_y     = 
 
-# Triggers
-vkb-right.t1a       = key(key_d)
-# vkb-right.t1b       = 
-vkb-right.g__t2a       = thumbr
-# vkb-right.t2b       = 
-
-# Thumbs
-vkb-right.g__th1      = thumbr
-# vkb-right.th2       = 
-
-# Sides
-vkb-right.g__i1        = select
-vkb-right.g__p1        = third
-
-# Hats
-# vkb-right.abs_hat0x = 
-# vkb-right.abs_hat0y = 
-
-# vkb-right.g__hat1u = 
-# vkb-right.g__hat1r = 
-# vkb-right.g__hat1d = 
-# vkb-right.g__hat1l = 
-# vkb-right.hat1c = 
-
-# vkb-right.hat2u = 
-# vkb-right.hat2r = 
-# vkb-right.hat2d = 
-# vkb-right.hat2l = 
-
-# Base
-# vkb-right.f1        = 
-# vkb-right.f2        = 
-# vkb-right.f3        = 
-
-
-# Left Stick
+# Wheel Main Buttons
 #################################
-# Axis
-# vkb-left.abs_x     = -right_x
-# vkb-left.abs_y     = right_y
+g920.a = first
+g920.b = second
+g920.x = third
+g920.y = fourth
+g920.start = start # does not work
+g920.select = select # does not work
+g920.guide = mode # does not work
 
-# Triggers
-vkb-left.t1a       = key(key_a)
-# vkb-left.t1b       = 
-# vkb-left.t2a       = 
-# vkb-left.t2b       = 
+# Wheel Shifters & Bumpers
+#################################
+g920.paddle_left = tl
+g920.paddle_right = tr
+g920.lb = tl # does not work, also find me a new mapping
+g920.rb = tr # does not work, also find me a new mapping
 
-# Thumbs
-vkb-left.g__th1       = first
-vkb-left.g__th2       = fourth
-
-# Sides
-vkb-left.g__i1          = thumbl
-vkb-left.g__p1        = second
-
-# Hats
-# vkb-left.abs_hat0x = 
-# vkb-left.abs_hat0y = 
-
-vkb-left.g__hat1u = up
-vkb-left.g__hat1r = right
-vkb-left.g__hat1d = down
-vkb-left.g__hat1l = left
-# vkb-left.hat1c = 
-
-# vkb-left.hat2u = 
-# vkb-left.hat2r = 
-# vkb-left.hat2d = 
-
-# Base
-# vkb-left.f1        = 
-# vkb-left.f2        = 
-# vkb-left.f3        = 
+# Wheel D-Pad (Mapped to buttons)
+#################################
+g920.dpad_x = leftright # does not work
+g920.dpad_y = updown # does not work
 
