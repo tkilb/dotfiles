@@ -66,3 +66,22 @@ hyper-x.mouse3    = key(key_h)
 hyper-x.mouse4    = key(key_w)
 hyper-x.mouse5    = key(key_backslash)
 
+
+
+# VKB Right Stick mappings (keep as-is)
+vkb-right.t1a       = key(key_d)
+vkb-right.g__t2a       = thumbr
+vkb-right.g__th1      = thumbr
+vkb-right.g__i1        = select
+vkb-right.g__p1        = third
+
+# VKB Left Stick mappings (keep as-is)
+vkb-left.t1a       = key(key_a)
+vkb-left.g__th1       = first
+vkb-left.g__th2       = fourth
+vkb-left.g__i1          = thumbl
+vkb-left.g__p1        = second
+vkb-left.g__hat1u = up
+vkb-left.g__hat1r = right
+vkb-left.g__hat1d = down
+vkb-left.g__hat1l = left

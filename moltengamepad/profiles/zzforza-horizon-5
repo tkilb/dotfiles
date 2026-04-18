@@ -1,7 +1,7 @@
 # PROFILE: forza-horizon-5
 #################################
 
-# Pedals (Targeting Virtual Wheel Axes)
+# Peddals
 #################################
 tlcm.abs_x          = tr2_axis
 tlcm.abs_z          = tl2_axis
@@ -25,16 +25,16 @@ vkb-right.g__th1      = thumbr
 
 # Sides
 vkb-right.g__i1        = select
-vkb-right.g__p1        = second
+vkb-right.g__p1        = third
 
 # Hats
 # vkb-right.abs_hat0x = 
 # vkb-right.abs_hat0y = 
 
-vkb-right.g__hat1u = fourth
-vkb-right.g__hat1r = second
-vkb-right.g__hat1d = first
-vkb-right.g__hat1l = third
+# vkb-right.g__hat1u = 
+# vkb-right.g__hat1r = 
+# vkb-right.g__hat1d = 
+# vkb-right.g__hat1l = 
 # vkb-right.hat1c = 
 
 # vkb-right.hat2u = 
@@ -62,11 +62,11 @@ vkb-left.t1a       = key(key_a)
 
 # Thumbs
 vkb-left.g__th1       = first
-# vkb-left.g__th2       = fourth
+vkb-left.g__th2       = fourth
 
 # Sides
 vkb-left.g__i1          = thumbl
-vkb-left.g__p1        = third
+vkb-left.g__p1        = second
 
 # Hats
 # vkb-left.abs_hat0x = 
