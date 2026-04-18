@@ -13,10 +13,18 @@ return {
   ---@module 'obsidian'
   ---@type obsidian.config
   opts = {
+    ui = { enable = false },
     legacy_commands = false, -- this will be removed in the next major release
     picker = {
       name = "snacks.pick",
     },
+
+    templates = {
+      folder = "Templates",
+      date_format = "%Y-%m-%d-%a",
+      time_format = "%H:%M",
+    },
+
     workspaces = {
       {
         name = "notes-nvim",
@@ -33,6 +41,10 @@ return {
       {
         name = "notes-work",
         path = "~/Notes/work",
+      },
+      {
+        name = "notes-workshop",
+        path = "~/Notes/workshop",
       },
     },
   },

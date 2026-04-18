@@ -60,7 +60,7 @@ wkey({
 -- Notes
 del("n", "<leader>n")
 wkey({
-  { "<leader>n", icon = "󰠮 ", group = "notes" },
+  { "<leader>n", icon = "󰠮", group = "notes" },
   { "<leader>nk", "<cmd>e ~/Notes/work/_Kanban.md<cr>", icon = "󰠮 ", desc = "Kanban", mode = "n" },
   { "<leader>no", "<cmd>e ~/Notes/work/_One On One.md<cr>", icon = "󰠮 ", desc = "One on One", mode = "n" },
   { "<leader>nh", "<cmd>e ~/Notes/work/_History.md<cr>", icon = "󰠮 ", desc = "History", mode = "n" },
@@ -71,6 +71,16 @@ wkey({
   { "<leader>nv", "<cmd>Oil ~/Notes/nvim/<cr>", icon = "󰠮 ", desc = "Vim", mode = "n" },
   { "<leader>nw", "<cmd>Oil ~/Notes/work/<cr>", icon = "󰠮 ", desc = "Work", mode = "n" },
 })
+
+-- Obsidian
+wkey({
+  { "<leader>o", icon = "󰇈", group = "obsidian" },
+  { "<leader>ol", "<cmd>Obsidian follow_link<cr>", icon = "󰇈", desc = "Follow Link", mode = "n" },
+  { "<leader>od", "<cmd>Obsidian toggle_checkbox<cr>", icon = "󰇈", desc = "Done", mode = "n" },
+  { "<leader>ot", "<cmd>Obsidian template<cr>", icon = "󰇈", desc = "Template", mode = "n" },
+  { "<leader>ow", "<cmd>Obsidian workspace<cr>", icon = "󰇈", desc = "Workspace Switch", mode = "n" },
+})
+
 
 -- Notifications
 wkey({
