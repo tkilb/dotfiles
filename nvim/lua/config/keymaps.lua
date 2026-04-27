@@ -61,25 +61,50 @@ wkey({
 del("n", "<leader>n")
 wkey({
   { "<leader>n", icon = "󰠮", group = "notes" },
-  { "<leader>nk", "<cmd>e ~/Notes/work/_Kanban.md<cr>", icon = "󰠮 ", desc = "Kanban", mode = "n" },
-  { "<leader>no", "<cmd>e ~/Notes/work/_One On One.md<cr>", icon = "󰠮 ", desc = "One on One", mode = "n" },
-  { "<leader>nh", "<cmd>e ~/Notes/work/_History.md<cr>", icon = "󰠮 ", desc = "History", mode = "n" },
-  { "<leader>np", "<cmd>Oil ~/Notes/personal/<cr>", icon = "󰠮 ", desc = "Personal", mode = "n" },
-  { "<leader>nr", "<cmd>e ~/Notes/work/_Receipts.md<cr>", icon = "󰠮 ", desc = "Receipts", mode = "n" },
-  { "<leader>ns", "<cmd>e ~/Notes/work/_Scrap.md<cr>", icon = "󰠮 ", desc = "Scrap", mode = "n" },
-  { "<leader>nt", "<cmd>Oil ~/Notes/tech/<cr>", icon = "󰠮 ", desc = "Tech", mode = "n" },
-  { "<leader>nv", "<cmd>Oil ~/Notes/nvim/<cr>", icon = "󰠮 ", desc = "Vim", mode = "n" },
-  { "<leader>nw", "<cmd>Oil ~/Notes/work/<cr>", icon = "󰠮 ", desc = "Work", mode = "n" },
+  { "<leader>n/", "<cmd>Obsidian search<cr>", icon = "󰠮", desc = "Grep", mode = "n" },
+  { "<leader>n?", "<cmd>Obsidian helpgrep<cr>", icon = "󰠮", desc = "Help Grep", mode = "n" },
+  { "<leader>nD", "<cmd>Obsidian tomorrow<cr>", icon = "󰠮", desc = "Tomorrow's Daily", mode = "n" },
+  { "<leader>nH", "<cmd>Obsidian help<cr>", icon = "󰠮", desc = "Help", mode = "n" },
+  { "<leader>nT", "<cmd>Obsidian tags<cr>", icon = "󰠮", desc = "Tags", mode = "n" },
+  { "<leader>nd", "<cmd>Obsidian today<cr>", icon = "󰠮", desc = "Today's Daily", mode = "n" },
+  { "<leader>nf", "<cmd>Obsidian quick_switch<cr>", icon = "󰠮", desc = "File Quick Switch", mode = "n" },
+  { "<leader>nk", "<cmd>e ~/Notes/work/0.Kanban.md<cr>", icon = "󰠮", desc = "Kanban", mode = "n" },
+  { "<leader>nl", "<cmd>Obsidian follow_link<cr>", icon = "󰠮", desc = "Link Follow", mode = "n" },
+  { "<leader>nt", "<cmd>Obsidian template<cr>", icon = "󰠮", desc = "Template", mode = "n" },
+  { "<leader>nw", "<cmd>Obsidian workspace<cr>", icon = "󰠮", desc = "Workspace Switch", mode = "n" },
+  { "<leader>ny", "<cmd>Obsidian yesterday<cr>", icon = "󰠮", desc = "Yesterday's Daily", mode = "n" },
+  {
+    { "<leader>nn", icon = "󰠮", group = "note vaults" },
+    { "<leader>nnt", "<cmd>Oil ~/Notes/tech/<cr>", icon = "󰠮 ", desc = "Tech", mode = "n" },
+    { "<leader>nnv", "<cmd>Oil ~/Notes/nvim/<cr>", icon = "󰠮 ", desc = "Vim", mode = "n" },
+    { "<leader>nnw", "<cmd>Oil ~/Notes/work/<cr>", icon = "󰠮 ", desc = "Work", mode = "n" },
+  },
+  -- Notes AI agents (via sidekick.nvim + Copilot CLI)
+  { "<leader>nK", function()
+      local sidekick = require("sidekick.cli")
+      sidekick.toggle({ name = "copilot", focus = true })
+      local msg = require("agents").kanban_update()
+      vim.defer_fn(function() sidekick.send({ msg = msg }) end, 500)
+    end, icon = "󰚩 ", desc = "Update Kanban", mode = "n" },
+  { "<leader>ns", function()
+      local sidekick = require("sidekick.cli")
+      sidekick.toggle({ name = "copilot", focus = true })
+      local msg = require("agents").shareout()
+      vim.defer_fn(function() sidekick.send({ msg = msg }) end, 500)
+    end, icon = "󰚩 ", desc = "Shareout", mode = "n" },
+  { "<leader>no", function()
+      local sidekick = require("sidekick.cli")
+      sidekick.toggle({ name = "copilot", focus = true })
+      local msg = require("agents").ingest_and_organize()
+      vim.defer_fn(function() sidekick.send({ msg = msg }) end, 500)
+    end, icon = "󰚩 ", desc = "Organize Notes", mode = "n" },
 })
 
--- Obsidian
+-- Notes (non-group)
 wkey({
-  { "<leader>o", icon = "󰇈", group = "obsidian" },
-  { "<leader>ol", "<cmd>Obsidian follow_link<cr>", icon = "󰇈", desc = "Follow Link", mode = "n" },
-  { "<leader>od", "<cmd>Obsidian toggle_checkbox<cr>", icon = "󰇈", desc = "Done", mode = "n" },
-  { "<leader>ot", "<cmd>Obsidian template<cr>", icon = "󰇈", desc = "Template", mode = "n" },
-  { "<leader>ow", "<cmd>Obsidian workspace<cr>", icon = "󰇈", desc = "Workspace Switch", mode = "n" },
+  { "<leader>dd", "<cmd>Obsidian toggle_checkbox<cr>", icon = "", desc = "Todo Toggle", mode = "n" },
 })
+
 
 
 -- Notifications
@@ -89,6 +114,9 @@ wkey({
 
 -- Relative Line Numbers
 wkey({"<leader>r", "<cmd>set nonumber! norelativenumber!<cr>", desc = "Toggle Relative Line Numbers", mode = "n", hidden = true})
+
+-- Restore Last Session
+wkey({"<leader>qr", "<cmd>lua require('persistence').load({ last = true })<cr>", desc = "Restore Last Session", mode = "n" })
 
 -- Windows
 del("n", "<leader>-")
@@ -162,3 +190,6 @@ map("n", "<C-j>", "<C-w>j")
 map("n", "<C-k>", "<C-w>k")
 map("n", "<C-l>", "<C-w>l")
 map("n", "<leader>/", "viwo<Esc>yw/<C-r><C-w><cr>N")
+
+-- Obsidian checkbox toggle (Kitty full keyboard protocol required)
+map("n", "<S-Space>", "<cmd>Obsidian toggle_checkbox<cr>", { desc = "Checkbox Toggle" })

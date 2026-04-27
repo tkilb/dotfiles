@@ -45,6 +45,17 @@ return {
         selection = "{selection}",
         ["function"] = "{function}",
         class = "{class}",
+        -- Notes: Ingest old daily notes + inbox into PARA structure
+        ingest_and_organize = function(_ctx)
+          return require("agents").ingest_and_organize()
+        end,
+        kanban_update = function(_ctx)
+          return require("agents").kanban_update()
+        end,
+        -- Notes: Team shareout / status update from daily notes + active projects
+        shareout = function(_ctx)
+          return require("agents").shareout()
+        end,
         -- Custom prompt: Repository analysis
         repo_summary = function(ctx)
           local prompt_file = vim.fn.expand("~/.dotfiles/ai/AI_REPO_SUMMARY.md")
