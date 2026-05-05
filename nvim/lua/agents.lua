@@ -71,7 +71,8 @@ function M.ingest_and_organize()
 
   return tmpl
     :gsub("{{kanban}}", VAULT .. "/0.Kanban.md")
-    :gsub("{{old_daily_notes}}", #old_daily > 0 and table.concat(old_daily, "\n") or "  (none found — all daily notes are within 7 days)")
+    :gsub("{{old_daily_notes}}", #old_daily > 0 and table.concat(old_daily, "\n") or "  (none found — all daily notes are within " .. cfg.stale_days .. " days)")
+    :gsub("{{stale_days}}", tostring(cfg.stale_days))
     :gsub("{{inbox_files}}", #inbox > 0 and table.concat(inbox, "\n") or "  (inbox is empty)")
 end
 
@@ -91,6 +92,22 @@ function M.shareout()
   return tmpl
     :gsub("{{daily_notes}}", recent_daily_paths(7))
     :gsub("{{project_notes}}", project_paths())
+end
+
+function M.meeting_ingest()
+  local tmpl, err = load_template("meeting-ingest")
+  if not tmpl then return "Error: " .. err end
+
+  -- Use the most recently modified file in 0.Inbox as the transcript
+  local transcript = "(no file found in 0.Inbox)"
+  local h = io.popen("ls -t " .. VAULT .. "/0.Inbox/* 2>/dev/null | head -1")
+  if h then
+    local p = h:read("*l")
+    h:close()
+    if p and p ~= "" then transcript = p end
+  end
+
+  return tmpl:gsub("{{transcript}}", transcript)
 end
 
 return M

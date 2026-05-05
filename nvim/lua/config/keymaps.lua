@@ -92,12 +92,18 @@ wkey({
       local msg = require("agents").shareout()
       vim.defer_fn(function() sidekick.send({ msg = msg }) end, 500)
     end, icon = "󰚩 ", desc = "Shareout", mode = "n" },
-  { "<leader>no", function()
+  { "<leader>nO", function()
       local sidekick = require("sidekick.cli")
       sidekick.toggle({ name = "copilot", focus = true })
       local msg = require("agents").ingest_and_organize()
       vim.defer_fn(function() sidekick.send({ msg = msg }) end, 500)
     end, icon = "󰚩 ", desc = "Organize Notes", mode = "n" },
+  { "<leader>nM", function()
+      local sidekick = require("sidekick.cli")
+      sidekick.toggle({ name = "copilot", focus = true })
+      local msg = require("agents").meeting_ingest()
+      vim.defer_fn(function() sidekick.send({ msg = msg }) end, 500)
+    end, icon = "󰚩 ", desc = "Meeting Ingest", mode = "n" },
 })
 
 -- Notes (non-group)

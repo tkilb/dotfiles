@@ -10,5 +10,5 @@ return {
 
   -- Number of days before a Kanban item is considered stale.
   -- Agents will flag these items prominently for review.
-  stale_days = 7,
+  stale_days = 4,
 }
