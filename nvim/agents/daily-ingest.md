@@ -13,7 +13,7 @@ Work through **two passes** sequentially — old daily notes first, then the inb
 
 ---
 
-## Pass 1 — Old Daily Notes (> 7 days)
+## Pass 1 — Old Daily Notes (> {{stale_days}} days)
 {{old_daily_notes}}
 
 For each daily note, work through it **one at a time**:

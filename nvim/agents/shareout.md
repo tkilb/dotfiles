@@ -8,3 +8,5 @@ Active project notes:
 
 Cover: what was accomplished, what is in progress, any blockers, and upcoming priorities.
 Format it for sharing with team and stakeholders.
+
+Look at my PARA kanban and inbox as well.

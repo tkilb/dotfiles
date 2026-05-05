@@ -47,6 +47,47 @@ return {
       template = "daily-note.md",
       workdays_only = true,
     },
+    note_frontmatter_func = function(note)
+      local out = {
+        id = note.id,
+        date = os.date("%Y-%m-%d"),
+        tags = note.tags,
+        people = {},
+      }
+      -- Preserve any fields the user has already set
+      if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+        for k, v in pairs(note.metadata) do
+          out[k] = v
+        end
+      end
+      return out
+    end,
+
+    callbacks = {
+      enter_note = function(_)
+        local function toggle_with_date()
+          local row = vim.api.nvim_win_get_cursor(0)[1]
+          local line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1]
+          local had_checkbox = line and line:match("^%s*[-*+] %[")
+
+          require("obsidian.actions").toggle_checkbox()
+
+          if not had_checkbox then
+            local new_line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1]
+            if new_line and new_line:match("^%s*[-*+] %[") then
+              local date = os.date("%Y-%m-%d")
+              vim.api.nvim_buf_set_lines(0, row - 1, row, false, {
+                new_line .. " (added: " .. date .. ")",
+              })
+            end
+          end
+        end
+
+        vim.keymap.set("n", "<leader>ch", toggle_with_date, { buffer = true, desc = "Toggle checkbox (stamps added date on new todos)" })
+        vim.keymap.set("n", "<leader>dd", toggle_with_date, { buffer = true, desc = "Toggle checkbox (stamps added date on new todos)" })
+      end,
+    },
+
     workspaces = {
       {
         name = "notes-work",
