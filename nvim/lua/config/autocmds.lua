@@ -15,6 +15,40 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
+-- Auto-cd terminals (sidekick + snacks) to the last file buffer's directory,
+-- but only when the directory has actually changed since the last cd.
+local terminal_last_dir = {}
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    local ft = vim.bo.filetype
+    -- Track the last normal file buffer's directory
+    if vim.bo.buftype == "" and vim.fn.expand("%:p") ~= "" then
+      local path = vim.fn.expand("%:p")
+      -- Oil buffers use oil:// URIs — extract the real filesystem path
+      if vim.bo.filetype == "oil" then
+        path = path:gsub("^oil://", "")
+        vim.g.last_file_dir = path
+      else
+        vim.g.last_file_dir = vim.fn.fnamemodify(path, ":h")
+      end
+    end
+    -- cd terminals only when the target directory has changed
+    if ft == "snacks_terminal" then
+      local cwd = vim.g.last_file_dir or vim.fn.getcwd()
+      local buf = vim.api.nvim_get_current_buf()
+      if terminal_last_dir[buf] ~= cwd then
+        terminal_last_dir[buf] = cwd
+        if ft == "snacks_terminal" then
+          local job_id = vim.b.terminal_job_id
+          if job_id then
+            vim.fn.chansend(job_id, " cd " .. vim.fn.shellescape(cwd) .. "\n")
+          end
+        end
+      end
+    end
+  end,
+})
+
 -- Disable auto-commenting on new lines
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
