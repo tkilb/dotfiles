@@ -158,10 +158,27 @@ wkey({ "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<cr>", i
 -- Oil
 map("n", "-", "<cmd>Oil<cr>", { desc = "Oil" })
 
+-- Returns the last file buffer's directory (or cwd as fallback), oil-aware
+local function file_cwd()
+  if vim.bo.buftype == "" and vim.fn.expand("%:p") ~= "" then
+    if vim.bo.filetype == "oil" then
+      return vim.fn.expand("%:p"):gsub("^oil://", "")
+    end
+    return vim.fn.expand("%:p:h")
+  end
+  return vim.g.last_file_dir or vim.fn.getcwd()
+end
+
 -- Sidekick
 wkey({
-  { "<C-.>", "<cmd>lua require('sidekick.cli').toggle({ focus = true })<cr>", desc = "Toggle Sidekick", mode = { "i", "n", "t", "x" }, hidden = true },
-  { "<A-.>", "<cmd>lua require('sidekick.cli').toggle({ focus = true })<cr>", desc = "Toggle Sidekick", mode = { "i", "n", "t", "x" }, hidden = true },
+  { "<C-.>", function()
+      vim.cmd("lcd " .. vim.fn.fnameescape(file_cwd()))
+      require("sidekick.cli").toggle({ focus = true })
+    end, desc = "Toggle Sidekick", mode = { "i", "n", "t", "x" }, hidden = true },
+  { "<A-.>", function()
+      vim.cmd("lcd " .. vim.fn.fnameescape(file_cwd()))
+      require("sidekick.cli").toggle({ focus = true })
+    end, desc = "Toggle Sidekick", mode = { "i", "n", "t", "x" }, hidden = true },
   { "<leader>a", icon = "󰚩 ", group = "ai" },
   { "<leader>ad", "<cmd>lua require('sidekick.cli').close()<cr>", icon = "󰚩 ", desc = "Detatch", mode = "n" },
   { "<leader>af", "<cmd>lua require('sidekick.cli').send({ msg = '{file}' })<cr>", icon = "󰚩 ", desc = "Send File", mode = "n" },
