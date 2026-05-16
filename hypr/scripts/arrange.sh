@@ -2,7 +2,7 @@
 
 # Config: app_class -> workspace mappings (add/remove lines as needed)
 declare -A APP_WS=(
-  ["factorio"]=1
+  ["Factorio"]=1
   ["zen"]=2
   ["kitty"]=3
   ["Discord"]=4

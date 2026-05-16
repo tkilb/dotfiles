@@ -5,7 +5,7 @@
 #################################
 tlcm.abs_x          = tr2_axis
 tlcm.abs_z          = tl2_axis
-tlcm.abs_y          = pedal2btn(tl)
+tlcm.abs_y          = pedal2btn(first)
 
 # Right Stick
 #################################
@@ -20,12 +20,13 @@ vkb-right.g__t2a       = thumbr
 # vkb-right.t2b       = 
 
 # Thumbs
-vkb-right.g__th1      = thumbr
+vkb-right.g__th1      = second
+# vkb-right.g__th1      = thumbr
 # vkb-right.th2       = 
 
 # Sides
 vkb-right.g__i1        = select
-vkb-right.g__p1        = second
+vkb-right.g__p1        = first
 
 # Hats
 # vkb-right.abs_hat0x = 
@@ -56,17 +57,18 @@ vkb-right.g__hat1l = third
 
 # Triggers
 vkb-left.t1a       = key(key_a)
-# vkb-left.t1b       = 
-# vkb-left.t2a       = 
+# vkb-left.t1b      o= 
+
+vkb-left.t2a       = key(key_down)
 # vkb-left.t2b       = 
 
 # Thumbs
-vkb-left.g__th1       = first
+vkb-left.g__th1       = third #first
 # vkb-left.g__th2       = fourth
 
 # Sides
 vkb-left.g__i1          = thumbl
-vkb-left.g__p1        = third
+vkb-left.g__p1        = first
 
 # Hats
 # vkb-left.abs_hat0x = 
