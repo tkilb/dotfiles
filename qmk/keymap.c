@@ -193,5 +193,35 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXX,               ___,               ___,               KC_VOLD,           KC_MSTP,           KC_MPRV,            ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  __ _ __            __ _ __            __ _ __            __ L1 __           __ L2 __           __ L3 __     |      __ R3 __           __ R2 __            __ R1 __           __ _ __            __ _ __                __ _ __ */ \
                                                                  U_LT1,             U_LT2,             U_LT3,              U_RT3,             U_RT2,              U_RT1
+  ),
+  [U_GAME_BASE] = LAYOUT_split_3x6_3(
+    /*  _ Tab _            __ Q __            __ W __            __ E __            __ R __            __ T __      |      __ Y __            __ U __             __ I __            __ O __            __ P __                __ [ __ */ \
+        XXX,               ___,               ___,               KC_UP,             KC_PGUP,           KC_HOME,            ___,               KC_F7,              KC_F8,             KC_F9,             ___,                   XXX,       \
+    /*  _ Cap _            __ A __            __ S __            __ D __            __ F __            __ G __      |      __ H __            __ J __             __ K __            __ L __            __ ; __                __ ' __ */ \
+        XXX,               KC_HOME,           KC_LEFT,           KC_DOWN,           KC_RGHT,           KC_END,             KC_F12,            KC_F4,              KC_F5,             KC_F6,             KC_F10,               XXX,       \
+    /*  _ Shf _            __ Z __            __ X __            __ C __            __ V __            __ B __      |      __ N __            __ M __             __ , __            __ . __            __ / __                _ Shf _ */ \
+        XXX,               KC_LALT,           KC_LCTL,           KC_LGUI,           KC_PGDN,           KC_END,             ___,               NAV_EDGE_H,         NAV_EDGE_COMM,     NAV_EDGE_DOT,      KC_LALT,                   XXX,       \
+    /*  __ _ __            __ _ __            __ _ __            __ L1 __           __ L2 __           __ L3 __     |      __ R3 __           __ R2 __            __ R1 __           __ _ __            __ _ __                __ _ __ */ \
+                                                                 U_LT1,             U_LT2,             U_LT3,              U_RT3,             U_RT2,              U_RT1
+  ),
+  [U_GAME_L] = LAYOUT_split_3x6_3(
+    /*  _ Tab _            __ Q __            __ W __            __ E __            __ R __            __ T __      |      __ Y __            __ U __             __ I __            __ O __            __ P __                __ [ __ */ \
+        XXX,               ___,               ___,               KC_UP,             KC_PGUP,           KC_HOME,            ___,               KC_F7,              KC_F8,             KC_F9,             ___,                   XXX,       \
+    /*  _ Cap _            __ A __            __ S __            __ D __            __ F __            __ G __      |      __ H __            __ J __             __ K __            __ L __            __ ; __                __ ' __ */ \
+        XXX,               KC_HOME,           KC_LEFT,           KC_DOWN,           KC_RGHT,           KC_END,             KC_F12,            KC_F4,              KC_F5,             KC_F6,             KC_F10,               XXX,       \
+    /*  _ Shf _            __ Z __            __ X __            __ C __            __ V __            __ B __      |      __ N __            __ M __             __ , __            __ . __            __ / __                _ Shf _ */ \
+        XXX,               KC_LALT,           KC_LCTL,           KC_LGUI,           KC_PGDN,           KC_END,             ___,               NAV_EDGE_H,         NAV_EDGE_COMM,     NAV_EDGE_DOT,      KC_LALT,                   XXX,       \
+    /*  __ _ __            __ _ __            __ _ __            __ L1 __           __ L2 __           __ L3 __     |      __ R3 __           __ R2 __            __ R1 __           __ _ __            __ _ __                __ _ __ */ \
+                                                                 U_LT1,             U_LT2,             U_LT3,              U_RT3,             U_RT2,              U_RT1
+  ),
+  [U_GAME_R] = LAYOUT_split_3x6_3(
+    /*  _ Tab _            __ Q __            __ W __            __ E __            __ R __            __ T __      |      __ Y __            __ U __             __ I __            __ O __            __ P __                __ [ __ */ \
+        XXX,               ___,               ___,               KC_UP,             KC_PGUP,           KC_HOME,            ___,               KC_F7,              KC_F8,             KC_F9,             ___,                   XXX,       \
+    /*  _ Cap _            __ A __            __ S __            __ D __            __ F __            __ G __      |      __ H __            __ J __             __ K __            __ L __            __ ; __                __ ' __ */ \
+        XXX,               KC_HOME,           KC_LEFT,           KC_DOWN,           KC_RGHT,           KC_END,             KC_F12,            KC_F4,              KC_F5,             KC_F6,             KC_F10,               XXX,       \
+    /*  _ Shf _            __ Z __            __ X __            __ C __            __ V __            __ B __      |      __ N __            __ M __             __ , __            __ . __            __ / __                _ Shf _ */ \
+        XXX,               KC_LALT,           KC_LCTL,           KC_LGUI,           KC_PGDN,           KC_END,             ___,               NAV_EDGE_H,         NAV_EDGE_COMM,     NAV_EDGE_DOT,      KC_LALT,                   XXX,       \
+    /*  __ _ __            __ _ __            __ _ __            __ L1 __           __ L2 __           __ L3 __     |      __ R3 __           __ R2 __            __ R1 __           __ _ __            __ _ __                __ _ __ */ \
+                                                                 U_LT1,             U_LT2,             U_LT3,              U_RT3,             U_RT2,              U_RT1
   )
 };
