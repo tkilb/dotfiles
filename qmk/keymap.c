@@ -162,7 +162,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [U_NUM] = LAYOUT_split_3x6_3(
     /*  _ Tab _            __ Q __            __ W __            __ E __            __ R __            __ T __      |      __ Y __            __ U __             __ I __            __ O __            __ P __                __ [ __ */ \
-        XXX,               ___,               ___,              ___,                ___,               ___,                ___,               KC_7,               KC_8,              KC_9,              ___,                   ___,       \
+        XXX,               TO(U_BASE),               ___,              ___,                ___,               ___,                ___,               KC_7,               KC_8,              KC_9,              ___,                   ___,       \
     /*  _ Cap _            __ A __            __ S __            __ D __            __ F __            __ G __      |      __ H __            __ J __             __ K __            __ L __            __ ; __                __ ' __ */ \
         XXX,               ___,               ___,              ___,                ___,               S(KC_G),            ___,               KC_4,               KC_5,              KC_6,              KC_0,                  ___,       \
     /*  _ Shf _            __ Z __            __ X __            __ C __            __ V __            __ B __      |      __ N __            __ M __             __ , __            __ . __            __ / __                _ Shf _ */ \
@@ -172,7 +172,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),//
   [U_FUN] = LAYOUT_split_3x6_3(
     /*  _ Tab _            __ Q __            __ W __            __ E __            __ R __            __ T __      |      __ Y __            __ U __             __ I __            __ O __            __ P __                __ [ __ */ \
-        XXX,               TG(U_GAME_BASE),   ___,               ___,               ___,               ___,                ___,               KC_F7,              KC_F8,             KC_F9,             KC_F10,                XXX,       \
+        XXX,               TO(U_GAME_BASE),   ___,               ___,               ___,               ___,                ___,               KC_F7,              KC_F8,             KC_F9,             KC_F10,                XXX,       \
     /*  _ Cap _            __ A __            __ S __            __ D __            __ F __            __ G __      |      __ H __            __ J __             __ K __            __ L __            __ ; __                __ ' __ */ \
         XXX,               ___,               ___,               ___,               ___,               ___,                ___,               KC_F4,              KC_F5,             KC_F6,             KC_F11,                XXX,       \
     /*  _ Shf _            __ Z __            __ X __            __ C __            __ V __            __ B __      |      __ N __            __ M __             __ , __            __ . __            __ / __                _ Shf _ */ \
@@ -202,7 +202,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [U_GAME_BASE] = LAYOUT_split_3x6_3(
     /*  _ Tab _            __ Q __            __ W __            __ E __            __ R __            __ T __      |      __ Y __            __ U __             __ I __            __ O __            __ P __                __ [ __ */ \
-        XXX,               EDGE_Q,            KC_W,              KC_F,              KC_P,              KC_B,               KC_J,              KC_L,               KC_U,              KC_Y,              EDGE_QUOTE,                ___,       \
+        XXX,               EDGE_Q,            KC_W,              KC_F,              KC_P,              KC_B,               KC_J,              KC_L,               KC_U,              KC_Y,              EDGE_QUOTE,            ___,       \
     /*  _ Cap _            __ A __            __ S __            __ D __            __ F __            __ G __      |      __ H __            __ J __             __ K __            __ L __            __ ; __                __ ' __ */ \
         XXX,               KC_A,              KC_R,              KC_S,              KC_T,              KC_G,               KC_M,              KC_N,               KC_E,              KC_I,              KC_O,                  ___,       \
     /*  _ Shf _            __ Z __            __ X __            __ C __            __ V __            __ B __      |      __ N __            __ M __             __ , __            __ . __            __ / __                _ Shf _ */ \
@@ -212,22 +212,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [U_GAME_L] = LAYOUT_split_3x6_3(
     /*  _ Tab _            __ Q __            __ W __            __ E __            __ R __            __ T __      |      __ Y __            __ U __             __ I __            __ O __            __ P __                __ [ __ */ \
-        XXX,               ___,               KC_4,              KC_5,              KC_6,              KC_F8,              ___,               ___,                ___,               ___,               ___,                   XXX,       \
+        XXX,               KC_ESC,            KC_4,              KC_5,              KC_6,              KC_F8,              ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  _ Cap _            __ A __            __ S __            __ D __            __ F __            __ G __      |      __ H __            __ J __             __ K __            __ L __            __ ; __                __ ' __ */ \
         XXX,               ___,               KC_1,              KC_2,              KC_3,              KC_F7,              ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  _ Shf _            __ Z __            __ X __            __ C __            __ V __            __ B __      |      __ N __            __ M __             __ , __            __ . __            __ / __                _ Shf _ */ \
-        XXX,               ___,               ___,               KC_BSPC,           KC_F5,             KC_F6,              ___,               ___,                ___,               ___,               ___,                   XXX,       \
+        XXX,               ___,               ___,               KC_SPC,            KC_F5,             KC_F6,              ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  __ _ __            __ _ __            __ _ __            __ L1 __           __ L2 __           __ L3 __     |      __ R3 __           __ R2 __            __ R1 __           __ _ __            __ _ __                __ _ __ */ \
-                                                                 U_LT1,             U_LT2,             U_LT3,              U_RT3,             U_RT2,              U_RT1
+                                                                 ___,               U_LT2,             U_LT3,              U_RT3,             U_RT2,              U_RT1
   ),
   [U_GAME_R] = LAYOUT_split_3x6_3(
     /*  _ Tab _            __ Q __            __ W __            __ E __            __ R __            __ T __      |      __ Y __            __ U __             __ I __            __ O __            __ P __                __ [ __ */ \
-        XXX,               ___,               C(KC_4),           C(KC_5),           C(KC_6),           C(KC_F8),           ___,               ___,                ___,               ___,               TG(U_BASE),            XXX,       \
+        XXX,               ___,               C(KC_4),           C(KC_5),           C(KC_6),           C(KC_F8),           ___,               ___,                ___,               ___,               TO(U_BASE),                  XXX,       \
     /*  _ Cap _            __ A __            __ S __            __ D __            __ F __            __ G __      |      __ H __            __ J __             __ K __            __ L __            __ ; __                __ ' __ */ \
         XXX,               ___,               C(KC_1),           C(KC_2),           C(KC_3),           C(KC_F7),           ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  _ Shf _            __ Z __            __ X __            __ C __            __ V __            __ B __      |      __ N __            __ M __             __ , __            __ . __            __ / __                _ Shf _ */ \
         XXX,               ___,               ___,               KC_BSPC,           C(KC_F5),          C(KC_F6),           ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  __ _ __            __ _ __            __ _ __            __ L1 __           __ L2 __           __ L3 __     |      __ R3 __           __ R2 __            __ R1 __           __ _ __            __ _ __                __ _ __ */ \
-                                                                 U_LT1,             U_LT2,             U_LT3,              U_RT3,             U_RT2,              U_RT1
+                                                                 U_LT1,             U_LT2,             ___,                U_RT3,             U_RT2,              U_RT1
   )
 };
