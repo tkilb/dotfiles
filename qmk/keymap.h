@@ -17,7 +17,8 @@
 #define U_MEDIA 4
 #define U_GAME_BASE 5
 #define U_GAME_L 6
-#define U_GAME_R 7
+#define U_GAME_M 7
+#define U_GAME_R 8
 
 // Empties
 #define U_NP KC_NO

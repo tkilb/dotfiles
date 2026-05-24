@@ -42,7 +42,7 @@
 
 /////
 #define G_LT1 MO(U_GAME_L)
-#define G_LT2 MO(U_NAV)
+#define G_LT2 MO(U_GAME_M)
 #define G_LT3 MO(U_GAME_R)
 /////
 
@@ -219,6 +219,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXX,               ___,               ___,               KC_SPC,            KC_F5,             KC_F6,              ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  __ _ __            __ _ __            __ _ __            __ L1 __           __ L2 __           __ L3 __     |      __ R3 __           __ R2 __            __ R1 __           __ _ __            __ _ __                __ _ __ */ \
                                                                  ___,               U_LT2,             U_LT3,              U_RT3,             U_RT2,              U_RT1
+  ),
+  [U_GAME_M] = LAYOUT_split_3x6_3(
+    /*  _ Tab _            __ Q __            __ W __            __ E __            __ R __            __ T __      |      __ Y __            __ U __             __ I __            __ O __            __ P __                __ [ __ */ \
+        XXX,               ___,               ___,               KC_UP,             ___,               ___,                ___,               ___,                ___,               ___,               ___,                   XXX,       \
+    /*  _ Cap _            __ A __            __ S __            __ D __            __ F __            __ G __      |      __ H __            __ J __             __ K __            __ L __            __ ; __                __ ' __ */ \
+        XXX,               ___,               KC_LEFT,           KC_DOWN,           KC_RGHT,           ___,                ___,               ___,                ___,               ___,               ___,                   XXX,       \
+    /*  _ Shf _            __ Z __            __ X __            __ C __            __ V __            __ B __      |      __ N __            __ M __             __ , __            __ . __            __ / __                _ Shf _ */ \
+        XXX,               ___,               ___,               ___,               ___,               ___,                ___,               ___,                ___,               ___,               ___,                   XXX,       \
+    /*  __ _ __            __ _ __            __ _ __            __ L1 __           __ L2 __           __ L3 __     |      __ R3 __           __ R2 __            __ R1 __           __ _ __            __ _ __                __ _ __ */ \
+                                                                 U_LT1,             U_LT2,             U_LT3,              U_RT3,             U_RT2,              U_RT1
   ),
   [U_GAME_R] = LAYOUT_split_3x6_3(
     /*  _ Tab _            __ Q __            __ W __            __ E __            __ R __            __ T __      |      __ Y __            __ U __             __ I __            __ O __            __ P __                __ [ __ */ \
