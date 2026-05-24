@@ -41,7 +41,7 @@
 #define NAV_EDGE_DOT   LCTL_T(KC_F3)
 
 /////
-#define G_LT1 MO(U_GAME_L)
+#define G_LT1 LT(U_GAME_L, KC_ESC)
 #define G_LT2 MO(U_GAME_M)
 #define G_LT3 MO(U_GAME_R)
 /////
@@ -212,31 +212,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [U_GAME_L] = LAYOUT_split_3x6_3(
     /*  _ Tab _            __ Q __            __ W __            __ E __            __ R __            __ T __      |      __ Y __            __ U __             __ I __            __ O __            __ P __                __ [ __ */ \
-        XXX,               KC_ESC,            KC_4,              KC_5,              KC_6,              KC_F8,              ___,               ___,                ___,               ___,               ___,                   XXX,       \
+        XXX,               S(KC_0),           S(KC_9),           ___,               S(KC_F5),          S(KC_F7),           ___,               ___,                ___,               ___,               TO(U_BASE),                  XXX,       \
     /*  _ Cap _            __ A __            __ S __            __ D __            __ F __            __ G __      |      __ H __            __ J __             __ K __            __ L __            __ ; __                __ ' __ */ \
-        XXX,               ___,               KC_1,              KC_2,              KC_3,              KC_F7,              ___,               ___,                ___,               ___,               ___,                   XXX,       \
+        XXX,               KC_F1,             ___,               ___,               ___,               S(KC_F8),           ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  _ Shf _            __ Z __            __ X __            __ C __            __ V __            __ B __      |      __ N __            __ M __             __ , __            __ . __            __ / __                _ Shf _ */ \
-        XXX,               ___,               ___,               KC_SPC,            KC_F5,             KC_F6,              ___,               ___,                ___,               ___,               ___,                   XXX,       \
+        XXX,               KC_F2,             S(KC_1),           S(KC_2),           S(KC_3),           S(KC_4),            ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  __ _ __            __ _ __            __ _ __            __ L1 __           __ L2 __           __ L3 __     |      __ R3 __           __ R2 __            __ R1 __           __ _ __            __ _ __                __ _ __ */ \
-                                                                 ___,               U_LT2,             U_LT3,              U_RT3,             U_RT2,              U_RT1
+                                                                 U_LT1,             U_LT2,             ___,                U_RT3,             U_RT2,              U_RT1
   ),
   [U_GAME_M] = LAYOUT_split_3x6_3(
     /*  _ Tab _            __ Q __            __ W __            __ E __            __ R __            __ T __      |      __ Y __            __ U __             __ I __            __ O __            __ P __                __ [ __ */ \
-        XXX,               ___,               ___,               KC_UP,             ___,               ___,                ___,               ___,                ___,               ___,               ___,                   XXX,       \
+        XXX,               KC_0,              KC_9,              KC_UP,             KC_F5,             KC_F6,              ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  _ Cap _            __ A __            __ S __            __ D __            __ F __            __ G __      |      __ H __            __ J __             __ K __            __ L __            __ ; __                __ ' __ */ \
-        XXX,               ___,               KC_LEFT,           KC_DOWN,           KC_RGHT,           ___,                ___,               ___,                ___,               ___,               ___,                   XXX,       \
+        XXX,               KC_A,              KC_LEFT,           KC_DOWN,           KC_RGHT,           KC_F7,              ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  _ Shf _            __ Z __            __ X __            __ C __            __ V __            __ B __      |      __ N __            __ M __             __ , __            __ . __            __ / __                _ Shf _ */ \
-        XXX,               ___,               ___,               ___,               ___,               ___,                ___,               ___,                ___,               ___,               ___,                   XXX,       \
+        XXX,               KC_SPC,            KC_1,              KC_2,              KC_3,              KC_4,               ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  __ _ __            __ _ __            __ _ __            __ L1 __           __ L2 __           __ L3 __     |      __ R3 __           __ R2 __            __ R1 __           __ _ __            __ _ __                __ _ __ */ \
                                                                  U_LT1,             U_LT2,             U_LT3,              U_RT3,             U_RT2,              U_RT1
   ),
   [U_GAME_R] = LAYOUT_split_3x6_3(
     /*  _ Tab _            __ Q __            __ W __            __ E __            __ R __            __ T __      |      __ Y __            __ U __             __ I __            __ O __            __ P __                __ [ __ */ \
-        XXX,               ___,               C(KC_4),           C(KC_5),           C(KC_6),           C(KC_F8),           ___,               ___,                ___,               ___,               TO(U_BASE),                  XXX,       \
+        XXX,               C(KC_0),           C(KC_9),           ___,               C(KC_F5),          C(KC_F7),           ___,               ___,                ___,               ___,               TO(U_BASE),                  XXX,       \
     /*  _ Cap _            __ A __            __ S __            __ D __            __ F __            __ G __      |      __ H __            __ J __             __ K __            __ L __            __ ; __                __ ' __ */ \
-        XXX,               ___,               C(KC_1),           C(KC_2),           C(KC_3),           C(KC_F7),           ___,               ___,                ___,               ___,               ___,                   XXX,       \
+        XXX,               KC_H,              ___,               ___,               ___,               C(KC_F8),           ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  _ Shf _            __ Z __            __ X __            __ C __            __ V __            __ B __      |      __ N __            __ M __             __ , __            __ . __            __ / __                _ Shf _ */ \
-        XXX,               ___,               ___,               KC_BSPC,           C(KC_F5),          C(KC_F6),           ___,               ___,                ___,               ___,               ___,                   XXX,       \
+        XXX,               KC_F2,             C(KC_1),           C(KC_2),           C(KC_3),           C(KC_4),            ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  __ _ __            __ _ __            __ _ __            __ L1 __           __ L2 __           __ L3 __     |      __ R3 __           __ R2 __            __ R1 __           __ _ __            __ _ __                __ _ __ */ \
                                                                  U_LT1,             U_LT2,             ___,                U_RT3,             U_RT2,              U_RT1
   )
