@@ -15,6 +15,9 @@
 #define U_FUN 2
 #define U_NAV 3
 #define U_MEDIA 4
+#define U_GAME_BASE 5
+#define U_GAME_L 6
+#define U_GAME_R 7
 
 // Empties
 #define U_NP KC_NO
