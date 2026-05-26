@@ -41,7 +41,8 @@
 #define NAV_EDGE_DOT   LCTL_T(KC_F3)
 
 /////
-#define G_LT1 LT(U_GAME_L, KC_ESC)
+#define G_LT1 LGUI_T(KC_ESC)
+// #define G_LT1 LT(U_GAME_L, KC_ESC)
 #define G_LT2 MO(U_GAME_M)
 #define G_LT3 MO(U_GAME_R)
 /////
