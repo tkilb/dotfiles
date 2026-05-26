@@ -233,11 +233,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [U_GAME_R] = LAYOUT_split_3x6_3(
     /*  _ Tab _            __ Q __            __ W __            __ E __            __ R __            __ T __      |      __ Y __            __ U __             __ I __            __ O __            __ P __                __ [ __ */ \
-        XXX,               C(KC_8),           C(KC_9),           ___,               C(KC_F5),          C(KC_F6),           ___,               ___,                ___,               ___,               TO(U_BASE),                  XXX,       \
+        XXX,               C(KC_8),           C(KC_9),           ___,               C(KC_F5),          C(KC_F6),           TO(U_BASE),        ___,                ___,               ___,               KC_F10,                XXX,       \
     /*  _ Cap _            __ A __            __ S __            __ D __            __ F __            __ G __      |      __ H __            __ J __             __ K __            __ L __            __ ; __                __ ' __ */ \
         XXX,               KC_H,              ___,               ___,               ___,               C(KC_F7),           ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  _ Shf _            __ Z __            __ X __            __ C __            __ V __            __ B __      |      __ N __            __ M __             __ , __            __ . __            __ / __                _ Shf _ */ \
-        XXX,               C(KC_0),          C(KC_1),           C(KC_2),           C(KC_3),           C(KC_4),            ___,               ___,                ___,               ___,               ___,                   XXX,       \
+        XXX,               C(KC_0),          C(KC_1),           C(KC_2),           C(KC_3),           C(KC_4),             ___,               ___,                ___,               ___,               ___,                   XXX,       \
     /*  __ _ __            __ _ __            __ _ __            __ L1 __           __ L2 __           __ L3 __     |      __ R3 __           __ R2 __            __ R1 __           __ _ __            __ _ __                __ _ __ */ \
                                                                  U_LT1,             U_LT2,             ___,                U_RT3,             U_RT2,              U_RT1
   )
