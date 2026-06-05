@@ -56,7 +56,7 @@ vkb-right.f3        = key(key_0)
 # Left Stick
 #################################
 # Axis
-vkb-left.abs_x     = -left_x
+vkb-left.abs_x     = abs_x!
 #vkb-left.abs_y     = left_y
 
 # Triggers
