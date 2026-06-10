@@ -68,6 +68,7 @@ wkey({
   { "<leader>nT", "<cmd>Obsidian tags<cr>", icon = "󰠮", desc = "Tags", mode = "n" },
   { "<leader>nd", "<cmd>Obsidian today<cr>", icon = "󰠮", desc = "Today's Daily", mode = "n" },
   { "<leader>nf", "<cmd>Obsidian quick_switch<cr>", icon = "󰠮", desc = "File Quick Switch", mode = "n" },
+  { "<leader>ni", "<cmd>Oil ~/Notes/work/0.Inbox/<cr>", icon = "󰠮 ", desc = "Inbox", mode = "n" },
   { "<leader>nk", "<cmd>e ~/Notes/work/0.Kanban.md<cr>", icon = "󰠮", desc = "Kanban", mode = "n" },
   { "<leader>nl", "<cmd>Obsidian follow_link<cr>", icon = "󰠮", desc = "Link Follow", mode = "n" },
   { "<leader>nt", "<cmd>Obsidian template<cr>", icon = "󰠮", desc = "Template", mode = "n" },
@@ -80,30 +81,37 @@ wkey({
     { "<leader>nnw", "<cmd>Oil ~/Notes/work/<cr>", icon = "󰠮 ", desc = "Work", mode = "n" },
   },
   -- Notes AI agents (via sidekick.nvim + Copilot CLI)
-  { "<leader>nK", function()
+  { "<leader>na", icon = "󰚩 ", group = "Note Agents" },
+  { "<leader>nak", function()
       local sidekick = require("sidekick.cli")
       sidekick.toggle({ name = "copilot", focus = true })
       local msg = require("agents").kanban_update()
       vim.defer_fn(function() sidekick.send({ msg = msg }) end, 500)
     end, icon = "󰚩 ", desc = "Update Kanban", mode = "n" },
-  { "<leader>ns", function()
+  { "<leader>nas", function()
       local sidekick = require("sidekick.cli")
       sidekick.toggle({ name = "copilot", focus = true })
       local msg = require("agents").shareout()
       vim.defer_fn(function() sidekick.send({ msg = msg }) end, 500)
     end, icon = "󰚩 ", desc = "Shareout", mode = "n" },
-  { "<leader>nO", function()
+  { "<leader>nao", function()
       local sidekick = require("sidekick.cli")
       sidekick.toggle({ name = "copilot", focus = true })
       local msg = require("agents").ingest_and_organize()
       vim.defer_fn(function() sidekick.send({ msg = msg }) end, 500)
     end, icon = "󰚩 ", desc = "Organize Notes", mode = "n" },
-  { "<leader>nM", function()
+  { "<leader>nat", function()
       local sidekick = require("sidekick.cli")
       sidekick.toggle({ name = "copilot", focus = true })
       local msg = require("agents").meeting_ingest()
       vim.defer_fn(function() sidekick.send({ msg = msg }) end, 500)
-    end, icon = "󰚩 ", desc = "Meeting Ingest", mode = "n" },
+    end, icon = "󰚩 ", desc = "Transcript Ingest", mode = "n" },
+  { "<leader>nan", function()
+      local sidekick = require("sidekick.cli")
+      sidekick.toggle({ name = "copilot", focus = true })
+      local msg = require("agents").ingest_note()
+      vim.defer_fn(function() sidekick.send({ msg = msg }) end, 500)
+    end, icon = "󰚩 ", desc = "Ingest Note", mode = "n" },
 })
 
 -- Notes (non-group)
@@ -143,14 +151,26 @@ wkey({
   { "F", "<cmd>lua require('flash').treesitter()<cr>", desc = "Flash Treesitter", mode = "n" },
 })
 
+
+-- Returns the last file buffer's directory (or cwd as fallback), oil-aware
+local function file_cwd()
+  if vim.bo.filetype == "oil" then
+    return vim.fn.expand("%:p"):gsub("^oil://", "")
+  end
+  if vim.bo.buftype == "" and vim.fn.expand("%:p") ~= "" then
+    return vim.fn.expand("%:p:h")
+  end
+  return vim.g.last_file_dir or vim.fn.getcwd()
+end
+
 -- Git Signs
 wkey({ "<leader>ub", "<cmd>Gitsigns toggle_current_line_blame<cr>", icon = "󰊢 ", desc = "Toggle Blame", mode = "n" })
 
 -- LazyGit (flipped behavior)
--- wkey({
---   { "<leader>gg", function() Snacks.lazygit.open({ cwd = vim.fn.getcwd() }) end, icon = " ", desc = "Lazygit (cwd)", mode = "n" },
---   { "<leader>gG", function() Snacks.lazygit.open() end, icon = " ", desc = "Lazygit (Root Dir)", mode = "n" },
--- })
+wkey({
+  { "<leader>gg", function() Snacks.lazygit.open({ cwd = file_cwd() }) end, icon = " ", desc = "Lazygit (Root Dir)", mode = "n" },
+  { "<leader>gG", function() Snacks.lazygit.open() end, icon = " ", desc = "Lazygit (cwd)", mode = "n" },
+})
 
 -- Goto
 wkey({ "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<cr>", icon = " ", desc = "Preview Definition", mode = "n" })
@@ -158,25 +178,18 @@ wkey({ "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<cr>", i
 -- Oil
 map("n", "-", "<cmd>Oil<cr>", { desc = "Oil" })
 
--- Returns the last file buffer's directory (or cwd as fallback), oil-aware
-local function file_cwd()
-  if vim.bo.buftype == "" and vim.fn.expand("%:p") ~= "" then
-    if vim.bo.filetype == "oil" then
-      return vim.fn.expand("%:p"):gsub("^oil://", "")
-    end
-    return vim.fn.expand("%:p:h")
-  end
-  return vim.g.last_file_dir or vim.fn.getcwd()
-end
-
 -- Sidekick
 wkey({
   { "<C-.>", function()
       vim.cmd("lcd " .. vim.fn.fnameescape(file_cwd()))
+      local t = Snacks.terminal.get(nil, { create = false })
+      if t then t:hide() end
       require("sidekick.cli").toggle({ focus = true })
     end, desc = "Toggle Sidekick", mode = { "i", "n", "t", "x" }, hidden = true },
   { "<A-.>", function()
       vim.cmd("lcd " .. vim.fn.fnameescape(file_cwd()))
+      local t = Snacks.terminal.get(nil, { create = false })
+      if t then t:hide() end
       require("sidekick.cli").toggle({ focus = true })
     end, desc = "Toggle Sidekick", mode = { "i", "n", "t", "x" }, hidden = true },
   { "<leader>a", icon = "󰚩 ", group = "ai" },
@@ -204,8 +217,14 @@ wkey({
 -- Override LazyVim's default <C-/> behavior to properly toggle terminal
 del({ "n", "t" }, "<C-/>")
 del({ "n", "t" }, "<C-_>") -- In terminal emulators, Ctrl+/ often sends Ctrl+_
-map({ "n", "t" }, "<C-/>", function() Snacks.terminal.toggle() end, { desc = "Toggle Terminal" })
-map({ "n", "t" }, "<C-_>", function() Snacks.terminal.toggle() end, { desc = "Toggle Terminal" })
+map({ "n", "t" }, "<C-/>", function()
+  require("sidekick.cli").hide({ all = true })
+  Snacks.terminal.toggle()
+end, { desc = "Toggle Terminal" })
+map({ "n", "t" }, "<C-_>", function()
+  require("sidekick.cli").hide({ all = true })
+  Snacks.terminal.toggle()
+end, { desc = "Toggle Terminal" })
 
 -- Misc
 map("n", "<C-h>", "<C-w>h")

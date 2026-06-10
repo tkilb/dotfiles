@@ -15,7 +15,7 @@ return {
     cli = {
       mux = {
         backend = "tmux",
-        enabled = true,
+        enabled = false,
       },
       scroll_on_output = false, -- Disable auto-scroll when copilot is thinking
       win = {

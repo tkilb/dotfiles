@@ -94,6 +94,16 @@ function M.shareout()
     :gsub("{{project_notes}}", project_paths())
 end
 
+function M.ingest_note()
+  local tmpl, err = load_template("ingest-note")
+  if not tmpl then return "Error: " .. err end
+
+  local note = vim.fn.expand("%:p")
+  if note == "" then note = "(no file open)" end
+
+  return tmpl:gsub("{{note}}", note)
+end
+
 function M.meeting_ingest()
   local tmpl, err = load_template("meeting-ingest")
   if not tmpl then return "Error: " .. err end

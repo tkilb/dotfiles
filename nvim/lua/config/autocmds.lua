@@ -22,15 +22,10 @@ vim.api.nvim_create_autocmd("BufEnter", {
   callback = function()
     local ft = vim.bo.filetype
     -- Track the last normal file buffer's directory
-    if vim.bo.buftype == "" and vim.fn.expand("%:p") ~= "" then
-      local path = vim.fn.expand("%:p")
-      -- Oil buffers use oil:// URIs — extract the real filesystem path
-      if vim.bo.filetype == "oil" then
-        path = path:gsub("^oil://", "")
-        vim.g.last_file_dir = path
-      else
-        vim.g.last_file_dir = vim.fn.fnamemodify(path, ":h")
-      end
+    if vim.bo.filetype == "oil" then
+      vim.g.last_file_dir = vim.fn.expand("%:p"):gsub("^oil://", "")
+    elseif vim.bo.buftype == "" and vim.fn.expand("%:p") ~= "" then
+      vim.g.last_file_dir = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":h")
     end
     -- cd terminals only when the target directory has changed
     if ft == "snacks_terminal" then
