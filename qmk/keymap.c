@@ -56,6 +56,13 @@ const key_override_t override_shift_right_paren = ko_make_basic(MOD_MASK_SHIFT, 
 const key_override_t override_slash_to_excl = ko_make_with_layers_and_negmods(0, LALT_T(KC_SLSH), LSFT(KC_SLSH), ~0, MOD_MASK_SHIFT); // No shift: / becomes !
 const key_override_t override_shift_excl = ko_make_basic(MOD_MASK_SHIFT, LALT_T(KC_SLSH), KC_QUES); // Shift+/ is ?
 
+bool achordion_chord(uint16_t tap_hold_keycode,
+                     keyrecord_t* tap_hold_record,
+                     uint16_t other_keycode,
+                     keyrecord_t* other_record) {
+  return achordion_opposite_hands(tap_hold_record, other_record);
+}
+
 const key_override_t *key_overrides[] = {
     &override_window_switch,
     &override_shift_left_paren,

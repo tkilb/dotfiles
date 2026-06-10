@@ -1,11 +1,14 @@
 
 #include "process_record_user.h"
+#include "achordion.h"
 
 static uint16_t alt_key_timer = 0;
 static bool alt_key_pressed = false;
 static bool alt_key_registered = false;
 
 void matrix_scan_user(void) {
+  achordion_task();
+
   // EDGE_SLSH (CUST_ALT_QUE): Custom Alt-on-hold delay (150ms)
   // If key is held and timer expired, register Alt
   if (alt_key_pressed && !alt_key_registered && timer_elapsed(alt_key_timer) >= 150) {
@@ -15,6 +18,8 @@ void matrix_scan_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (!process_achordion(keycode, record)) { return false; }
+
   switch (keycode) {
   case EDGE_COMM:
   case EDGE_DOT:
