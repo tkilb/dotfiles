@@ -16,39 +16,88 @@ Work through **two passes** sequentially — old daily notes first, then the inb
 ## Pass 1 — Old Daily Notes (> {{stale_days}} days)
 {{old_daily_notes}}
 
-For each daily note, work through it **one at a time**:
+Read **all** old daily notes upfront. Then generate a single decision form at:
 
-1. **Todos / Follow Ups / Action Items** — cross-reference the Kanban board above.
-   - Already on Kanban → skip.
-   - Not on Kanban → ask me: add to Active, Backlog, or skip?
+```
+~/Notes/work/0.Inbox/.forms/daily-ingest-decisions.md
+```
 
-2. **Resources** — links, tools, reference material, concepts worth keeping.
-   - Suggest the right `4.Resources/` subfolder (propose a new one if none fits).
-   - Ask me to confirm before noting the move.
+### Form format — one section per daily note:
 
-3. **Learnings / Decisions** — suggest placing in the relevant `3.Areas/` note or `4.Resources/`.
+```markdown
+## YYYY-MM-DD
 
-4. **Archive** — once extracted, suggest moving the daily file to `5.Archive/1.Daily/`.
+### Todos
+**"<todo text>"** — <already on Kanban / not on Kanban>
+- [ ] Add to Kanban Active
+- [ ] Add to Kanban Backlog
+- [ ] Skip
+- [ ] Discuss with agent
 
-Confirm with me after each note before moving to the next.
+### Resources
+**<resource description>** (<brief context>)
+- [ ] Add to `4.Resources/<subfolder>/`
+- [ ] Skip
+- [ ] Discuss with agent
+
+### Learnings / Decisions
+**<learning or decision>** (<brief context>)
+- [ ] File to `<suggested PARA path>`
+- [ ] File to `<alternative path>`
+- [ ] Skip
+- [ ] Discuss with agent
+
+### Archive
+- [ ] Move `1.Daily/YYYY-MM-DD.md` → `5.Archive/1.Daily/`
+```
+
+Rules for form generation:
+- Pre-check `[x]` the option you recommend as a default
+- Include only items worth a decision — skip anything already on Kanban or clearly stale
+- Suggest new subfolders when no existing one fits; note it as "(new)"
+- Keep descriptions brief; one line of context max
+
+Tell me the form path, then wait. When I say I'm done, read the form and:
+1. Address any items marked `Discuss with agent` conversationally first
+2. Execute everything else in one shot
+Finish with a summary table of all actions taken.
 
 ---
 
 ## Pass 2 — Inbox
 {{inbox_files}}
 
-For each inbox item, work through it **one at a time**:
+Read **all** inbox items upfront. Then generate a second decision form at:
 
-1. Classify it: does it belong in Projects, Areas, Resources, Archive, or is it a Kanban todo?
-2. Suggest the exact destination path.
-3. If it contains a link or reference with no action needed → `4.Resources/`.
-4. If it's an active task → suggest adding to Kanban (Active or Backlog).
-5. Ask me to confirm before moving anything.
+```
+~/Notes/work/0.Inbox/.forms/inbox-decisions.md
+```
+
+### Form format — one section per inbox file:
+
+```markdown
+## <filename>
+
+<One sentence describing what this file is and its current state.>
+
+- [ ] File to `<suggested PARA path>`
+- [ ] Archive to `5.Archive/0.Inbox/`
+- [ ] Delete
+- [ ] Add as Kanban todo (Active)
+- [ ] Add as Kanban todo (Backlog)
+```
+
+Rules:
+- Pre-check `[x]` the option you recommend
+- If a file is a raw transcript already processed elsewhere, recommend Delete
+- If a file has multiple distinct items, break them out as sub-decisions
+
+Tell me the form path, then wait. When I say I'm done, read the form and execute **everything in one shot**. Finish with a summary table of all actions taken.
 
 ---
 
 ## General Rules
-- Ask about anything unclear — do not assume.
-- Never move or delete a file without my explicit confirmation.
+- Never move or delete a file without a checked box in the form authorizing it.
 - Propose new subfolders when no existing one fits.
-- Keep suggestions concise; walk through items one at a time.
+- Do not ask clarifying questions during form generation — make a recommendation and let the form be the conversation.
+

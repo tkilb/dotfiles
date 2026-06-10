@@ -1,68 +1,67 @@
-You are helping me extract and file information from a meeting transcript into my PARA notes vault (~/Notes/work).
+You are helping me file a single note into my PARA notes vault (~/Notes/work).
 
-Read the transcript at: {{transcript}}
+The note at {{note}} is **authoritative** — treat its content as more accurate and up-to-date than anything already in the vault. When existing files conflict with this note, recommend updating them.
 
-Infer the meeting name, date, and attendees from the file. If any of these are completely absent and cannot be inferred, ask before proceeding — otherwise make your best inference and note it in the form.
+Read the note in full, then generate a single decision form at:
+
+```
+~/Notes/work/0.Inbox/.forms/ingest-note-decisions.md
+```
 
 ---
 
 ## PARA Structure (vault root: ~/Notes/work)
 
-- `1.Daily/`      — daily notes; meeting entries should be terse bullets only
 - `2.Projects/`   — active work with a defined outcome and finish line
 - `3.Areas/`      — ongoing responsibilities (no end date)
 - `4.Resources/`  — reference material, tools, links, facts — no action required
-- `0.Inbox/`      — source of the transcript; do not re-file here
+- `5.Archive/`    — inactive items; mirror PARA inside
+- `0.Inbox/`      — source of the note; do not re-file here
 
 ---
-
-Read the full transcript, then generate a single decision form at:
-
-```
-~/Notes/work/0.Inbox/.forms/meeting-ingest-decisions.md
-```
 
 ## Form structure
 
-### Section 1 — Daily Note Block
+### Section 1 — Summary
 
-Write the proposed daily note entry directly into the form as editable text.
-The user may edit it inline before saying done.
+Write a one-paragraph plain-English summary of what this note is and what it contains. The user may correct it before saying done.
 
 ```markdown
-## Daily Note Block
+## Summary
 
-> Edit this directly if needed. It will be inserted into today's daily note as-is.
+> Edit if needed.
 
-### <Meeting Name>
-
-#### Notes
-
-- <one-line bullets only — no prose>
-
-#### Takeaways
-
-- <decisions or conclusions worth remembering>
-
-#### Action Items
-
-- <owner: task>
+<one paragraph describing the note's content, domain, and why it is authoritative>
 ```
-
-Rules for the daily note block:
-- Bullets only. No summaries, no paragraphs.
-- Strip all filler — keep only facts, decisions, and actions.
-- If a detail isn't directly useful later, omit it.
 
 ---
 
-### Section 2 — Project Filing
+### Section 2 — Conflicts / Updates
+
+Scan the relevant PARA subfolders for files that cover the same topic. For each file that may be stale or contradicted by this note, surface it here.
+
+```markdown
+## Conflicts / Updates
+
+**`<existing file path>`** — <one-line description of the conflict or overlap>
+- [ ] Overwrite with content from this note
+- [ ] Merge: append new content from this note
+- [ ] Add a "superseded" notice to the existing file and file new content separately
+- [ ] Skip — no real conflict
+- [ ] Discuss with agent
+```
+
+If no conflicts are found, write: `_No conflicts detected._`
+
+---
+
+### Section 3 — Project Filing
 
 ```markdown
 ## Project Filing
 
 **<project match or proposed name>** — <existing / new>
-- [ ] Add meeting note to `2.Projects/<folder>/<date>-<slug>.md` (new file)
+- [ ] Add note to `2.Projects/<folder>/<date>-<slug>.md` (new file)
 - [ ] Append to `2.Projects/<folder>/<existing file>`
 - [ ] Create new project folder `2.Projects/<folder>/` with starter file
 - [ ] Skip — no project relevance
@@ -71,9 +70,9 @@ Rules for the daily note block:
 
 ---
 
-### Section 3 — Areas Filing
+### Section 4 — Areas Filing
 
-One entry per distinct area topic surfaced in the transcript.
+One entry per distinct area topic in the note.
 
 ```markdown
 ## Areas Filing
@@ -87,12 +86,12 @@ One entry per distinct area topic surfaced in the transcript.
 
 ---
 
-### Section 4 — Resources Filing
+### Section 5 — Resources Filing
 
-Extract reference material: tools, APIs, systems, concepts, links, vendor names, technical facts — anything worth looking up later with no action required.
+Extract reference material: tools, APIs, systems, concepts, links, business rules, technical facts — anything worth looking up later with no action required.
 
 Pay special attention to:
-- How internal systems behave (rules, constraints, data models mentioned in passing)
+- How internal systems behave (rules, constraints, data models)
 - Business rules stated as current fact
 - Distinctions between external/third-party systems and internal systems — file them separately
 
@@ -119,6 +118,7 @@ Rules:
 ## Form rules
 
 - Pre-check `[x]` the option you recommend as a default
+- Because this note is authoritative, prefer **update/overwrite** over **skip** when conflicts exist
 - Do not ask clarifying questions during form generation — make a recommendation and let the form be the conversation
 - Never move, create, or modify a file without a checked box in the form authorizing it
 
@@ -126,4 +126,3 @@ Tell me the form path, then wait. When I say I'm done, read the form and:
 1. Address any items marked `Discuss with agent` conversationally first
 2. Execute everything else in one shot
 Finish with a summary table of all actions taken.
-

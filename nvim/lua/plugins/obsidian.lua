@@ -36,6 +36,21 @@ return {
       folder = "z-templates",
       date_format = "%Y-%m-%d-%a",
       time_format = "%H:%M",
+      substitutions = {
+        -- Day-of-week derived from the note's ID (e.g. "2026-05-05" → "Tuesday"),
+        -- falling back to today if the note ID isn't a plain date.
+        note_dow = function(ctx)
+          local note_id = ctx.partial_note and ctx.partial_note.id
+          if note_id then
+            local y, m, d = note_id:match("^(%d+)-(%d+)-(%d+)$")
+            if y then
+              local t = os.time({ year = tonumber(y), month = tonumber(m), day = tonumber(d), hour = 12 })
+              return os.date("%A", t)
+            end
+          end
+          return os.date("%A")
+        end,
+      },
     },
 
     daily_notes = {
@@ -47,21 +62,24 @@ return {
       template = "daily-note.md",
       workdays_only = true,
     },
-    note_frontmatter_func = function(note)
-      local out = {
-        id = note.id,
-        date = os.date("%Y-%m-%d"),
-        tags = note.tags,
-        people = {},
-      }
-      -- Preserve any fields the user has already set
-      if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-        for k, v in pairs(note.metadata) do
-          out[k] = v
+    frontmatter = {
+      sort = { "id", "date", "tags", "people" },
+      func = function(note)
+        local out = {
+          id = note.id,
+          date = note.id:match("^%d+-%d+-%d+$") and note.id or os.date("%Y-%m-%d"),
+          tags = note.tags,
+          people = {},
+        }
+        -- Preserve any fields the user has already set
+        if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+          for k, v in pairs(note.metadata) do
+            out[k] = v
+          end
         end
-      end
-      return out
-    end,
+        return out
+      end,
+    },
 
     callbacks = {
       enter_note = function(_)
@@ -83,8 +101,18 @@ return {
           end
         end
 
-        vim.keymap.set("n", "<leader>ch", toggle_with_date, { buffer = true, desc = "Toggle checkbox (stamps added date on new todos)" })
-        vim.keymap.set("n", "<leader>dd", toggle_with_date, { buffer = true, desc = "Toggle checkbox (stamps added date on new todos)" })
+        vim.keymap.set(
+          "n",
+          "<leader>ch",
+          toggle_with_date,
+          { buffer = true, desc = "Toggle checkbox (stamps added date on new todos)" }
+        )
+        vim.keymap.set(
+          "n",
+          "<leader>dd",
+          toggle_with_date,
+          { buffer = true, desc = "Toggle checkbox (stamps added date on new todos)" }
+        )
       end,
     },
 
