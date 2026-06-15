@@ -48,7 +48,7 @@ vkb-right.hat2r = key(key_b)
 #vkb-right.hat2l = key(key_)
 
 # Base
-vkb-right.f1        = key(key_0)
+vkb-right.f1        = key(key_kp0)
 vkb-right.f2        = key(key_0)
 vkb-right.f3        = key(key_0)
 
@@ -56,7 +56,7 @@ vkb-right.f3        = key(key_0)
 # Left Stick
 #################################
 # Axis
-vkb-left.abs_x     = abs_x!
+#vkb-left.abs_x     = abs_x!
 #vkb-left.abs_y     = left_y
 
 # Triggers
@@ -88,7 +88,7 @@ vkb-left.hat2r = key(key_0)
 vkb-left.hat2d = key(key_0)
 
 # Base
-vkb-left.f1        = key(key_0)
-vkb-left.f2        = key(key_0)
-vkb-left.f3        = key(key_0)
+vkb-left.f1        = key(key_kp9)
+vkb-left.f2        = key(key_kp8)
+vkb-left.f3        = key(key_kp1)
 
