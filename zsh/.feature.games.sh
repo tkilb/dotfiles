@@ -1,9 +1,17 @@
 if [ "$MACHINE" = "linux-box" ]; then
+  export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+
   alias bs="$HOME/Programs/barony-saver/barony-saver.sh"
   alias doom="pkill -f moltengamepad ; cd $HOME/Programs/doom && npm start"
   alias molten='pkill -f moltengamepad ; moltengamepad -n 1 --rumble'
   alias moltenc='nvim $HOME/.config/moltengamepad/profiles'
   alias proton-tricks='PROTON_VERSION="Proton Experimental" /usr/bin/flatpak run --branch=stable --arch=x86_64 --command=protontricks com.github.Matoking.protontricks --no-term --gui'
+
+  mw5() {
+    export STEAM_COMPAT_DATA_PATH="/mnt/gaming/SteamLibrary/steamapps/compatdata/784080"
+    export STEAM_COMPAT_CLIENT_INSTALL_PATH="$HOME/.local/share/Steam"
+    "/mnt/gaming/SteamLibrary/steamapps/common/Proton - Experimental/proton" run "/mnt/gaming/SteamLibrary/steamapps/common/MechWarrior 5 Mercenaries/MW5Mercs/Binaries/Win64/MechWarrior-Win64-Shipping.exe" "$@"
+  }
 
   mode-d() {
     hyprctl keyword monitor "DP-1,auto"
@@ -24,5 +32,7 @@ if [ "$MACHINE" = "linux-box" ]; then
     pactl set-default-sink alsa_output.pci-0000_00_1f.3.analog-stereo
     echo "Display mode S: Ultrawide (DP-2) enabled, Normal monitor (DP-1) disabled"
     echo "Built-in analog set as default output"
+    sleep 2
+    powerprofilesctl set performance
   }
 fi
