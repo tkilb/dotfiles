@@ -8,7 +8,7 @@
 #tlcm.abs_z          = tl2_axis%
 # tlcm.abs_x          = left_y@
 tlcm.abs_x          = pedal2numpad(key_0)
-tlcm.abs_y          = pedal2btn(key_leftalt)
+tlcm.abs_y          = pedal2btn(key_leftshift)
 tlcm.abs_z          = pedal2btn(key_s)
 
 # Right Stick
@@ -16,7 +16,7 @@ tlcm.abs_z          = pedal2btn(key_s)
 # Axis
 #vkb-right.abs_x     = mouse(rel_x)
 vkb-right.abs_x     = mouse(rel_x)
-vkb-right.abs_y     = mouse(rel_y)
+vkb-right.abs_y     = mouse(rel_y-)
 
 # Triggers
 vkb-right.t1a       = key(key_slash)
@@ -29,7 +29,7 @@ vkb-right.th1       = key(key_dot)
 vkb-right.th2       = key(key_k)
 
 # Sides
-vkb-right.i1        = key(key_0)
+vkb-right.i1        = key(key_tab)
 vkb-right.p1        = key(key_e)
 
 # Hats
@@ -48,7 +48,7 @@ vkb-right.hat2r = key(key_b)
 #vkb-right.hat2l = key(key_)
 
 # Base
-vkb-right.f1        = key(key_kp0)
+vkb-right.f1        = key(key_0)
 vkb-right.f2        = key(key_0)
 vkb-right.f3        = key(key_0)
 
