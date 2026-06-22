@@ -7,6 +7,7 @@ declare -A APP_WS=(
   ["kitty"]=3
   ["Discord"]=4
   ["Bitwarden"]=5
+  ["Spotify"]=5
   ["steam"]=6
 )
 
