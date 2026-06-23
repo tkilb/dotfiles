@@ -27,6 +27,14 @@
     - steam-deck
     - work-book
 
+- path: ~/.gamefiles
+  origin: git@github.com:tkilb/gamefiles.git
+  cron: "0 17 * * *" # Every day at 5 PM
+  machines:
+    - linux-book
+    - linux-box
+    - steam-deck
+
 - path: ~/Notes/nvim
   origin: git@github.com:tkilb/notes-nvim.git
   cron: "0 * * * *" # Every hour

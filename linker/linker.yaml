@@ -71,16 +71,19 @@
     - work-book
 
 - name: MangoHud
+  source: ~/.gamefiles/MangoHud
   path: ~/.config/MangoHud
   machines:
     - linux-box
 
 - name: moltendriver
+  source: ~/.gamefiles/moltendriver
   path: ~/.config/moltendriver
   machines:
     - linux-box
 
 - name: moltengamepad
+  source: ~/.gamefiles/moltengamepad
   path: ~/.config/moltengamepad
   machines:
     - linux-box

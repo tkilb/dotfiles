@@ -46,8 +46,8 @@ fi
 
 # Function to process each entry
 function process_entry() {
-  local name="$current_name"
-  local path="$current_path"
+  local source="$current_source"
+  local target="$current_path"
   local -a machines=("${current_machines[@]}")
 
   # Check if machine matches (if MACHINE is set and machines array is not empty)
@@ -61,20 +61,20 @@ function process_entry() {
     done
 
     if [[ "$machine_match" == false ]]; then
-      echo "Skipping $name (machine $MACHINE not in allowed list)"
+      echo "Skipping $source (machine $MACHINE not in allowed list)"
       return
     fi
   fi
 
+  # Expand target (handle ~)
+  local source_path="${source/#\~/$HOME}"
+  local target_path="${target/#\~/$HOME}"
+
   # Check if local file or folder exists
-  local source_path="$DOTFILES_DIR/$name"
   if [[ ! -e "$source_path" ]]; then
-    echo "Skipping $name (local file or folder does not exist)"
+    echo "Skipping $source (local file or folder does not exist)"
     return
   fi
-
-  # Expand path (handle ~)
-  local target_path="${path/#\~/$HOME}"
 
   # Create parent directory if it doesn't exist
   local parent_dir="$(dirname "$target_path")"
@@ -98,7 +98,7 @@ function process_entry() {
 }
 
 # Parse YAML and create symlinks
-current_name=""
+current_source=""
 current_path=""
 current_machines=()
 in_machines=false
@@ -108,18 +108,22 @@ while IFS= read -r line; do
   [[ "$line" =~ ^[[:space:]]*# ]] && continue
   [[ -z "${line// /}" ]] && continue
 
-  # Check for new entry (starts with "- name:")
+  # Check for new entry (starts with "- source:")
   if [[ "$line" =~ ^-[[:space:]]+name:[[:space:]]+(.+)$ ]]; then
     # Process previous entry if exists
-    if [[ -n "$current_name" ]]; then
+    if [[ -n "$current_source" ]]; then
       process_entry
     fi
 
     # Start new entry
-    current_name="${BASH_REMATCH[1]}"
+    current_source="$DOTFILES_DIR/${BASH_REMATCH[1]}"
     current_path=""
     current_machines=()
     in_machines=false
+
+  # Check for soruce
+  elif [[ "$line" =~ ^[[:space:]]+source:[[:space:]]+(.+)$ ]]; then
+    current_source="${BASH_REMATCH[1]}"
 
   # Check for path
   elif [[ "$line" =~ ^[[:space:]]+path:[[:space:]]+(.+)$ ]]; then
@@ -136,6 +140,6 @@ while IFS= read -r line; do
 done <"$YAML_FILE"
 
 # Process last entry
-if [[ -n "$current_name" ]]; then
+if [[ -n "$current_source" ]]; then
   process_entry
 fi
