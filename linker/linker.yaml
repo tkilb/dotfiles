@@ -88,6 +88,18 @@
   machines:
     - linux-box
 
+- name: mw5-clans-hotas
+  source: ~/.gamefiles/mw5-clans/SavedHOTAS
+  path: /mnt/gaming/SteamLibrary/steamapps/compatdata/2000890/pfx/drive_c/users/steamuser/AppData/Local/MW5Clans/Saved/SavedHOTAS
+  machines:
+    - linux-box
+
+- name: mw5-mercs-hotas
+  source: ~/.gamefiles/mw5-mercs/SavedHOTAS
+  path: /mnt/gaming/SteamLibrary/steamapps/compatdata/784080/pfx/drive_c/users/steamuser/AppData/Local/MW5Mercs/Saved/SavedHOTAS
+  machines:
+    - linux-box
+
 - name: nvim
   path: ~/.config/nvim
   machines:
