@@ -56,3 +56,11 @@
         name: prettier
         state: present
         update_cache: true
+
+    - name: Disable password lockout (pam_faillock)
+      ansible.builtin.lineinfile:
+        path: /etc/security/faillock.conf
+        regexp: '^(#\s*)?deny\s*=\s*'
+        line: 'deny = 0'
+        state: present
+
