@@ -32,6 +32,10 @@
       prompt: "Install Bitwarden? (n/y)"
       default: "no"
       private: no
+    - name: install_rsync
+      prompt: "Install Rsync? (n/y)"
+      default: "no"
+      private: no
 
   tasks:
     - name: Install Kitty
@@ -80,3 +84,10 @@
         state: present
         update_cache: true
       when: install_bitwarden | bool
+
+    - name: Install Rsync
+      community.general.pacman:
+        name: rsync
+        state: present
+        update_cache: true
+      when: install_rsync | bool
