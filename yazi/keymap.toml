@@ -5,6 +5,6 @@ prepend_keymap = [
 	{ on = "o", run = "open", desc = "Open file/directory" },
 	{ on = ["g", "."], run = "cd ~/.dotfiles", desc = "Open Dotfiles" },
 	{ on = ["g", "G"], run = "cd ~/Git", desc = "Open git directory" },
-	{ on = ["g", "n"], run = "cd ~/general", desc = "Open general directory" },
-	{ on = ["g", "s"], run = "cd ~/staging", desc = "Open staging directory" },
+	{ on = ["g", "n"], run = "cd ~/General", desc = "Open general directory" },
+	{ on = ["g", "s"], run = "cd ~/Staging", desc = "Open staging directory" },
 ]
