@@ -81,6 +81,14 @@ return {
           )
         end,
       },
+      tools = {
+        antigravity = {
+          cmd = { "agy" },
+        },
+        gemini = {
+          enabled = false,
+        },
+      },
     },
     nes = {
       enabled = false,
