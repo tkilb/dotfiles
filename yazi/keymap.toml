@@ -1,10 +1,18 @@
+# Keymap reference: https://github.com/mingo99/yazi.config/blob/main/keymap.toml
+
 [mgr]
 prepend_keymap = [
-	# { on = "<ESC>", run = "quit", desc = "Quit" },
+  # Disable
+  { on = ["g", "<Space>"], run = "noop", desc = "noop" },
+  # Custom Maps
 	{ on = "<Enter>", run = "enter", desc = "Enter directory (don't open)" },
 	{ on = "o", run = "open", desc = "Open file/directory" },
-	{ on = ["g", "."], run = "cd ~/.dotfiles", desc = "Open Dotfiles" },
-	{ on = ["g", "G"], run = "cd ~/Git", desc = "Open git directory" },
-	{ on = ["g", "n"], run = "cd ~/General", desc = "Open general directory" },
-	{ on = ["g", "s"], run = "cd ~/Staging", desc = "Open staging directory" },
+  { on = ["c", "d"], run = "cd --interactive", desc = "Change Directory interactively" },
+	{ on = ["c", "D"], run = "shell 'echo $PWD | pbcopy'", desc = "Copy the directory path" },
+	{ on = ["g", "/"], run = "cd /", desc = "Go / (root)" },
+	{ on = ["g", "."], run = "cd ~/.dotfiles", desc = "Go .dotfiles" },
+	{ on = ["g", "G"], run = "cd ~/Git", desc = "Go ~/Git directory" },
+	{ on = ["g", "n"], run = "cd ~/General", desc = "Go ~/General directory" },
+	{ on = ["g", "s"], run = "cd ~/Staging", desc = "Go ~/Staging directory" },
 ]
+
