@@ -85,9 +85,6 @@ return {
         antigravity = {
           cmd = { "agy" },
         },
-        gemini = {
-          enabled = false,
-        },
       },
     },
     nes = {
@@ -96,6 +93,25 @@ return {
   },
   config = function(_, opts)
     require("sidekick").setup(opts)
+
+    -- Filter out disabled tools from the selection
+    local config = require("sidekick.config")
+    local original_tools = config.tools
+    config.tools = function()
+      local ret = original_tools()
+      ret.aider = nil
+      ret.amazon_q = nil
+      ret.claude = nil
+      ret.codex = nil
+      ret.crush = nil
+      ret.cursor = nil
+      ret.gemini = nil
+      ret.grok = nil
+      ret.opencode = nil
+      ret.pi = nil
+      ret.qwen = nil
+      return ret
+    end
 
     -- Add Sidekick.nvim toggle command for NES
     vim.api.nvim_create_user_command("SidekickNesToggle", function()
