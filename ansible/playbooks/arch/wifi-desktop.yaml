@@ -1,0 +1,56 @@
+---
+- name: Configure Wi-Fi and Networking on Arch Linux
+  hosts: localhost
+  connection: local
+  become: true
+
+  vars:
+    wifi_packages:
+      - networkmanager
+      - wpa_supplicant
+      - iw
+      - wireless-regdb
+      - linux-firmware
+      - linux-firmware-intel
+
+  tasks:
+    - name: Ensure Wi-Fi and networking packages are installed
+      ansible.builtin.package:
+        name: "{{ wifi_packages }}"
+        state: present
+
+    - name: Ensure NetworkManager service is enabled and started
+      ansible.builtin.systemd_service:
+        name: NetworkManager.service
+        enabled: true
+        state: started
+
+    - name: Ensure wpa_supplicant service is enabled
+      ansible.builtin.systemd_service:
+        name: wpa_supplicant.service
+        enabled: true
+        state: started
+
+    - name: Configure NetworkManager Wi-Fi power saving (disable power save to prevent drops)
+      ansible.builtin.copy:
+        dest: /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+        content: |
+          [connection]
+          # 2 = disable wifi power save (recommended for Intel iwlwifi stability)
+          # 3 = enable wifi power save
+          wifi.powersave = 2
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Restart NetworkManager
+
+    - name: Ensure rfkill unblocks wlan
+      ansible.builtin.command:
+        cmd: rfkill unblock wlan
+      changed_when: false
+
+  handlers:
+    - name: Restart NetworkManager
+      ansible.builtin.systemd_service:
+        name: NetworkManager.service
+        state: restarted
