@@ -1,0 +1,24 @@
+---
+- name: Install OpenSCAD & Neovim Plugin Dependencies
+  hosts: localhost
+  become: true # Necessary to run with root privileges
+  tasks:
+    - name: Install OpenSCAD
+      community.general.pacman:
+        name: openscad
+        state: present
+        update_cache: true
+
+    - name: Install Zathura and PDF engine (Required by openscad.nvim for manual/cheatsheets)
+      community.general.pacman:
+        name:
+          - zathura
+          - zathura-pdf-poppler
+        state: present
+        update_cache: true
+
+    - name: Install fzf (Required by fzf-lua dependency in openscad.nvim)
+      community.general.pacman:
+        name: fzf
+        state: present
+        update_cache: true
