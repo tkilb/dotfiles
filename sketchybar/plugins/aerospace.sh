@@ -13,7 +13,7 @@ if [ "$1" = "$FOCUSED_WORKSPACE" ]; then
 fi
 
 # Get apps in the workspace
-apps=$(aerospace list-windows --workspace "$1" | awk -F'|' '{gsub(/^ *| *$/, "", $2); print $2}')
+apps=$(aerospace list-windows --workspace "$1" | awk -F'|' '{gsub(/^ *| *$/, "", $2); print $2}' | sort -u)
 
 # Build icon strip (can't color individual icons, so just build the strip)
 icon_strip=" "
