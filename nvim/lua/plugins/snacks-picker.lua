@@ -13,7 +13,8 @@ return {
   opts = {
     picker = {
       hidden = true,
-      ignored = true,
+      ignored = false,
+      exclude = { "package-lock.json", ".github" },
       sources = {
         marks = {
           -- Filter to show only manual marks (a-z, A-Z)
