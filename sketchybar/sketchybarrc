@@ -86,9 +86,9 @@ for monitor in $(aerospace list-monitors --format "%{monitor-appkit-nsscreen-scr
 done
 
 # Load Icons on startup for all monitors
-for monitor in $(aerospace list-monitors); do
+for monitor in $(aerospace list-monitors --format "%{monitor-appkit-nsscreen-screens-id}"); do
   for sid in $(aerospace list-workspaces --monitor "$monitor" --empty no); do
-    apps=$(aerospace list-windows --workspace "$sid" | awk -F'|' '{gsub(/^ *| *$/, "", $2); print $2}')
+    apps=$(aerospace list-windows --workspace "$sid" | awk -F'|' '{gsub(/^ *| *$/, "", $2); print $2}' | sort -u)
 
     sketchybar --set space.$sid drawing=on
 
