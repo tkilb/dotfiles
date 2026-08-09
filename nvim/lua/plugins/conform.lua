@@ -23,7 +23,7 @@ return {
       markdown = { "prettier" },
       -- No dedicated OpenSCAD formatter exists; clang-format is a reasonable
       -- approximation since OpenSCAD syntax is C-like.
-      openscad = { "clang-format" },
+      -- openscad = { "clang-format" },
       sh = { "shfmt" },
       terraform = { "terraform_fmt" },
       tsx = { "prettier" },
