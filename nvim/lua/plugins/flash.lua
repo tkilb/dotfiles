@@ -1,3 +1,10 @@
+-- Name: Flash
+--
+-- Docs: https://github.com/folke/flash.nvim
+--
+-- Description:
+--   flash.nvim lets you navigate your code with search labels, enhanced character motions, and Treesitter integration.
+
 return {
   {
     "folke/flash.nvim",

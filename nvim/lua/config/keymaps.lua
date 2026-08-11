@@ -144,13 +144,19 @@ wkey({ "<leader><space>", "<C-w><C-w>", icon = "󰮗 ", desc = "Toggle Last Wind
 wkey({ "<leader>ac", "<cmd>CopilotToggle<cr>", icon = "󰨙 ", desc = "Toggle Predictions", mode = "n" })
 
 -- Flash
-del("n", "s")
-del("n", "S")
+-- del("n", "s")
+-- del("n", "S")
 wkey({
   { "f", "<cmd>lua require('flash').jump()<cr>", desc = "Flash Jump", mode = "n" },
-  { "F", "<cmd>lua require('flash').treesitter()<cr>", desc = "Flash Treesitter", mode = "n" },
+  -- { "F", "<cmd>lua require('flash').treesitter()<cr>", desc = "Flash Treesitter", mode = "n" },
 })
 
+-- Word Motion
+wkey({
+  { "B", "<Plug>WordMotion_b", desc = "Camel Word Forward", mode = { "n", "x", "o" } },
+  { "E", "<Plug>WordMotion_e", desc = "Camel Word Forward", mode = { "n", "x", "o" } },
+  { "W", "<Plug>WordMotion_w", desc = "Camel Word Forward", mode = { "n", "x", "o" } },
+})
 
 -- Returns the last file buffer's directory (or cwd as fallback), oil-aware
 local function file_cwd()
