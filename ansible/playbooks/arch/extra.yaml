@@ -8,8 +8,8 @@
       prompt: "Install Kitty? (n/y)"
       default: "no"
       private: no
-    - name: install_zenith
-      prompt: "Install Zenith? (n/y)"
+    - name: install_btop
+      prompt: "Install btop? (n/y)"
       default: "no"
       private: no
     - name: install_cull
@@ -45,12 +45,12 @@
         update_cache: true
       when: install_kitty | bool
 
-    - name: Install Zenith (System Resource Monitor)
+    - name: Install btop (System Resource Monitor)
       community.general.pacman:
-        name: zenith
+        name: btop
         state: present
         update_cache: true
-      when: install_zenith | bool
+      when: install_btop | bool
 
     - name: Install Cull (Disk Usage Analyzer)
       yay:
