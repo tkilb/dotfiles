@@ -37,16 +37,24 @@
     "tooltip": false,
   },
   "custom/dummy1": {
-    "format": "",
-    "tooltip": false,
+    "format": "󰄧",
+    "tooltip": true,
+    "tooltip-format": "System Monitor (btop)",
+    "on-click": "$HOME/.config/waybar/launch_btop.sh"
   },
   "custom/dummy2": {
-    "format": "",
-    "tooltip": false,
+    "format": "󰕾",
+    "tooltip": true,
+    "tooltip-format": "Audio Control (Wiremix)",
+    "on-click": "$HOME/.config/waybar/launch_wiremix.sh",
+    "on-click-right": "swaync-client -t -sw"
   },
   "custom/dummy3": {
-    "format": "",
-    "tooltip": false,
+    "exec": "$HOME/.config/waybar/shutdown_toggle.sh status",
+    "return-type": "json",
+    "interval": 2,
+    "signal": 11,
+    "on-click": "$HOME/.config/waybar/shutdown_toggle.sh toggle"
   },
   "custom/ping": {
     "format": "  {}ms",
