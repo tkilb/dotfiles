@@ -26,6 +26,7 @@ wkey({
 -- Search (Override LazyVim defaults, uses classic Vim)
 wkey({ "n", "n", desc = "Next Search Result", mode = "n", hidden = true })
 wkey({ "N", "N", desc = "Prev Search Result", mode = "n", hidden = true })
+wkey({ "<leader>s", ":s", desc = "Substitute", mode = "n", hidden = true })
 
 -- Multi Dismiss
 map(
