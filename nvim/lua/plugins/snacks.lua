@@ -9,6 +9,11 @@ return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
+  keys = {
+    -- <leader>sr freed up by disabling grug-far's default trigger
+    -- (see plugins/grug-far.lua)
+    { "<leader>sr", function() Snacks.picker.resume() end, desc = "Resume" },
+  },
   ---@type snacks.Config
   opts = {
     -- your configuration comes here
