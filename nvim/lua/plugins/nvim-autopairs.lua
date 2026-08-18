@@ -1,5 +1,5 @@
--- Disable nvim-autopairs plugin
+-- Disable auto-closing pairs (mini.pairs) and tag auto-closing (nvim-ts-autotag)
 return {
-  "windwp/nvim-autopairs",
-  enabled = false,
+  { "nvim-mini/mini.pairs", enabled = false },
+  { "windwp/nvim-ts-autotag", enabled = false },
 }
