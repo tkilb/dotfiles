@@ -19,6 +19,12 @@ return {
     keymaps = {
       ["<C-t>"] = false,
       ["<C-l>"] = "actions.refresh",
+      ["+"] = {
+        callback = function()
+          require("yazi").yazi(nil, require("oil").get_current_dir())
+        end,
+        desc = "Open yazi at oil's current directory",
+      },
     },
     -- Set to false to disable all of the above keymaps
     view_options = {
