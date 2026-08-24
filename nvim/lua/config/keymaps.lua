@@ -15,6 +15,9 @@ del("n", "<leader>K")
 map("", "<C-c>", "y")
 map("", "<C-v>", "p")
 
+-- Treat :W as :w (typo-tolerant save)
+vim.api.nvim_create_user_command("W", "w", { bang = true, desc = "Save (alias of :w)" })
+
 -- Buffers
 wkey({
   { "<leader>]", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer", mode = "n", hidden = true },
