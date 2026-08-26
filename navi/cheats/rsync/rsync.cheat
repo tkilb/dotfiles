@@ -1,0 +1,22 @@
+% rsync
+
+# Sync a local directory to a remote host (archive mode, compressed, show progress)
+rsync -avz --progress <source>/ <user>@<host>:<destination>
+
+# Sync from a remote host to local
+rsync -avz --progress <user>@<host>:<source>/ <destination>
+
+# Dry run (preview what would be transferred, no changes made)
+rsync -avzn --progress <source>/ <destination>
+
+# Sync and delete files at destination that no longer exist at source
+rsync -avz --delete <source>/ <destination>
+
+# Sync over SSH with a non-default port
+rsync -avz -e "ssh -p <port>" <source>/ <user>@<host>:<destination>
+
+# Exclude a pattern while syncing
+rsync -avz --exclude="<pattern>" <source>/ <destination>
+
+# Sync to/from a NAS share (avoids permission/ownership errors on SMB/NFS mounts)
+rsync -rltvz --progress --no-perms --no-owner --no-group --modify-window=1 <source>/ <destination>

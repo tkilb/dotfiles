@@ -5,8 +5,10 @@ Instructions for AI agents working in this directory.
 ## Layout
 
 - `cheats/<topic>/*.cheat` — one subfolder per topic (matches navi's
-  featured-repo convention, e.g. `denisidoro/cheats`). Filenames within a
-  topic folder don't need to be `main.cheat` — any `*.cheat` file is loaded.
+  featured-repo convention, e.g. `denisidoro/cheats`). Files are named
+  `<topic>/<topic>.cheat` (e.g. `zip/zip.cheat`, `find/find.cheat`) — any
+  `*.cheat` filename is loaded by navi, but this repo's convention names the
+  file after its topic rather than using a generic `main.cheat`.
 - Runbook-style entries pair a `.cheat` file with a plain `.md` file
   (e.g. `runbook/nerd-fonts.cheat` + `runbook/nerd-fonts.md`). The `.cheat`
   entry just opens the `.md` file in `$EDITOR` — navi is not a real
