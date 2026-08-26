@@ -4,90 +4,113 @@
   become: true # Necessary to run with root privileges
 
   vars_prompt:
-    - name: install_kitty
-      prompt: "Install Kitty? (n/y)"
-      default: "no"
-      private: no
-    - name: install_btop
-      prompt: "Install btop? (n/y)"
-      default: "no"
-      private: no
-    - name: install_cull
-      prompt: "Install Cull? (n/y)"
-      default: "no"
-      private: no
-    - name: install_caligula
-      prompt: "Install Caligula? (n/y)"
+    - name: install_bitwarden
+      prompt: "Install Bitwarden? (n/y)"
       default: "no"
       private: no
     - name: install_firefox
       prompt: "Install Firefox? (n/y)"
       default: "no"
       private: no
-    - name: install_zen_browser
-      prompt: "Install Zen Browser? (n/y)"
+    - name: install_kitty
+      prompt: "Install Kitty? (n/y)"
       default: "no"
       private: no
-    - name: install_bitwarden
-      prompt: "Install Bitwarden? (n/y)"
+    - name: install_node
+      prompt: "Install Node? (n/y)"
+      default: "no"
+      private: no
+    - name: install_npm
+      prompt: "Install NPM? (n/y)"
+      default: "no"
+      private: no
+    - name: install_prettier
+      prompt: "Install Prettier? (n/y)"
       default: "no"
       private: no
     - name: install_rsync
       prompt: "Install Rsync? (n/y)"
       default: "no"
       private: no
+    - name: install_tmux
+      prompt: "Install Tmux? (n/y)"
+      default: "no"
+      private: no
+    - name: install_trash
+      prompt: "Install Trash? (n/y)"
+      default: "no"
+      private: no
+    - name: install_zen_browser
+      prompt: "Install Zen Browser? (n/y)"
+      default: "no"
+      private: no
 
   tasks:
-    - name: Install Kitty
+    - name: Install Bitwarden
       community.general.pacman:
-        name: kitty
+        name: bitwarden
         state: present
         update_cache: true
-      when: install_kitty | bool
-
-    - name: Install btop (System Resource Monitor)
-      community.general.pacman:
-        name: btop
-        state: present
-        update_cache: true
-      when: install_btop | bool
-
-    - name: Install Cull (Disk Usage Analyzer)
-      yay:
-        name: cull-bin
-        state: present
-      when: install_cull | bool
-
-    - name: Install Caligula (Disk Imager)
-      community.general.pacman:
-        name: caligula
-        state: present
-        update_cache: true
-      when: install_caligula | bool
+      when: install_bitwarden | lower in ["y", "yes"]
 
     - name: Install Firefox
       community.general.pacman:
         name: firefox
         state: present
         update_cache: true
-      when: install_firefox | bool
+      when: install_firefox | lower in ["y", "yes"]
 
-    - name: Install Zen Browser
-      yay:
-        name: zen-browser-bin
-        state: present
-      when: install_zen_browser | bool
-
-    - name: Install Bitwarden
+    - name: Install Kitty
       community.general.pacman:
-        name: bitwarden
+        name: kitty
         state: present
         update_cache: true
-      when: install_bitwarden | bool
+      when: install_kitty | lower in ["y", "yes"]
+
+    - name: Install Node
+      community.general.pacman:
+        name: nodejs
+        state: present
+        update_cache: true
+      when: install_node | lower in ["y", "yes"]
+
+    - name: Install NPM
+      community.general.pacman:
+        name: npm
+        state: present
+        update_cache: true
+      when: install_npm | lower in ["y", "yes"]
+
+    - name: Install Prettier
+      community.general.pacman:
+        name: prettier
+        state: present
+        update_cache: true
+      when: install_prettier | lower in ["y", "yes"]
 
     - name: Install Rsync
       community.general.pacman:
         name: rsync
         state: present
         update_cache: true
-      when: install_rsync | bool
+      when: install_rsync | lower in ["y", "yes"]
+
+    - name: Install Tmux
+      community.general.pacman:
+        name: tmux
+        state: present
+        update_cache: true
+      when: install_tmux | lower in ["y", "yes"]
+
+    - name: Install Trash
+      community.general.pacman:
+        name: trash-cli
+        state: present
+        update_cache: true
+      when: install_trash | lower in ["y", "yes"]
+
+    - name: Install Zen Browser
+      yay:
+        name: zen-browser-bin
+        state: present
+      when: install_zen_browser | lower in ["y", "yes"]

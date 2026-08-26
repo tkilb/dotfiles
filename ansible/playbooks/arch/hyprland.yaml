@@ -136,7 +136,7 @@
           __GLX_VENDOR_LIBRARY_NAME=nvidia
           WLR_NO_HARDWARE_CURSORS=1
         marker: "# {mark} ANSIBLE MANAGED NVIDIA ENVIRONMENT VARIABLES"
-      when: configure_nvidia_env | bool
+      when: configure_nvidia_env | lower in ["y", "yes"]
 
     - name: Disable Getty on TTY1
       ansible.builtin.command:

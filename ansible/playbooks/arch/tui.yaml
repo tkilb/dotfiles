@@ -1,0 +1,83 @@
+---
+- name: Install TUIs
+  hosts: localhost
+  become: true # Necessary to run with root privileges
+
+  vars_prompt:
+    - name: install_btop
+      prompt: "Install btop? (n/y)"
+      default: "no"
+      private: no
+    - name: install_caligula
+      prompt: "Install caligula? (n/y)"
+      default: "no"
+      private: no
+    - name: install_cull
+      prompt: "Install cull? (n/y)"
+      default: "no"
+      private: no
+    - name: install_lazygit
+      prompt: "Install lazygit? (n/y)"
+      default: "no"
+      private: no
+    - name: install_navi
+      prompt: "Install navi? (n/y)"
+      default: "no"
+      private: no
+    - name: install_wiremix
+      prompt: "Install wiremix? (n/y)"
+      default: "no"
+      private: no
+    - name: install_yazi
+      prompt: "Install yazi? (n/y)"
+      default: "no"
+      private: no
+
+  tasks:
+    - name: Install btop (System Resource Monitor)
+      community.general.pacman:
+        name: btop
+        state: present
+        update_cache: true
+      when: install_btop | lower in ["y", "yes"]
+
+    - name: Install caligula (Disk Imager)
+      community.general.pacman:
+        name: caligula
+        state: present
+        update_cache: true
+      when: install_caligula | lower in ["y", "yes"]
+
+    - name: Install cull (Disk Usage Analyzer)
+      yay:
+        name: cull-bin
+        state: present
+      when: install_cull | lower in ["y", "yes"]
+
+    - name: Install lazygit (Git TUI)
+      community.general.pacman:
+        name: lazygit
+        state: present
+        update_cache: true
+      when: install_lazygit | lower in ["y", "yes"]
+
+    - name: Install navi (Interactive Cheatsheet)
+      community.general.pacman:
+        name: navi
+        state: present
+        update_cache: true
+      when: install_navi | lower in ["y", "yes"]
+
+    - name: Install wiremix (Audio Mixer)
+      community.general.pacman:
+        name: wiremix
+        state: present
+        update_cache: true
+      when: install_wiremix | lower in ["y", "yes"]
+
+    - name: Install yazi (Terminal File Manager)
+      community.general.pacman:
+        name: yazi
+        state: present
+        update_cache: true
+      when: install_yazi | lower in ["y", "yes"]

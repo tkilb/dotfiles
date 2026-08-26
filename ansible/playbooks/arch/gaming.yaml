@@ -27,7 +27,7 @@
         path: /mnt/gaming
         state: directory
         mode: "0755"
-      when: mount_gaming_drive | bool
+      when: mount_gaming_drive | lower in ["y", "yes"]
 
     - name: Mount gaming drive on boot
       ansible.posix.mount:
@@ -36,24 +36,24 @@
         fstype: ext4
         opts: defaults,noatime
         state: mounted
-      when: mount_gaming_drive | bool
+      when: mount_gaming_drive | lower in ["y", "yes"]
 
     - name: Install Steam
       community.general.pacman:
         name: steam
         state: present
         update_cache: true
-      when: install_steam | bool
+      when: install_steam | lower in ["y", "yes"]
 
     - name: Install MangoHud
       community.general.pacman:
         name: mangohud
         state: present
         update_cache: true
-      when: install_mangohud| bool
+      when: install_mangohud | lower in ["y", "yes"]
 
     - name: Install Dealve
       yay:
         name: dealve
         state: present
-      when: install_dealve | bool
+      when: install_dealve | lower in ["y", "yes"]
