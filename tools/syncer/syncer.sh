@@ -27,7 +27,12 @@ mkdir -p "$STATE_DIR"
 
 # Function to log messages with timestamp
 log_message() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >>"$LOG_FILE"
+    local formatted_message="[$(date '+%Y-%m-%d %H:%M:%S')] $1"
+    echo "$formatted_message" >>"$LOG_FILE"
+    # Also echo progress to the terminal when running in manual mode
+    if [ "${CRON_MODE:-false}" != "true" ]; then
+        echo "$formatted_message"
+    fi
 }
 
 # Function to rotate log files
