@@ -152,7 +152,7 @@ del("n", "s")
 del("n", "S")
 wkey({
   { "f", "<cmd>lua require('flash').jump()<cr>", desc = "Flash Jump", mode = "n" },
-  -- { "F", "<cmd>lua require('flash').treesitter()<cr>", desc = "Flash Treesitter", mode = "n" },
+  { "F", "<cmd>lua require('flash').treesitter()<cr>", desc = "Flash Treesitter", mode = "n" },
 })
 
 -- Word Motion

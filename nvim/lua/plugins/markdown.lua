@@ -17,5 +17,10 @@ return {
     bullet = {
       left_pad = 2,
     },
+    html = {
+      comment = {
+        conceal = false, -- keep HTML comments visible (e.g. Marp `<!-- _class: ... -->` directives)
+      },
+    },
   },
 }
