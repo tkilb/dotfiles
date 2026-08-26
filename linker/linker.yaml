@@ -100,6 +100,16 @@
   machines:
     - linux-box
 
+- name: navi
+  source: ~/.dotfiles/navi/cheats
+  path: ~/.local/share/navi/cheats
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - steam-deck
+    - work-book
+
 - name: nvim
   path: ~/.config/nvim
   machines:

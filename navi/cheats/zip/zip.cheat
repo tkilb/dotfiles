@@ -1,0 +1,16 @@
+% zip
+
+# Create a zip archive from a directory
+zip -r <archive_name>.zip <directory>
+
+# Extract a zip archive
+unzip <archive_name>.zip
+
+# Add/update specific files into an existing zip
+zip <archive_name>.zip <files>
+
+# List contents of a zip without extracting
+unzip -l <archive_name>.zip
+
+# Create a password-protected zip archive
+zip -e -r <archive_name>.zip <directory>

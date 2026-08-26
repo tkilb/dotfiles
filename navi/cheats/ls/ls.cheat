@@ -1,0 +1,36 @@
+% ls
+
+# List all files, including hidden, with details
+ls -la
+
+# List all files, including hidden, with details and human-readable sizes
+ls -lah
+
+# List files sorted by modification time, newest last
+ls -lt
+
+# List files sorted by modification time, newest first
+ls -ltr
+
+# List files sorted by size, largest first
+ls -lS
+
+# List only directories
+ls -d */
+
+# List files with one entry per line
+ls -1
+
+# List files recursively
+ls -R
+
+# List files with file type indicators (/ for dirs, * for executables, etc.)
+ls -F
+
+# List files sorted by size, largest first, human-readable
+ls -lhS
+
+# List files in a specific directory
+ls <directory>
+
+$ directory: ls -d */

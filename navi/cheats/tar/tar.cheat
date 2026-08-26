@@ -1,0 +1,28 @@
+% tar
+
+# Create a tar archive from a directory
+tar -cvf <archive_name>.tar <directory>
+
+# Create a gzip-compressed tar archive
+tar -czvf <archive_name>.tar.gz <directory>
+
+# Extract a tar archive
+tar -xvf <archive_name>.tar
+
+# Extract a gzip-compressed tar archive
+tar -xzvf <archive_name>.tar.gz
+
+# Extract an archive into a specific directory
+tar -xzvf <archive_name>.tar.gz -C <directory>
+
+# List contents of a tar archive without extracting
+tar -tvf <archive_name>.tar
+
+# List contents of a gzip-compressed tar archive without extracting
+tar -tzvf <archive_name>.tar.gz
+
+# Create a bzip2-compressed tar archive
+tar -cjvf <archive_name>.tar.bz2 <directory>
+
+# Extract a bzip2-compressed tar archive
+tar -xjvf <archive_name>.tar.bz2

@@ -1,0 +1,13 @@
+% find
+
+# Find files by name pattern (case-insensitive)
+find <directory> -iname "<pattern>"
+
+# Find and delete matching files
+find <directory> -iname "<pattern>" -delete
+
+# Find files modified within the last N days
+find <directory> -mtime -<days>
+
+# Find files larger than a given size (e.g. +100M)
+find <directory> -size <size>
