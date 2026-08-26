@@ -143,3 +143,40 @@ done <"$YAML_FILE"
 if [[ -n "$current_source" ]]; then
   process_entry
 fi
+
+# Warn about sync issues reported by syncer in its most recent run
+function check_syncer_issues() {
+  local syncer_log="$HOME/.config/syncer/syncer.log"
+
+  if [[ ! -f "$syncer_log" ]]; then
+    return
+  fi
+
+  # Extract the most recent run block (from the last "Syncer started" to the
+  # matching "Syncer completed" marker) so we only warn about current issues.
+  local last_run
+  last_run="$(awk '
+    /=== Syncer started ===/ { buf = "" }
+    { buf = buf $0 ORS }
+    /=== Syncer completed ===/ { last = buf }
+    END { printf "%s", last }
+  ' "$syncer_log")"
+
+  if [[ -z "$last_run" ]]; then
+    return
+  fi
+
+  local error_lines
+  error_lines="$(echo "$last_run" | grep -E '^\[.*\] ERROR: ' || true)"
+
+  if [[ -n "$error_lines" ]]; then
+    echo ""
+    echo "Warning: syncer reported sync issues in its last run:"
+    while IFS= read -r line; do
+      echo "  $line"
+    done <<<"$error_lines"
+    echo "See $syncer_log for details."
+  fi
+}
+
+check_syncer_issues

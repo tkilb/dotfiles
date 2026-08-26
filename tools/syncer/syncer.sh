@@ -334,6 +334,12 @@ main() {
     # Rotate logs if needed
     rotate_logs
 
+    # Record log position so we can report this run's issues to stdout later
+    local run_start_line=0
+    if [ -f "$LOG_FILE" ]; then
+        run_start_line=$(wc -l <"$LOG_FILE" | tr -d ' ')
+    fi
+
     log_message "=== Syncer started ==="
     log_message "Current machine: ${MACHINE:-not set}"
     
@@ -416,6 +422,18 @@ main() {
     fi
 
     log_message "=== Syncer completed ==="
+
+    # In manual mode, warn the user directly (not just in the log file)
+    if [ "$cron_mode" != "true" ] && [ -f "$LOG_FILE" ]; then
+        local issue_lines
+        issue_lines=$(tail -n "+$((run_start_line + 1))" "$LOG_FILE" | grep -E '\] (ERROR|WARNING): ' || true)
+        if [ -n "$issue_lines" ]; then
+            echo ""
+            echo "Warning: syncer encountered sync issues this run:"
+            echo "$issue_lines" | sed 's/^/  /'
+            echo "See $LOG_FILE for details."
+        fi
+    fi
 }
 
 # Parse command line arguments
