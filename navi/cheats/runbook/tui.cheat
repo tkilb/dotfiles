@@ -1,0 +1,4 @@
+% runbook, tui
+
+# Runbook: Regular TUIs
+"$EDITOR" ~/.local/share/navi/cheats/runbook/tui.md

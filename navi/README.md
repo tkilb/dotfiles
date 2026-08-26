@@ -23,9 +23,10 @@ https://github.com/denisidoro/navi/blob/master/docs/cheatsheet/syntax/README.md
 
 ## Current cheatsheets
 
-- `zip/zip.cheat` — zip/unzip command snippets
 - `find/find.cheat` — find command snippets
 - `ls/ls.cheat` — ls command snippets
-- `tar/tar.cheat` — tar archive command snippets
 - `rsync/rsync.cheat` — rsync command snippets (including NAS-safe sync)
+- `tar/tar.cheat` — tar archive command snippets
+- `zip/zip.cheat` — zip/unzip command snippets
 - `runbook/nerd-fonts.cheat` — Nerd Fonts install runbook (Arch Linux)
+- `runbook/tui.cheat` — regular TUIs runbook
