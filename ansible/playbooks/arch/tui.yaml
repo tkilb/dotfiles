@@ -4,6 +4,10 @@
   become: true # Necessary to run with root privileges
 
   vars_prompt:
+    - name: install_bluetui
+      prompt: "Install bluetui? (n/y)"
+      default: "no"
+      private: no
     - name: install_btop
       prompt: "Install btop? (n/y)"
       default: "no"
@@ -34,6 +38,13 @@
       private: no
 
   tasks:
+    - name: Install bluetui (Bluetooth TUI)
+      community.general.pacman:
+        name: bluetui
+        state: present
+        update_cache: true
+      when: install_bluetui | lower in ["y", "yes"]
+
     - name: Install btop (System Resource Monitor)
       community.general.pacman:
         name: btop

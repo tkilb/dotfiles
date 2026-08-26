@@ -1,5 +1,10 @@
 # Runbook: Regular TUIs
 
+## bluetui - Bluetooth manager
+
+- Install: `sudo pacman -S bluetui`
+- Playbook: `ansible/playbooks/arch/tui.yaml`
+
 ## btop - System resource monitor
 
 - Install: `sudo pacman -S btop`
