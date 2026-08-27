@@ -6,8 +6,8 @@
   vars_prompt:
     - name: configure_nvidia_env
       prompt: "Configure NVIDIA environment variables for Wayland? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
 
   tasks:
     - name: Install Hyprland and Portals

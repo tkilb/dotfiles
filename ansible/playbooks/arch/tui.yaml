@@ -6,36 +6,36 @@
   vars_prompt:
     - name: install_bluetui
       prompt: "Install bluetui? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_btop
       prompt: "Install btop? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_caligula
       prompt: "Install caligula? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_cull
       prompt: "Install cull? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_lazygit
       prompt: "Install lazygit? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_navi
       prompt: "Install navi? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_wiremix
       prompt: "Install wiremix? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_yazi
       prompt: "Install yazi? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
 
   tasks:
     - name: Install bluetui (Bluetooth TUI)

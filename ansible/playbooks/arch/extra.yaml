@@ -6,44 +6,44 @@
   vars_prompt:
     - name: install_bitwarden
       prompt: "Install Bitwarden? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_firefox
       prompt: "Install Firefox? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_kitty
       prompt: "Install Kitty? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_node
       prompt: "Install Node? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_npm
       prompt: "Install NPM? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_prettier
       prompt: "Install Prettier? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_rsync
       prompt: "Install Rsync? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_tmux
       prompt: "Install Tmux? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_trash
       prompt: "Install Trash? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_zen_browser
       prompt: "Install Zen Browser? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
 
   tasks:
     - name: Install Bitwarden

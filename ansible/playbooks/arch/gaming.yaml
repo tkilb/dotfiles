@@ -6,20 +6,20 @@
   vars_prompt:
     - name: mount_gaming_drive
       prompt: "Mount gaming drive on boot? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_steam
       prompt: "Install steam? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_mangohud
       prompt: "Install MangoHud? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
     - name: install_dealve
       prompt: "Install Dealve? (n/y)"
-      default: "no"
-      private: no
+      default: "n"
+      private: n
 
   tasks:
     - name: Create gaming drive mount point
