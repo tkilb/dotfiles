@@ -165,7 +165,7 @@ wkey({
 -- Returns the last file buffer's directory (or cwd as fallback), oil-aware
 local function file_cwd()
   if vim.bo.filetype == "oil" then
-    return vim.fn.expand("%:p"):gsub("^oil://", "")
+    return (vim.fn.expand("%:p"):gsub("^oil://", ""))
   end
   if vim.bo.buftype == "" and vim.fn.expand("%:p") ~= "" then
     return vim.fn.expand("%:p:h")
