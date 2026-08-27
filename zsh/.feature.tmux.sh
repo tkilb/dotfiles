@@ -3,6 +3,16 @@ if [ -z $TMUX_PATH ]; then
 fi
 
 ##################################################
+# Auto-start tmux in Kitty
+##################################################
+# Only for kitty (checked via TERM), only if not already inside tmux,
+# and only for interactive shells so this doesn't hijack `kitty +kitten ...`
+# or non-interactive scripts run through kitty.
+if [[ "$TERM" == "xterm-kitty" ]] && [ -z "$TMUX" ] && [[ $- == *i* ]]; then
+    exec $TMUX_PATH new-session -A -s main
+fi
+
+##################################################
 # Tmuxifier Setup
 ##################################################
 # Install tmuxifier if it is missing
