@@ -16,6 +16,9 @@ return {
       ignored = false,
       exclude = { "package-lock.json", ".github" },
       sources = {
+        explorer = {
+          layout = { preview = "main" },
+        },
         marks = {
           -- Filter to show only manual marks (a-z, A-Z)
           transform = function(item)
