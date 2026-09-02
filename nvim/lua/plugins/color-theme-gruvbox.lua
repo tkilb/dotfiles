@@ -18,5 +18,17 @@ return {
     vim.g.gruvbox_material_disable_terminal_colors = 1 -- Use terminal emulator's native ANSI colors
     -- vim.g.gruvbox_material_background = "hard"
     vim.cmd.colorscheme("gruvbox-material")
+
+    -- Make the cursor purple in Normal mode so the mode is obvious at a glance.
+    -- Other modes keep the theme's default cursor color/highlight group.
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      group = vim.api.nvim_create_augroup("normal-mode-cursor-color", { clear = true }),
+      callback = function()
+        vim.api.nvim_set_hl(0, "CursorNormalMode", { bg = "#a9a1e1", fg = "#1d2021" })
+      end,
+    })
+    vim.api.nvim_set_hl(0, "CursorNormalMode", { bg = "#a9a1e1", fg = "#1d2021" })
+
+    vim.opt.guicursor = "n:block-CursorNormalMode,v-c:block-Cursor,i-ci-ve:ver25-Cursor,r-cr:hor20-Cursor,o:hor50-Cursor,a:blinkon0"
   end,
 }
