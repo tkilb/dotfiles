@@ -139,7 +139,11 @@ wkey({"<leader>qr", "<cmd>lua require('persistence').load({ last = true })<cr>",
 -- Windows
 del("n", "<leader>-")
 wkey({ "<leader>=", "<cmd>sp<cr>", icon = "", desc = "Split Window Down", mode = "n"})
-wkey({ "<leader><space>", "<C-w><C-w>", icon = "󰮗 ", desc = "Toggle Last Window", mode = "n" })
+-- Toggle Last Window (see config/window_toggle.lua for details on why this
+-- doesn't just use `wincmd p`)
+local window_toggle = require("config.window_toggle")
+window_toggle.setup()
+wkey({ "<leader><space>", window_toggle.toggle, icon = "󰏧 ", desc = "Toggle Last Window", mode = "n" })
 
 --------------------------------------------------
 -- Plugins
