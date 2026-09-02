@@ -1,0 +1,52 @@
+% curl
+
+# Download a file, saving with its remote name
+curl -O <url>
+
+# Download a file, saving to a specific path
+curl -o <output-file> <url>
+
+# Follow redirects
+curl -L <url>
+
+# Show response headers only (no body)
+curl -I <url>
+
+# Verbose output (request/response headers, useful for debugging)
+curl -v <url>
+
+# Send a GET request with query parameters
+curl -G --data-urlencode "<param>=<value>" <url>
+
+# Send a POST request with a JSON body
+curl -X POST -H "Content-Type: application/json" -d '<json-body>' <url>
+
+# Send a POST request with form data
+curl -X POST -d "<key>=<value>" <url>
+
+# Send a request with a custom header
+curl -H "<header-name>: <header-value>" <url>
+
+# Send a request with basic auth
+curl -u "<username>:<password>" <url>
+
+# Send a request with a bearer token
+curl -H "Authorization: Bearer <token>" <url>
+
+# Fail silently on server errors (non-2xx) and return a non-zero exit code
+curl -fsS <url>
+
+# Resume a partially downloaded file
+curl -C - -O <url>
+
+# Limit the transfer rate (e.g. 500k)
+curl --limit-rate <rate> -O <url>
+
+# Set a maximum time for the whole request (seconds)
+curl --max-time <seconds> <url>
+
+# Use a specific HTTP method
+curl -X <method> <url>
+
+# Ignore TLS certificate verification (use with caution)
+curl -k <url>
