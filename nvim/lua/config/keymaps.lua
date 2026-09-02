@@ -123,8 +123,6 @@ wkey({
   { "<leader>dd", "<cmd>Obsidian toggle_checkbox<cr>", icon = "", desc = "Todo Toggle", mode = "n" },
 })
 
-
-
 -- Notifications
 wkey({
   { "<leader>N", function() Snacks.picker.notifications() end, desc = "Notifications", mode = "n" },
