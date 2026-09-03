@@ -146,20 +146,11 @@ wkey({ "<leader><space>", window_toggle.toggle, icon = "󰏧 ", desc = "Toggle L
 -- Code Companion
 wkey({ "<leader>ac", "<cmd>CopilotToggle<cr>", icon = "󰨙 ", desc = "Toggle Predictions", mode = "n" })
 
--- Flash (native `s`/`S` disabled in plugins/flash.lua's `keys` spec, see there)
+-- Flash (native `s`/`S` disabled in plugins/flash.lua's `keys` spec, see there;
+-- deliberately left unmapped/free for future use)
 wkey({
   { "f", "<cmd>lua require('flash').jump()<cr>", desc = "Flash Jump", mode = "n" },
   { "F", "<cmd>lua require('flash').treesitter()<cr>", desc = "Flash Treesitter", mode = "n" },
-})
-
--- Sandwich (surround add/delete/replace; native `s`/`S` freed for this)
-map({ "n", "x" }, "s", "<Nop>", { desc = "+sandwich" })
-wkey({
-  { "s", group = "sandwich", mode = { "n", "x" } },
-  { "sa", desc = "Add Surrounding", mode = { "n", "x" } },
-  { "sd", desc = "Delete Surrounding", mode = "n" },
-  { "sr", desc = "Replace Surrounding", mode = "n" },
-  { "S", desc = "Add Surrounding", mode = "x" },
 })
 
 -- Word Motion

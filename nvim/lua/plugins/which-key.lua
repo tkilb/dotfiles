@@ -12,14 +12,7 @@ return {
   "folke/which-key.nvim",
   opts = {
     --- @type vim._watch.watch.Opts
-    -- which-key's auto-trigger logic deliberately skips single lowercase
-    -- letters other than `g`/`z` (see is_safe() in which-key/buf.lua) to
-    -- avoid hijacking common single-key commands. That means `s`, mapped in
-    -- config/keymaps.lua as the vim-sandwich group prefix, never gets an
-    -- auto trigger and its popup never appears. Add it as a manual trigger
-    -- alongside the default auto-trigger entry to opt it back in.
     triggers = {
-      { "<auto>", mode = "nxso" },
       { "s", mode = { "n", "x" } },
     },
   },
