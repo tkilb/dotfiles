@@ -8,6 +8,10 @@ local wkey = require("which-key").add
 del("n", "<leader>`")
 del("n", "<leader>K")
 
+-- remove default substitute
+map({ "n", "x" }, "s", "<Nop>")
+map({ "n", "x" }, "S", "<Nop>")
+
 --------------------------------------------------
 -- General
 --------------------------------------------------
@@ -146,8 +150,7 @@ wkey({ "<leader><space>", window_toggle.toggle, icon = "󰏧 ", desc = "Toggle L
 -- Code Companion
 wkey({ "<leader>ac", "<cmd>CopilotToggle<cr>", icon = "󰨙 ", desc = "Toggle Predictions", mode = "n" })
 
--- Flash (native `s`/`S` disabled in plugins/flash.lua's `keys` spec, see there;
--- deliberately left unmapped/free for future use)
+--- Flash
 wkey({
   { "f", "<cmd>lua require('flash').jump()<cr>", desc = "Flash Jump", mode = "n" },
   { "F", "<cmd>lua require('flash').treesitter()<cr>", desc = "Flash Treesitter", mode = "n" },
