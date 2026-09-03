@@ -2,36 +2,22 @@
   "//": "Single portable source of truth for AI agent permissions (Copilot CLI + Antigravity CLI). Edit this file, then re-run ai/sync-ai-permissions.py (or just launch `copilot`, which does it automatically) to apply it. `locations` merges into the live, per-machine ~/.copilot/permissions-config.json. `trusted_domains` merges into both the live ~/.copilot/settings.json (allowedUrls) and the repo-tracked ai/antigravity-settings.json (read_url(...) allow entries). Never symlink permissions-config.json or settings.json themselves -- they also accumulate ephemeral, per-repo/per-session approvals that shouldn't sync across machines.",
   "trusted_domains": [
     "github.com",
+    "githubusercontent.com",
     "gitlab.com",
     "nextjs.org"
   ],
   "locations": {
     "~/.dotfiles": {
-      "tool_approvals": [
-        { "kind": "write" }
-      ],
-      "allowed_directories": [
-        "/tmp",
-        "~/Git"
-      ]
+      "tool_approvals": [{ "kind": "write" }],
+      "allowed_directories": ["/tmp", "~/Git"]
     },
     "~/Git": {
-      "tool_approvals": [
-        { "kind": "write" }
-      ],
-      "allowed_directories": [
-        "/tmp",
-        "~/.dotfiles"
-      ]
+      "tool_approvals": [{ "kind": "write" }],
+      "allowed_directories": ["/tmp", "~/.dotfiles"]
     },
     "/tmp": {
-      "tool_approvals": [
-        { "kind": "write" }
-      ],
-      "allowed_directories": [
-        "~/.dotfiles",
-        "~/Git"
-      ]
+      "tool_approvals": [{ "kind": "write" }],
+      "allowed_directories": ["~/.dotfiles", "~/Git"]
     }
   }
 }

@@ -10,3 +10,29 @@ customCommands:
     loadingText: "Flattening branch history..."
     after:
       checkForConflicts: true
+
+  - key: "<c-x>"
+    context: "localBranches, commits"
+    description: "trashHistory: squash all commits older than a cutoff date into one root commit"
+    prompts:
+      - type: "input"
+        title: "Trash history older than (git --since syntax, e.g. '6 months ago')"
+        key: "Cutoff"
+        initialValue: "6 months ago"
+      - type: "confirm"
+        title: "Trash history before {{.Form.Cutoff}}"
+        body: "This rewrites the CURRENT branch: every commit older than '{{.Form.Cutoff}}' is squashed into a single root commit; everything at/after that date is preserved verbatim (identical file contents). It does NOT push automatically. Requires a clean working tree. If this was a mistake, recover locally via `git reflog` + `git reset --hard <sha-before>` before running gc. Continue?"
+    command: >-
+      bash -c 'set -euo pipefail;
+      CUTOFF={{.Form.Cutoff | quote}};
+      BRANCH=$(git rev-parse --abbrev-ref HEAD);
+      if [ -n "$(git status --porcelain)" ]; then echo "Working tree not clean, aborting." >&2; exit 1; fi;
+      KEEP_FROM=$(git log --since="$CUTOFF" --format=%H --reverse | head -1);
+      if [ -z "$KEEP_FROM" ]; then echo "No commits at/after cutoff; aborting for safety." >&2; exit 1; fi;
+      PARENT="${KEEP_FROM}^";
+      if ! git rev-parse -q --verify "$PARENT" >/dev/null 2>&1; then echo "Already fully trashed; nothing to do."; exit 0; fi;
+      NEWROOT=$(git commit-tree "${PARENT}^{tree}" -m "Squashed history before $CUTOFF");
+      git rebase --onto "$NEWROOT" "$PARENT" "$BRANCH"'
+    loadingText: "Trashing old history..."
+    after:
+      checkForConflicts: true
