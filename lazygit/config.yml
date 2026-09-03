@@ -1,7 +1,7 @@
 customCommands:
   - key: "<c-f>"
     context: "commits"
-    description: "flattend: replay local-only commits onto latest target branch, discarding old merge commits"
+    description: "Flatten: replay local commits onto latest target, discarding merge commit"
     prompts:
       - type: "confirm"
         title: "Flatten history"
@@ -13,7 +13,7 @@ customCommands:
 
   - key: "<c-x>"
     context: "localBranches, commits"
-    description: "trashHistory: squash all commits older than a cutoff date into one root commit"
+    description: "Trash History: squash all commits older than date into one root commit"
     prompts:
       - type: "input"
         title: "Trash history older than (git --since syntax, e.g. '6 months ago')"
@@ -36,3 +36,42 @@ customCommands:
     loadingText: "Trashing old history..."
     after:
       checkForConflicts: true
+
+  - key: "<c-n>"
+    context: "localBranches, commits"
+    description: "New Local: DELETES local git data - branches, stashes, reflogs, etc"
+    prompts:
+      - type: "confirm"
+        title: "Flush local git data"
+        body: "This opens a terminal that previews exactly which local branches would be deleted (merged into the current branch, or whose upstream is gone) and how many stashes would be dropped, then requires typing YES to proceed. Once confirmed, it also expires the reflog and runs `git gc --prune=now`, which is IRREVERSIBLE (no reflog-based undo afterward). 'main'/'master'/'develop' and the current branch are always protected. Continue to preview?"
+    command: >-
+      bash -c 'set -euo pipefail;
+      echo "=== Local git maintenance preview ===";
+      echo;
+      CURRENT=$(git rev-parse --abbrev-ref HEAD);
+      PROTECTED_RE="^(main|master|develop|${CURRENT})$";
+      MERGED=$(git branch --format="%(refname:short)" --merged HEAD | grep -vE "$PROTECTED_RE" || true);
+      GONE=$(git branch -vv | grep ": gone\]" | sed -E "s/^[* ]+//" | cut -d" " -f1 | grep -vE "$PROTECTED_RE" || true);
+      BRANCHES_TO_DELETE=$(printf "%s\n%s\n" "$MERGED" "$GONE" | grep -v "^$" | sort -u || true);
+      echo "Local branches that will be deleted (merged into $CURRENT, or upstream gone):";
+      if [ -n "$BRANCHES_TO_DELETE" ]; then printf "  - %s\n" $BRANCHES_TO_DELETE; else echo "  (none)"; fi;
+      echo;
+      STASH_COUNT=$(git stash list | wc -l | tr -d " ");
+      echo "Stashes that will be dropped: $STASH_COUNT";
+      echo;
+      echo "Reflog entries will be expired immediately (git reflog expire --expire=now --all)";
+      echo "Unreachable objects will be pruned immediately (git gc --prune=now)";
+      echo;
+      echo "NOTE: once reflog is expired and gc runs, none of the above is recoverable.";
+      echo;
+      read -r -p "Type YES (all caps) to proceed: " CONFIRM;
+      if [ "$CONFIRM" != "YES" ]; then echo "Aborted, nothing changed."; exit 1; fi;
+      if [ -n "$BRANCHES_TO_DELETE" ]; then while IFS= read -r b; do [ -n "$b" ] && git branch -D "$b"; done <<< "$BRANCHES_TO_DELETE"; fi;
+      git stash clear;
+      git reflog expire --expire=now --all;
+      git gc --prune=now;
+      echo;
+      echo "Done.";
+      read -r -p "Press enter to return to lazygit..." _ || true'
+    output: terminal
+    loadingText: "Flushing local git data..."
