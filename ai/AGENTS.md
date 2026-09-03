@@ -66,3 +66,11 @@ Tools to Prefer
 
 Prefer fd over find, rg over grep in terminal suggestions
 Use fzf for fuzzy filtering in shell command suggestions
+
+Skills
+
+Personal skills live in ~/.dotfiles/ai/skills/, git-tracked alongside this
+file so they're available on every machine (registered with Copilot CLI
+automatically via ai/sync-ai-permissions.py). Tools without native skill
+support should read the relevant SKILL.md there directly when a request
+matches one.

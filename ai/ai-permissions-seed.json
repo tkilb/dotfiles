@@ -1,5 +1,8 @@
 {
-  "//": "Single portable source of truth for AI agent permissions (Copilot CLI + Antigravity CLI). Edit this file, then re-run ai/sync-ai-permissions.py (or just launch `copilot`, which does it automatically) to apply it. `locations` merges into the live, per-machine ~/.copilot/permissions-config.json. `trusted_domains` merges into both the live ~/.copilot/settings.json (allowedUrls) and the repo-tracked ai/antigravity-settings.json (read_url(...) allow entries). Never symlink permissions-config.json or settings.json themselves -- they also accumulate ephemeral, per-repo/per-session approvals that shouldn't sync across machines.",
+  "//": "Single portable source of truth for AI agent permissions (Copilot CLI + Antigravity CLI). Edit this file, then re-run ai/sync-ai-permissions.py (or just launch `copilot`, which does it automatically) to apply it. `locations` merges into the live, per-machine ~/.copilot/permissions-config.json. `trusted_domains` merges into both the live ~/.copilot/settings.json (allowedUrls) and the repo-tracked ai/antigravity-settings.json (read_url(...) allow entries). `skill_directories` merges into the live ~/.copilot/settings.json (skillDirectories), registering git-tracked skill dirs (e.g. ai/skills) as Copilot custom skills on every machine. Never symlink permissions-config.json or settings.json themselves -- they also accumulate ephemeral, per-repo/per-session approvals that shouldn't sync across machines.",
+  "skill_directories": [
+    "~/.dotfiles/ai/skills"
+  ],
   "trusted_domains": [
     "github.com",
     "githubusercontent.com",

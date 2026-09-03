@@ -13,7 +13,8 @@
       "write_file(~/Git)",
       "read_url(github.com)",
       "read_url(gitlab.com)",
-      "read_url(nextjs.org)"
+      "read_url(nextjs.org)",
+      "read_url(githubusercontent.com)"
     ]
   }
 }

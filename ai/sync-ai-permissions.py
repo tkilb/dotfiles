@@ -19,6 +19,10 @@ Targets updated from the seed:
       each seed domain not already covered by an existing read_url/deny
       rule. Other entries (command(...), write_file(...), etc.) are left
       untouched.
+  - ~/.copilot/settings.json (live, per-machine)
+      skillDirectories -- merged from the seed's "skill_directories", so
+      git-tracked skill dirs (e.g. ai/skills) are registered as Copilot
+      custom skills on every machine without a manual `copilot skill add`.
 
 Merge semantics are additive/idempotent: existing entries are never
 removed, only missing ones are added. Safe to re-run any time, including
@@ -87,6 +91,33 @@ def write_json(path: Path, data: dict, dry_run: bool) -> None:
     tmp_path.replace(path)
 
 
+def apply_repo_baseline(seed: dict, live: dict) -> None:
+    """Grant every repo-scoped location (e.g. ~/Git/<repo>, created live by
+    the CLI per-session and not present in the seed) access to the seed's
+    top-level trio directories (~/Git, ~/.dotfiles, /tmp).
+
+    Without this, a session scoped to a specific repo under ~/Git gets its
+    own "locations" entry with no allowed_directories, so it can't reach
+    sibling repos, the repo root's parent, ~/.dotfiles, or /tmp without an
+    approval prompt -- even though the trio entries themselves already
+    grant each other mutual access. This closes that gap for existing
+    repo entries and any new ones added in future sessions, since this
+    runs on every sync.
+    """
+    trio_dirs = [expand(k) for k in seed.get("locations", {})]
+    for key, loc in live.get("locations", {}).items():
+        if key in trio_dirs:
+            continue
+        if not any(key == d or key.startswith(d + os.sep) for d in trio_dirs):
+            continue
+        loc.setdefault("allowed_directories", [])
+        seen = set(loc["allowed_directories"])
+        for d in trio_dirs:
+            if d != key and d not in seen:
+                loc["allowed_directories"].append(d)
+                seen.add(d)
+
+
 def sync_permissions_config(seed: dict, dry_run: bool) -> bool:
     live: dict = {}
     if PERMISSIONS_PATH.exists():
@@ -98,6 +129,7 @@ def sync_permissions_config(seed: dict, dry_run: bool) -> bool:
         key = expand(raw_key)
         live_loc = live["locations"].setdefault(key, {})
         merge_location(live_loc, seed_loc)
+    apply_repo_baseline(seed, live)
     changed = json.dumps(live, sort_keys=True) != before
 
     if changed:
@@ -107,13 +139,15 @@ def sync_permissions_config(seed: dict, dry_run: bool) -> bool:
 
 def sync_copilot_settings(seed: dict, dry_run: bool) -> bool:
     domains = seed.get("trusted_domains", [])
-    if not domains:
+    skill_dirs = seed.get("skill_directories", [])
+    if not domains and not skill_dirs:
         return False
 
     live: dict = {}
     if COPILOT_SETTINGS_PATH.exists():
         live = json.loads(COPILOT_SETTINGS_PATH.read_text())
     live.setdefault("allowedUrls", [])
+    live.setdefault("skillDirectories", [])
 
     seen = set(live["allowedUrls"])
     changed = False
@@ -122,6 +156,14 @@ def sync_copilot_settings(seed: dict, dry_run: bool) -> bool:
         if url not in seen:
             live["allowedUrls"].append(url)
             seen.add(url)
+            changed = True
+
+    seen_dirs = {expand(d) for d in live["skillDirectories"]}
+    for directory in skill_dirs:
+        expanded = expand(directory)
+        if expanded not in seen_dirs:
+            live["skillDirectories"].append(expanded)
+            seen_dirs.add(expanded)
             changed = True
 
     if changed:
