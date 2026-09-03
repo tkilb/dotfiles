@@ -1,0 +1,16 @@
+---
+- name: Install Fira Code Nerd Font
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Install Fira Code (Base)
+      community.general.pacman:
+        name: ttf-fira-code
+        state: present
+        update_cache: true
+
+    - name: Install Fira Code Nerd Font
+      community.general.pacman:
+        name: ttf-firacode-nerd
+        state: present
+        update_cache: true

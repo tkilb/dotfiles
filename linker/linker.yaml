@@ -1,0 +1,104 @@
+# MACHINE references:
+#   linux-book | linux-box | pi-server | steam-deck | work-book
+
+- name: ansible
+  path: ~/.ansible
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - steam-deck
+    - work-book
+
+- name: autostart
+  path: ~/.config/autostart
+  machines:
+    - linux-book
+    - linux-box
+
+- name: hypr
+  path: ~/.config/hypr
+  machines:
+    - linux-book
+    - linux-box
+
+- name: kitty
+  path: ~/.config/kitty
+  machines:
+    - linux-book
+    - linux-box
+    - steam-deck
+    - work-book
+
+- name: linker
+  path: ~/.config/linker
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - steam-deck
+    - work-book
+
+- name: MangoHud
+  path: ~/.config/MangoHud
+  machines:
+    - linux-box
+
+- name: moltendriver
+  path: ~/.config/moltendriver
+  machines:
+    - linux-box
+
+- name: moltengamepad
+  path: ~/.config/moltengamepad/
+  machines:
+    - linux-box
+
+- name: nvim
+  path: ~/.config/nvim
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - steam-deck
+    - work-book
+
+- name: syncer
+  path: ~/.config/syncer
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - steam-deck
+    - work-book
+
+- name: tmux
+  path: ~/.config/tmux
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - work-book
+
+- name: ulauncher
+  path: ~/.config/ulauncher
+  machines:
+    - linux-book
+    - linux-box
+
+- name: yazi
+  path: ~/.config/yazi
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - work-book
+
+- name: zsh/.zshrc
+  path: ~/.zshrc
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - steam-deck
+    - work-book

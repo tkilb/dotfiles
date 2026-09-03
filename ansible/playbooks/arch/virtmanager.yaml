@@ -1,0 +1,32 @@
+---
+- name: Install Virt Manager and related packages
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Install Virt-Manager and Support Packages
+      community.general.pacman:
+        name:
+          - virt-manager
+          - libvirt
+          - qemu
+        state: present
+
+    - name: Install Networing Related Packages (Pacman)
+      community.general.pacman:
+        name:
+          - dmidecode
+          - dnsmasq
+          - ebtables
+          - openbsd-netcat
+        state: present
+
+    - name: Install Networing Related Packages (Yay)
+      yay:
+        name: bridge-utils
+        state: present
+
+    - name: Enable and restart libvirtd service
+      ansible.builtin.systemd:
+        name: libvirtd
+        state: restarted
+        enabled: yes

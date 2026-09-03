@@ -1,0 +1,15 @@
+---
+- name: Install Popsicle
+  hosts: localhost
+  vars:
+    ansible_async_dir: /tmp/.ansible_async
+    ansible_allow_world_readable_tmpfiles: True
+  tasks:
+    - name: Install popsicle
+      yay:
+        name:
+          - popsicle
+        state: present
+      become: yes
+      become_user: yay_builder
+      become_method: sudo
