@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "command(git status)",
+      "command(git diff)",
+      "command(git log)",
+      "command(git show)",
+      "command(git branch)",
+      "command(npm test)",
+      "command(npm run (build|lint))",
+      "write_file(~/.dotfiles)",
+      "write_file(/tmp)",
+      "write_file(~/Git)",
+      "read_url(github.com)",
+      "read_url(gitlab.com)",
+      "read_url(nextjs.org)"
+    ]
+  }
+}
