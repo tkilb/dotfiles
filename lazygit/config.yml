@@ -1,12 +1,12 @@
 customCommands:
-  - key: '<c-f>'
-    context: 'commits'
-    description: 'flattend: replay local-only commits onto latest target branch, discarding old merge commits'
+  - key: "<c-f>"
+    context: "commits"
+    description: "flattend: replay local-only commits onto latest target branch, discarding old merge commits"
     prompts:
-      - type: 'confirm'
-        title: 'Flatten history'
+      - type: "confirm"
+        title: "Flatten history"
         body: "Select the merge-base commit (the last commit shared with your upstream, BEFORE your own local-only commits start) as the currently selected commit before confirming — do NOT select a merge commit itself.\n\nThis will discard commit {{.SelectedLocalCommit.Hash}} and everything before it, then replay only the commits after it on top of the current tip of your upstream branch (@{u}). Continue?"
     command: "git rebase --onto @{u} {{.SelectedLocalCommit.Hash}}"
-    loadingText: 'Flattening branch history...'
+    loadingText: "Flattening branch history..."
     after:
       checkForConflicts: true
