@@ -37,6 +37,28 @@ customCommands:
     after:
       checkForConflicts: true
 
+  - key: "<c-b>"
+    context: "localBranches"
+    description: "Backup Branch: snapshot current branch (incl. uncommitted changes) to bak_<branch>_<timestamp>"
+    prompts:
+      - type: "confirm"
+        title: "Backup current branch"
+        body: "Creates a new branch 'bak_<current-branch>_<timestamp>' containing a snapshot of your current branch plus any uncommitted changes (committed there as 'Work in progress...'). Your current branch is left completely untouched, including any uncommitted changes. Continue?"
+    command: >-
+      bash -c 'set -euo pipefail;
+      BRANCH=$(git rev-parse --abbrev-ref HEAD);
+      DATESTAMP=$(date +"%Y%m%d-%H%M%S");
+      BAK_BRANCH="bak_${BRANCH}_${DATESTAMP}";
+      HAS_CHANGES=$(git status --porcelain);
+      git branch -D "$BAK_BRANCH" 2>/dev/null || true;
+      if [ -n "$HAS_CHANGES" ]; then git add -A && git stash; fi;
+      git checkout -b "$BAK_BRANCH";
+      if [ -n "$HAS_CHANGES" ]; then git stash apply && git add -A && git commit -m "Work in progress..." --no-verify; fi;
+      git checkout "$BRANCH";
+      if [ -n "$HAS_CHANGES" ]; then git stash pop; fi;
+      echo "Backed up to $BAK_BRANCH"'
+    loadingText: "Backing up branch..."
+
   - key: "<c-n>"
     context: "localBranches, commits"
     description: "New Local: DELETES local git data - branches, stashes, reflogs, etc"
