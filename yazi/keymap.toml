@@ -11,9 +11,9 @@ prepend_keymap = [
 	{ on = ["c", "D"], run = "shell 'echo $PWD | pbcopy'", desc = "Copy the directory path" },
 	{ on = ["g", "/"], run = "cd /", desc = "Go / (root)" },
 	{ on = ["g", "."], run = "cd ~/.dotfiles", desc = "Go .dotfiles" },
-	{ on = ["g", "G"], run = "cd ~/Git", desc = "Go ~/Git directory" },
 	{ on = ["g", "n"], run = "cd ~/General", desc = "Go ~/General directory" },
 	{ on = ["g", "s"], run = "cd ~/Staging", desc = "Go ~/Staging directory" },
+	{ on = ["g", "t"], run = "cd ~/Git", desc = "Go ~/Git directory" },
 	{ on = "t", run = "tab_create --current", desc = "Create a new tab" },
 ]
 
