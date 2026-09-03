@@ -21,7 +21,7 @@ return {
       order = { " ", "x" },
     },
     picker = {
-      name = "snacks.pick",
+      name = "snacks.picker",
     },
 
     -- Location for new notes (one of: "notes_subdir", "current_dir")
@@ -29,7 +29,7 @@ return {
 
     -- Attachment/image folder configuration
     attachments = {
-      img_folder = "z-attachments", -- where pasted images are saved
+      folder = "z-attachments", -- where pasted images are saved
     },
 
     templates = {
@@ -132,10 +132,6 @@ return {
       {
         name = "notes-tech",
         path = "~/Notes/tech",
-      },
-      {
-        name = "notes-workshop",
-        path = "~/Notes/workshop",
       },
     },
   },
