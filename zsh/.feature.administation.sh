@@ -23,8 +23,12 @@ alias vim="nvim"
 # Personal Linux Machines
 ##################################################
 if [[ "$MACHINE" =~ ^(linux-book|linux-box)$ ]]; then
-  alias bak-d2="rsync --progress --partial --archive --delete /run/user/1000/gvfs/smb-share:server=192.168.0.123,share=d2/ /run/media/$USERNAME/onsite-backup/d2"
-  alias bak-d3="rsync --progress --partial --archive --delete /run/user/1000/gvfs/smb-share:server=192.168.0.123,share=d3/ /run/media/$USERNAME/onsite-backup/d3"
   alias system-update="yay -Syyuu"
+
+  # NAS Backups
+  alias mount-onsite-backup="sudo mkdir -p /mnt/onsite-backup && sudo mount /dev/disk/by-label/onsite-backup /mnt/onsite-backup"
+  alias unmount-onsite-backup="sudo umount /mnt/onsite-backup"
+  alias bak-d2="rsync --progress --partial --archive --delete /mnt/nas/d2 /mnt/onsite-backup/d2"
+  alias bak-d3="rsync --progress --partial --archive --delete /mnt/nas/d3 /mnt/onsite-backup/d3"
 fi
 
