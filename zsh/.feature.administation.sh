@@ -15,9 +15,15 @@ rsa-keygen() {
   fi
 }
 
-alias vi="nvim"
-alias vim="nvim"
-
+vim() {
+  if command -v nvim &>/dev/null; then
+    nvim "$@"
+  elif command -v vim &>/dev/null; then
+    command vim "$@"
+  else
+    vi "$@"
+  fi
+}
 
 ##################################################
 # Personal Linux Machines
