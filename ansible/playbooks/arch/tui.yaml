@@ -24,6 +24,10 @@
       prompt: "Install lazygit? (n/y)"
       default: "n"
       private: n
+    - name: install_lazyrsync
+      prompt: "Install lazyrsync? (n/y)"
+      default: "n"
+      private: n
     - name: install_navi
       prompt: "Install navi? (n/y)"
       default: "n"
@@ -71,6 +75,12 @@
         state: present
         update_cache: true
       when: install_lazygit | lower in ["y", "yes"]
+
+    - name: Install lazyrsync (Rsync TUI)
+      yay:
+        name: lazyrsync
+        state: present
+      when: install_lazyrsync | lower in ["y", "yes"]
 
     - name: Install navi (Interactive Cheatsheet)
       community.general.pacman:
