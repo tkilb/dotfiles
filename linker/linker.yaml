@@ -86,6 +86,11 @@
     - pi-server
     - work-book
 
+- name: lazyrsync
+  path: ~/.config/lazyrsync
+  machines:
+    - linux-box
+
 - name: linker
   path: ~/.config/linker
   machines:

@@ -1,0 +1,92 @@
+[[profile]]
+name = "linux-box"
+description = ""
+created = 1788542438
+
+[[profile.task]]
+id = "nas/d3 to onsite-backup/d3"
+label = "nas/d3 to onsite-backup/d3"
+action = "sync"
+source = "/mnt/nas/d3/"
+dest = "/mnt/onsite-backup/d3/"
+created = 1788543075
+
+[profile.task.flags]
+archive = true
+compress = true
+verbose = true
+human = true
+progress = true
+delete = true
+delete_excluded = false
+backup = false
+update = false
+checksum = false
+partial = true
+size_only = false
+existing = false
+ignore_existing = false
+bwlimit_kbps = 0
+hardlinks = false
+acls = false
+xattrs = false
+
+[profile.task.filters]
+excludes = []
+includes = []
+exclude_from = ""
+include_from = ""
+files_from = ""
+filter = []
+
+[profile.task.ssh]
+port = 22
+keyfile = ""
+extra = ""
+
+[profile.task.advanced]
+raw_args = ""
+
+[[profile.task]]
+id = "nas/d2 to onsite-backup/d2"
+label = "nas/d2 to onsite-backup/d2"
+action = "sync"
+source = "/mnt/nas/d2/"
+dest = "/mnt/onsite-backup/d2/"
+created = 1788543075
+
+[profile.task.flags]
+archive = true
+compress = true
+verbose = true
+human = true
+progress = true
+delete = true
+delete_excluded = false
+backup = false
+update = false
+checksum = false
+partial = true
+size_only = false
+existing = false
+ignore_existing = false
+bwlimit_kbps = 0
+hardlinks = false
+acls = false
+xattrs = false
+
+[profile.task.filters]
+excludes = []
+includes = []
+exclude_from = ""
+include_from = ""
+files_from = ""
+filter = []
+
+[profile.task.ssh]
+port = 22
+keyfile = ""
+extra = ""
+
+[profile.task.advanced]
+raw_args = ""
