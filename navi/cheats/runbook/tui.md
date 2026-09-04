@@ -33,6 +33,11 @@ YouTube-like via gopher protocol, built from source with Go.
 - Install: `sudo pacman -S lazygit`
 - Playbook: `ansible/playbooks/arch/tui.yaml`
 
+## lazyrsync - Rsync Manager
+
+- Install: `yay -S lazyrsync`
+- Playbook: `ansible/playbooks/arch/tui.yaml`
+
 ## navi - Interactive cheatsheet tool
 
 - Install: `sudo pacman -S navi`
