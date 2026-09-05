@@ -10,6 +10,7 @@ action = "sync"
 source = "/mnt/nas/d3/"
 dest = "/mnt/onsite-backup/d3/"
 created = 1788543075
+last_files = 40138
 
 [profile.task.flags]
 archive = true
