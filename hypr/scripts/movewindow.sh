@@ -7,6 +7,15 @@
 direction=$1
 workspace=$2
 
+# Map short direction to full name required by Lua API
+case "$direction" in
+  l) lua_dir="left"  ;;
+  r) lua_dir="right" ;;
+  u) lua_dir="up"    ;;
+  d) lua_dir="down"  ;;
+  *) lua_dir="$direction" ;;
+esac
+
 # Get current window position
 get_pos() {
   hyprctl -j activewindow | jq -c ".at"
@@ -15,7 +24,7 @@ get_pos() {
 pre=$(get_pos)
 
 # Try to move window
-hyprctl dispatch movewindow "$direction"
+hyprctl eval "hl.dispatch(hl.dsp.window.move({direction='$lua_dir'}))"
 
 # Get new window position
 post=$(get_pos)
@@ -25,12 +34,12 @@ if [[ "$post" == "$pre" ]]; then
   if [[ $workspace == "r+1" ]]; then
     current_workspace=$(hyprctl activeworkspace -j | jq -r ".id")
     new_workspace=$(( (current_workspace % 6) + 1 ))
-    hyprctl dispatch movetoworkspace "$new_workspace"
+    hyprctl eval "hl.dispatch(hl.dsp.window.move({workspace=$new_workspace}))"
   elif [[ $workspace == "r-1" ]]; then
     current_workspace=$(hyprctl activeworkspace -j | jq -r ".id")
     new_workspace=$(( (current_workspace + 4) % 6 + 1 ))
-    hyprctl dispatch movetoworkspace "$new_workspace"
+    hyprctl eval "hl.dispatch(hl.dsp.window.move({workspace=$new_workspace}))"
   else
-    hyprctl dispatch movetoworkspace "$workspace"
+    hyprctl eval "hl.dispatch(hl.dsp.window.move({workspace='$workspace'}))"
   fi
 fi
