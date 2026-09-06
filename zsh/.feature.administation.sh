@@ -42,11 +42,6 @@ fi
 # Debian Specific
 ##################################################
 if [[ "$MACHINE" = "pi-server" ]]; then
-  system-update() {
-    sudo apt update && sudo apt upgrade
-    if command -v brew &>/dev/null; then
-      brew update && brew upgrade
-    fi
-  }
+  alias system-update="sudo apt update && sudo apt upgrade && (command -v brew &>/dev/null && brew update && brew upgrade || true)"
 fi
 
