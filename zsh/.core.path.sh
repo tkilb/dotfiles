@@ -32,6 +32,7 @@ export PATH="$PATH:$HOME/.cargo/bin"
 ##################################################
 if [ "$MACHINE" = "pi-server" ]; then
   export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin"
+  export PATH="$PATH:/usr/sbin"
 fi
 
 ##################################################
