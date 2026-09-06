@@ -22,22 +22,23 @@ if [[ "$MACHINE" =~ ^(work-book|work-book)$ ]]; then
   export PATH="$PATH:$HOME/Library/Python/3.8/bin"
 fi
 
-##############################
-# Java Specific
-##############################
-if [ "$MACHINE" = "work-book" ]; then
-  export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_202.jdk/Contents/Home
-fi
-
 ##################################################
 # Rust Specific
 ##################################################
 export PATH="$PATH:$HOME/.cargo/bin"
 
 ##################################################
+# PI Server Specific
+##################################################
+if [ "$MACHINE" = "pi-server" ]; then
+  export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin"
+fi
+
+##################################################
 # Work Book Specific
 ##################################################
 if [ "$MACHINE" = "work-book" ]; then
+  export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_202.jdk/Contents/Home
   export PATH="$PATH:/usr/local/opt/terraform@0.12/bin"
   export PATH="$PATH:/usr/local/sbin"
   export PATH="$PATH:/usr/sbin"
