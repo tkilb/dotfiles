@@ -110,6 +110,14 @@
         enabled: true
         daemon_reload: true
 
+    - name: Start NAS automount units
+      systemd:
+        name: "{{ item }}"
+        state: started
+      loop:
+        - mnt-nas-d2.automount
+        - mnt-nas-d3.automount
+
     - name: Display completion message
       debug:
         msg: |
