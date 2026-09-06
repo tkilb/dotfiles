@@ -1,0 +1,27 @@
+---
+- name: Mount Data Drive
+  hosts: localhost
+  become: true # Necessary to run with root privileges
+
+  vars_prompt:
+    - name: mount_data_drive
+      prompt: "Mount data drive on boot? (n/y)"
+      default: "n"
+      private: n
+
+  tasks:
+    - name: Create data drive mount point
+      ansible.builtin.file:
+        path: /mnt/data
+        state: directory
+        mode: "0755"
+      when: mount_data_drive | lower in ["y", "yes"]
+
+    - name: Mount data drive on boot
+      ansible.posix.mount:
+        path: /mnt/data
+        src: UUID=06c4d633-5746-4e2c-8632-fc0475d55663
+        fstype: ext4
+        opts: defaults,noatime
+        state: mounted
+      when: mount_data_drive | lower in ["y", "yes"]
