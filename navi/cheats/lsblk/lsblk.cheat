@@ -1,0 +1,14 @@
+% lsblk, disk, storage, uuid
+
+# List all block devices (standard tree view)
+lsblk
+
+# List block devices with filesystem type, label, and UUID
+lsblk -f
+
+# List UUID and filesystem details for a specific device
+lsblk -f <device>
+
+# List block devices with specific columns including UUID and PARTUUID
+lsblk -o NAME,SIZE,FSTYPE,LABEL,UUID,PARTUUID,MOUNTPOINTS
+

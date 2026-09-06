@@ -1,0 +1,34 @@
+% mount
+
+# Mount a device or partition to a mount point
+sudo mount <device> <mount_point>
+
+# Mount a partition by filesystem UUID
+sudo mount UUID=<uuid> <mount_point>
+
+# Mount a partition by filesystem LABEL
+sudo mount LABEL=<label> <mount_point>
+
+# Mount an ISO image file (loop device)
+sudo mount -o loop <iso_file> <mount_point>
+
+# Bind mount a directory tree to another location
+sudo mount --bind <source_directory> <target_directory>
+
+# Mount all filesystems listed in /etc/fstab
+sudo mount -a
+
+# Show active mount points and hierarchy
+findmnt
+
+# Show mount details for a specific directory or device
+findmnt <target>
+
+# Unmount a filesystem
+sudo umount <mount_point>
+
+# Lazy unmount (detach immediately, clean up when device is no longer busy)
+sudo umount -l <mount_point>
+
+# Force unmount (useful for unreachable network shares)
+sudo umount -f <mount_point>
