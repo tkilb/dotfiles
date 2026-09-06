@@ -26,15 +26,27 @@ vim() {
 }
 
 ##################################################
-# Personal Linux Machines
+# Arch Specific
 ##################################################
 if [[ "$MACHINE" =~ ^(linux-book|linux-box)$ ]]; then
   alias system-update="yay -Syyuu"
 
   # NAS Backups
   alias mount-onsite-backup="sudo mkdir -p /mnt/onsite-backup && sudo mount /dev/disk/by-label/onsite-backup /mnt/onsite-backup"
-  alias unmount-onsite-backup="sudo umount /mnt/onsite-backup"
+  alias unmount-onsite-backup="sudo umount /mnt/onsite-backup ; sudo rmdir /mnt/onsite-backup"
   alias bak-d2="rsync --progress --partial --archive --delete /mnt/nas/d2 /mnt/onsite-backup/d2"
   alias bak-d3="rsync --progress --partial --archive --delete /mnt/nas/d3 /mnt/onsite-backup/d3"
+fi
+
+##################################################
+# Debian Specific
+##################################################
+if [[ "$MACHINE" = "pi-server" ]]; then
+  system-update() {
+    sudo apt update && sudo apt upgrade
+    if command -v brew &>/dev/null; then
+      brew update && brew upgrade
+    fi
+  }
 fi
 
