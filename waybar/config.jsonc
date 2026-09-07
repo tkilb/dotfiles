@@ -68,6 +68,7 @@
   },
   "hyprland/workspaces": {
     "disable-scroll": true,
+    "on-click": "focus",
     "all-outputs": true,
     "warp-on-scroll": false,
     "format": "{name} {windows}",
