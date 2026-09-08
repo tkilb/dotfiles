@@ -16,5 +16,6 @@ prepend_keymap = [
 	{ on = ["g", "s"], run = "cd ~/Staging", desc = "Go ~/Staging directory" },
 	{ on = ["g", "t"], run = "cd ~/Git", desc = "Go ~/Git directory" },
 	{ on = "t", run = "tab_create --current", desc = "Create a new tab" },
+	{ on = "d", run = "plugin trash-cli", desc = "Trash selected files via trash-cli (falls back to native trash)" },
 ]
 
