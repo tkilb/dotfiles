@@ -1,5 +1,8 @@
 trash() {
   case "$1" in
+  "")
+    trash --help
+    ;;
   -r | --restore)
     shift
     command trash-restore "$@"
