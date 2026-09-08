@@ -40,6 +40,8 @@ fi
 ##################################################
 if [ "$MACHINE" = "work-book" ]; then
   export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_202.jdk/Contents/Home
+
+  export PATH="$PATH:/opt/homebrew/opt/trash-cli/bin"
   export PATH="$PATH:/usr/local/opt/terraform@0.12/bin"
   export PATH="$PATH:/usr/local/sbin"
   export PATH="$PATH:/usr/sbin"
