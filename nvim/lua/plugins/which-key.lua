@@ -13,6 +13,7 @@ return {
   opts = {
     --- @type vim._watch.watch.Opts
     triggers = {
+      { "<auto>", mode = "nxso" },
       { "s", mode = { "n", "x" } },
     },
   },
