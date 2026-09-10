@@ -22,6 +22,20 @@ local function entry()
 		return
 	end
 
+	local body = {}
+	for _, url in ipairs(urls) do
+		body[#body + 1] = tostring(url)
+	end
+
+	local confirmed = ya.confirm({
+		pos = { "center", w = 60, h = 20 },
+		title = ui.Line(string.format("Trash %d selected file(s)?", #urls)):style(th.confirm.title),
+		body = ui.Text(table.concat(body, "\n")),
+	})
+	if not confirmed then
+		return
+	end
+
 	local args = {}
 	for _, url in ipairs(urls) do
 		args[#args + 1] = tostring(url)
