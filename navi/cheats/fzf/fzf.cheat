@@ -1,0 +1,40 @@
+% fzf
+
+# Fuzzy-find a file and print its path
+fzf
+
+# Fuzzy-find a file and open it in the editor
+"$EDITOR" "$(fzf)"
+
+# Fuzzy-find across all files, including hidden ones (skip .git)
+fzf --hidden --exclude ".git"
+
+# Fuzzy-find using fd as the source (respects .gitignore)
+fd --type f | fzf
+
+# Fuzzy-find with a live preview of file contents
+fzf --preview "bat --color=always --style=numeric {}"
+
+# Fuzzy-find a directory and cd into it
+cd "$(fd --type d | fzf)"
+
+# Fuzzy-find a running process and print its PID
+ps aux | fzf | awk '{print $2}'
+
+# Fuzzy-find a running process and kill it
+kill -9 "$(ps aux | fzf | awk '{print $2}')"
+
+# Fuzzy-find a git branch and check it out
+git checkout "$(git branch --format="%(refname:short)" | fzf)"
+
+# Fuzzy-find a git commit and print its hash
+git log --oneline | fzf | awk '{print $1}'
+
+# Fuzzy-find a command from shell history and print it
+history | fzf
+
+# Fuzzy-find with multi-select (tab to select, enter to confirm)
+fzf --multi
+
+# Fuzzy-find limited to a given query
+fzf --query "<query>"
