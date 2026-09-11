@@ -12,6 +12,10 @@ copilot() {
   # Idempotent and fast; failures never block the actual launch.
   python3 ~/.dotfiles/ai/sync-ai-permissions.py >/dev/null 2>&1 || true
 
+  # Note: suspending/backgrounding jobs invoked from *any* shell function
+  # (this one included) hits a known zsh limitation where `jobs` shows
+  # blank command text (see .feature.jobs.sh for the fix/explanation).
+  # The trailing `return $?` just propagates copilot's real exit status.
   command copilot \
     --allow-tool='shell(git status)' \
     --allow-tool='shell(git diff)' \
@@ -22,4 +26,5 @@ copilot() {
     --allow-tool='shell(npm run build)' \
     --allow-tool='shell(npm run lint)' \
     "$@"
+  return $?
 }
