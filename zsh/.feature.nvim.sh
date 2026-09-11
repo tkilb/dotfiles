@@ -26,3 +26,6 @@ vim() {
     return $?
   fi
 }
+
+# '-' opens the current directory in yazi
+alias -- '-'='vim .'

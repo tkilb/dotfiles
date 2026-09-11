@@ -7,6 +7,5 @@ function y() {
 }
 
 # Alias for quick file system navigation.
-# '+' opens the current directory in yazi, '-' opens it in nvim oil.
+# '+' opens the current directory in Yazi
 alias -- '+'='y'
-alias -- '-'='nvim .'
