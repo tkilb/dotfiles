@@ -15,24 +15,6 @@ rsa-keygen() {
   fi
 }
 
-vim() {
-  # Note: suspending/backgrounding jobs invoked from *any* shell function
-  # (this one included) hits a known zsh limitation where `jobs` shows
-  # blank command text (see .feature.jobs.sh for the fix/explanation).
-  # The trailing `return $?` on each branch just propagates the wrapped
-  # command's real exit status.
-  if command -v nvim &>/dev/null; then
-    nvim "$@"
-    return $?
-  elif command -v vim &>/dev/null; then
-    command vim "$@"
-    return $?
-  else
-    vi "$@"
-    return $?
-  fi
-}
-
 ##################################################
 # Arch Specific
 ##################################################

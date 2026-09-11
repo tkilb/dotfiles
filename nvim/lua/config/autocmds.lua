@@ -23,7 +23,13 @@ vim.api.nvim_create_autocmd("BufEnter", {
     local ft = vim.bo.filetype
     -- Track the last normal file buffer's directory
     if vim.bo.filetype == "oil" then
-      vim.g.last_file_dir = vim.fn.expand("%:p"):gsub("^oil://", "")
+      local oil_dir = vim.fn.expand("%:p"):gsub("^oil://", "")
+      vim.g.last_file_dir = oil_dir
+      -- Follow oil navigation with nvim's actual cwd, so leaving nvim (see
+      -- the `vim()` shell wrapper) drops you into the last dir you browsed.
+      if oil_dir ~= "" and oil_dir ~= vim.fn.getcwd() then
+        vim.cmd.cd(vim.fn.fnameescape(oil_dir))
+      end
     elseif vim.bo.buftype == "" and vim.fn.expand("%:p") ~= "" then
       vim.g.last_file_dir = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":h")
     end
@@ -41,6 +47,19 @@ vim.api.nvim_create_autocmd("BufEnter", {
         end
       end
     end
+  end,
+})
+
+-- Write the final cwd to $NVIM_CWD_FILE on exit, so the shell wrapper (see
+-- `vim()` in zsh/.feature.administation.sh) can cd into it after nvim quits.
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    local cwd_file = vim.env.NVIM_CWD_FILE
+    if not cwd_file then return end
+    local f = io.open(cwd_file, "w")
+    if not f then return end
+    f:write(vim.fn.getcwd())
+    f:close()
   end,
 })
 
