@@ -39,8 +39,7 @@ hl.monitor({
 
 local fileManager      = "nemo"
 local lockScreen       = "hyprlock"
-local launcher         = "wofi --show drun"
--- local launcher      = "wofi --show drun --gtk-dark"
+local launcher         = "rofi -show drun"
 local screenshotRegion = "hyprshot -m region"
 local terminal         = "kitty"
 local browser          = "zen"

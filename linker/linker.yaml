@@ -158,6 +158,12 @@
     - steam-deck
     - work-book
 
+- name: rofi
+  path: ~/.config/rofi
+  machines:
+    - linux-book
+    - linux-box
+
 - name: tmux
   path: ~/.config/tmux
   machines:
@@ -165,12 +171,6 @@
     - linux-box
     - pi-server
     - work-book
-
-- name: ulauncher
-  path: ~/.config/ulauncher
-  machines:
-    - linux-book
-    - linux-box
 
 - name: waybar
   path: ~/.config/waybar

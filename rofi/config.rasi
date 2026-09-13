@@ -1,0 +1,224 @@
+/**
+ * ==============================================================================
+ * Rofi Configuration & Minimal Theme
+ * ==============================================================================
+ *
+ * Documentation & Reference Manuals:
+ * - Official Rofi Documentation: https://davatorium.github.io/rofi/
+ * - Official Repository (Native Wayland support): https://github.com/davatorium/rofi
+ * - Rofi Theme Specification (rasi format): man rofi-theme / https://man.archlinux.org/man/rofi-theme.5
+ * - Rofi Command Options: man rofi / https://man.archlinux.org/man/rofi.1
+ *
+ * To test changes live:
+ *   rofi -show drun
+ *
+ * ==============================================================================
+ */
+
+/* -------------------------------------------------------------------------- */
+/* Global Settings & Modi Configuration                                       */
+/* -------------------------------------------------------------------------- */
+configuration {
+    /* Enabled modi (modes). drun = desktop application launcher */
+    modi:                       "drun,run,window";
+    
+    /* Show icons next to application names */
+    show-icons:                 true;
+    
+    /* Icon theme fallback (uses system default if unspecified) */
+    icon-theme:                 "Papirus-Dark";
+    
+    /* Display prompt labels for each mode */
+    display-drun:               "  ";
+    display-run:                "  ";
+    display-window:             "  ";
+    
+    /* Format string for desktop items: {name}, {generic}, {exec}, {categories} */
+    drun-display-format:        "{name}";
+    
+    /* Keybindings & Navigation */
+    terminal:                   "kitty";
+    disable-history:            false;
+    hide-scrollbar:             true;
+    sidebar-mode:               false;
+    
+    /* Font family and size */
+    font:                       "FiraCode Nerd Font 11";
+}
+
+/* -------------------------------------------------------------------------- */
+/* Color Palette (Gruvbox Dark / Minimalist Desktop Match)                    */
+/* -------------------------------------------------------------------------- */
+* {
+    /* Base background colors matching Waybar & Hyprland */
+    bg-primary:                 #282828e6; /* Base dark background with slight transparency */
+    bg-secondary:               #3c3836ff; /* Lighter surface background */
+    bg-selected:                #45858833; /* Gruvbox blue accent (subtle selection) */
+    
+    /* Text / Foreground colors */
+    fg-primary:                 #ebdbb2ff; /* Warm Gruvbox cream foreground */
+    fg-muted:                   #928374ff; /* Muted text for placeholders / subtitles */
+    fg-selected:                #83a598ff; /* Highlighted blue foreground */
+    
+    /* Accent & Border colors */
+    accent:                     #458588ff; /* Hyprland active_border blue (rgba(458588ff)) */
+    accent-alt:                 #d79921ff; /* Gruvbox yellow accent */
+    border-color:               #458588ff; /* Matching Hyprland active border */
+    
+    /* Global element defaults */
+    background-color:           transparent;
+    text-color:                 @fg-primary;
+    margin:                     0px;
+    padding:                    0px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Main Window                                                                */
+/* -------------------------------------------------------------------------- */
+window {
+    transparency:               "real";
+    location:                   center;
+    anchor:                     center;
+    fullscreen:                 false;
+    width:                      520px;
+    x-offset:                   0px;
+    y-offset:                   0px;
+
+    /* Window border and rounding (matches Hyprland rounding = 10) */
+    enabled:                    true;
+    border:                     2px solid;
+    border-color:               @accent;
+    border-radius:              10px;
+    background-color:           @bg-primary;
+    cursor:                     "default";
+}
+
+/* -------------------------------------------------------------------------- */
+/* Layout Containers                                                          */
+/* -------------------------------------------------------------------------- */
+mainbox {
+    enabled:                    true;
+    spacing:                    12px;
+    padding:                    16px;
+    background-color:           transparent;
+    children:                   [ "inputbar", "listview" ];
+}
+
+/* -------------------------------------------------------------------------- */
+/* Search / Input Bar                                                         */
+/* -------------------------------------------------------------------------- */
+inputbar {
+    enabled:                    true;
+    spacing:                    8px;
+    padding:                    8px 12px;
+    border-radius:              6px;
+    background-color:           @bg-secondary;
+    text-color:                 @fg-primary;
+    children:                   [ "prompt", "entry" ];
+}
+
+prompt {
+    enabled:                    true;
+    background-color:           inherit;
+    text-color:                 @accent;
+    vertical-align:             0.5;
+}
+
+entry {
+    enabled:                    true;
+    background-color:           inherit;
+    text-color:                 @fg-primary;
+    placeholder:                "Search applications...";
+    placeholder-color:          @fg-muted;
+    cursor:                     text;
+    vertical-align:             0.5;
+}
+
+/* -------------------------------------------------------------------------- */
+/* List of Applications / Results                                             */
+/* -------------------------------------------------------------------------- */
+listview {
+    enabled:                    true;
+    columns:                    1;
+    lines:                      8;
+    cycle:                      true;
+    dynamic:                    true;
+    scrollbar:                  false;
+    layout:                     vertical;
+    reverse:                    false;
+    fixed-height:               true;
+    fixed-columns:              true;
+    spacing:                    4px;
+    background-color:           transparent;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Individual List Elements                                                   */
+/* -------------------------------------------------------------------------- */
+element {
+    enabled:                    true;
+    spacing:                    10px;
+    padding:                    8px 10px;
+    border-radius:              6px;
+    background-color:           transparent;
+    text-color:                 @fg-primary;
+    cursor:                     pointer;
+}
+
+element normal.normal {
+    background-color:           transparent;
+    text-color:                 @fg-primary;
+}
+
+element normal.active {
+    background-color:           @bg-secondary;
+    text-color:                 @accent-alt;
+}
+
+element selected.normal {
+    background-color:           @bg-selected;
+    border:                     1px solid;
+    border-color:               @accent;
+    text-color:                 @fg-selected;
+}
+
+element selected.active {
+    background-color:           @bg-selected;
+    text-color:                 @accent-alt;
+}
+
+element alternate.normal {
+    background-color:           transparent;
+    text-color:                 @fg-primary;
+}
+
+element-icon {
+    background-color:           transparent;
+    size:                       22px;
+    cursor:                     inherit;
+    vertical-align:             0.5;
+}
+
+element-text {
+    background-color:           transparent;
+    text-color:                 inherit;
+    cursor:                     inherit;
+    vertical-align:             0.5;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Error / Message Mode Styling                                               */
+/* -------------------------------------------------------------------------- */
+message {
+    enabled:                    true;
+    padding:                    10px;
+    border-radius:              6px;
+    background-color:           @bg-secondary;
+    text-color:                 @fg-primary;
+}
+
+textbox {
+    background-color:           inherit;
+    text-color:                 inherit;
+    vertical-align:             0.5;
+}

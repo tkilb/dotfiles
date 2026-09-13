@@ -27,7 +27,7 @@
     - name: Install Launcher
       community.general.pacman:
         name:
-          - wofi
+          - rofi
         state: present
         update_cache: true
 
