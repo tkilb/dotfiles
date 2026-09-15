@@ -1,7 +1,7 @@
-trash() {
+delete() {
   case "$1" in
   "")
-    trash --help
+    delete --help
     ;;
   -r | --restore)
     shift
@@ -49,7 +49,7 @@ trash() {
     fi
     ;;
   -h | --help)
-    echo "Usage: trash [OPTION] [FILE]..."
+    echo "Usage: delete [OPTION] [FILE]..."
     echo "  -r, --restore     Restore files"
     echo "  -l, --list        List trash"
     echo "  -d, --delete      Delete a specific file permanently"
@@ -66,7 +66,7 @@ trash() {
   esac
 }
 
-_trash_completion() {
+_delete_completion() {
   local context state state_descr line
   typeset -A opt_args
 
@@ -80,6 +80,6 @@ _trash_completion() {
     '(-h --help)'{-h,--help}'[Show the help menu]' \
     '*:file:_files'
 }
-compdef _trash_completion trash
+compdef _delete_completion delete
 
-alias t="trash"
+alias del="delete"
