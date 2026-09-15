@@ -37,9 +37,10 @@ hl.monitor({
 ---- MY PROGRAMS ----
 ---------------------
 
+local home             = os.getenv("HOME") or ""
 local fileManager      = "nemo"
 local lockScreen       = "hyprlock"
-local launcher         = "rofi -show drun"
+local launcher         = string.format('rofi -show launcher -modes "launcher:%s/.config/rofi/scripts/launcher.sh"', home)
 local screenshotRegion = "hyprshot -m region"
 local terminal         = "kitty"
 local browser          = "zen"
@@ -274,9 +275,31 @@ hl.window_rule({
     float = true,
 })
 
+-- Dynamic workspace rules loaded from app-workspaces.json
+local config_paths = {
+    home .. "/.config/hypr/app-workspaces.json",
+    home .. "/.dotfiles/hypr/app-workspaces.json",
+}
+
+for _, path in ipairs(config_paths) do
+    local f = io.open(path, "r")
+    if f then
+        local content = f:read("*a")
+        f:close()
+        for app, ws in string.gmatch(content, '"([^"]+)"%s*:%s*(%d+)') do
+            hl.window_rule({
+                name      = app:lower() .. "-workspace",
+                match     = { class = "(?i)^" .. app .. "$" },
+                workspace = tonumber(ws),
+            })
+        end
+        break
+    end
+end
+
 hl.window_rule({
-    name      = "bambustudio-workspace",
-    match     = { class = "BambuStudio" },
+    name      = "steam-games-workspace",
+    match     = { class = "^steam_app_" },
     workspace = 1,
 })
 

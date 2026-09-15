@@ -30,6 +30,7 @@ configuration {
     
     /* Display prompt labels for each mode */
     display-drun:               "  ";
+    display-launcher:           "  ";
     display-run:                "  ";
     display-window:             "  ";
     

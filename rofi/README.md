@@ -85,10 +85,17 @@ listview {
 
 In `~/.dotfiles/hypr/hyprland.lua`:
 
-- Default command: `rofi -show drun`
+- Custom launcher with browser search fallback: `rofi -show launcher -modes "launcher:~/.config/rofi/scripts/launcher.sh"`
+- Standard desktop application launcher: `rofi -show drun`
 - To show all binaries: `rofi -show run`
 - To show active windows: `rofi -show window`
 - Combined multi-mode: `rofi -show combi -combi-modi "drun,run"`
+
+### D. Launcher Script Behavior (`scripts/launcher.sh`)
+
+- **Application matching**: Scans `.desktop` entries across user and system XDG directories.
+- **Search Fallback**: If an unlisted query or search phrase is submitted, it opens a Google search in your default browser (`zen`) and switches focus to Hyprland workspace 2.
+- **Direct URLs / Localhost**: If the input is a URL, domain, or localhost/IP address, it navigates directly to the target address.
 
 ---
 
