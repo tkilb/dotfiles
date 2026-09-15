@@ -1,25 +1,89 @@
 
 ##################################################
-# fancy-ctrl-z: toggle between the two most recent jobs
+# fancy-ctrl-z: round-robin through all suspended jobs
 ##################################################
 # Custom (not oh-my-zsh's fancy-ctrl-z plugin): that plugin submits plain
 # `fg` on an empty prompt, which only resumes the *current* job (%+/%%) -
-# i.e. whatever you just suspended. It can't toggle back and forth between
-# two jobs. This version uses `fg %-` (the *previous* job) instead, so
-# Ctrl-Z at an idle prompt swaps you to the other of the two most recently
-# suspended jobs each time.
+# i.e. whatever you just suspended. zsh's own %+/%- pair is likewise only a
+# 2-slot memory (current/previous), so a naive `fg %-` toggle works fine
+# with exactly two suspended jobs but gets "stuck" oscillating between the
+# last two once a third (e.g. yazi, vim, copilot all suspended at once) is
+# in the mix - there's no built-in way to cycle back to the oldest one.
+#
+# This version tracks its own FIFO queue of suspended jobs (by job
+# number, kept in sync via a precmd hook every time you're back at an
+# idle prompt) and resumes whichever one has been waiting longest, so
+# repeated Ctrl-Z presses cycle through *all* suspended jobs in turn
+# instead of just flip-flopping between two.
+#
+# Job numbers (the keys of $jobstates) are stable for a job's whole
+# lifetime - including while it's suspended - so there's no need to
+# track anything fancier like PIDs; the number itself is the identity we
+# want.
 #
 # When a foreground program is actually running, Ctrl-Z is caught by the
 # tty driver (SIGTSTP) before zle ever sees it, so this widget only fires
 # at an idle/empty prompt - normal suspend behavior is unaffected.
+typeset -ga _ctrlz_queue
+
+# Keep $_ctrlz_queue in sync with reality: add any newly-suspended job's
+# number to the back of the queue, drop any job that's no longer
+# suspended (resumed or exited). Runs every time we're back at an idle
+# prompt, which covers both "I just suspended something" and "I just
+# resumed something" - so a resumed-then-resuspended job naturally
+# reappears at the back of the queue instead of needing manual rotation.
+_ctrlz_sync_queue() {
+  local jn
+  local -a live
+  for jn in ${(kn)jobstates}; do
+    [[ ${jobstates[$jn]%%:*} == suspended ]] || continue
+    live+=("$jn")
+    (( ${_ctrlz_queue[(Ie)$jn]} )) || _ctrlz_queue+=("$jn")
+  done
+  local -a kept
+  local j
+  for j in "${_ctrlz_queue[@]}"; do
+    (( ${live[(Ie)$j]} )) && kept+=("$j")
+  done
+  _ctrlz_queue=("${kept[@]}")
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd _ctrlz_sync_queue
+
 fancy-ctrl-z() {
   if [[ $#BUFFER -eq 0 ]]; then
-    fg %- 2>/dev/null
+    _fancy_ctrl_z_fg
     zle redisplay
   else
     zle push-input
     zle clear-screen
   fi
+}
+
+_fancy_ctrl_z_fg() {
+  _ctrlz_sync_queue
+  (( ${#_ctrlz_queue} == 0 )) && return
+
+  # Resume whichever suspended job has been waiting longest (front of
+  # the queue).
+  local jn=${_ctrlz_queue[1]}
+
+  # Some TUI programs (lazygit in particular - see
+  # https://github.com/jesseduffield/lazygit/issues/3937 and #4320) race
+  # to write to the tty right after being resumed, before they actually
+  # own the terminal's foreground process group. If `stty tostop` is in
+  # effect, the kernel responds by re-stopping them with SIGTTOU/SIGTTIN
+  # ("suspended (tty output/input)") instead of letting them run, so a
+  # plain `fg` appears to silently do nothing. Detect that specific state
+  # and retry a few times; the race window is normally only a few ms.
+  # Deliberately does NOT retry on a plain "...=suspended" state, since
+  # that just means the user hit Ctrl-Z again on purpose to re-suspend.
+  local tries=0
+  while (( tries++ < 5 )); do
+    fg "%$jn" 2>/dev/null
+    [[ "${jobstates[$jn]:-}" == *'suspended (tty '* ]] || break
+    sleep 0.05
+  done
 }
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
