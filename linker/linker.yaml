@@ -149,6 +149,12 @@
     - steam-deck
     - work-book
 
+- name: opendeck
+  source: ~/.gamefiles/opendeck
+  path: ~/.config/opendeck
+  machines:
+    - linux-box
+
 - name: syncer
   path: ~/.config/syncer
   machines:
