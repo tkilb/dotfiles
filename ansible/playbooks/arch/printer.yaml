@@ -1,0 +1,52 @@
+---
+- name: Install CUPS and Configure Printing on Arch Linux
+  hosts: localhost
+  connection: local
+  become: true
+
+  vars:
+    printing_packages:
+      # Core CUPS & Filtering
+      - cups
+      - cups-filters
+      - cups-pdf
+      - ghostscript
+      # Network Discovery & Driverless (AirPrint/Mopria/IPP Everywhere)
+      - avahi
+      - nss-mdns
+      # Driver suites
+      - gutenprint
+      - foomatic-db
+      - foomatic-db-ppds
+
+  tasks:
+    - name: Ensure printing and discovery packages are installed
+      community.general.pacman:
+        name: "{{ printing_packages }}"
+        state: present
+        update_cache: true
+
+    - name: Ensure nss-mdns is enabled in /etc/nsswitch.conf for .local resolution
+      ansible.builtin.lineinfile:
+        path: /etc/nsswitch.conf
+        regexp: '^hosts:\s*(?!.*mdns_minimal)(.*)$'
+        line: 'hosts: mymachines mdns_minimal [NOTFOUND=return] resolve [!UNAVAIL=return] files myhostname dns'
+        backrefs: true
+        state: present
+
+    - name: Ensure Avahi daemon service is enabled and started
+      ansible.builtin.systemd:
+        name: avahi-daemon.service
+        enabled: true
+        state: started
+
+    - name: Ensure CUPS service is enabled and started
+      ansible.builtin.systemd:
+        name: cups.service
+        enabled: true
+        state: started
+
+    - name: Enable CUPS Web Interface for browser/TUI access
+      ansible.builtin.command:
+        cmd: cupsctl WebInterface=yes
+      changed_when: false
