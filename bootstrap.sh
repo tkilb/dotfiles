@@ -262,7 +262,7 @@ echo ""
 
 # Create standard workspace directories
 echo "Creating workspace directories..."
-mkdir -p ~/General ~/Staging ~/Scratch ~/Spike
+mkdir -p ~/General ~/Staging ~/Scratch
 echo "✓ Workspace directories created"
 echo ""
 
@@ -276,7 +276,7 @@ then
   if [[ -n "$MACHINE_NAME" ]]; then
     # Ensure ~/.profile ends with a newline before appending
     if [[ -s ~/.profile ]] && [[ "$(tail -c1 ~/.profile | wc -l)" -eq 0 ]]; then
-      echo "" >> ~/.profile
+      echo "" >>~/.profile
     fi
     echo "export MACHINE=\"$MACHINE_NAME\"" >>~/.profile
     echo "✓ MACHINE variable added to ~/.profile"
