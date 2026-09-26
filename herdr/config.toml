@@ -1,0 +1,52 @@
+onboarding = false
+
+[keys]
+prefix = "alt+m"
+
+# Pane Resizing
+resize_pane_left  = "prefix+left"
+resize_pane_right = "prefix+right"
+resize_pane_up    = "prefix+up"
+resize_pane_down  = "prefix+down"
+
+# Pane Splitting
+split_horizontal = "prefix+h"
+
+# Interop Native Bindings (Correct Canonical Syntax)
+focus_pane_left  = "ctrl+left"
+focus_pane_down  = "ctrl+down"
+focus_pane_up    = "ctrl+up"
+focus_pane_right = "ctrl+right"
+
+[ui]
+sidebar_start_collapsed = true
+sidebar_width = 26 # default 26
+status_indicators = "symbols"
+
+# Space-Saving Layouts
+pane_gaps = false        # Force panes right against each other
+pane_borders = "always"  # Keep dividers visible
+pane_outer_borders = false
+
+[theme.custom]
+# Gruvbox Dark Hard
+sidebar_bg = "#1d2021"
+panel_bg = "#1d2021"
+active_row_bg = "#3c3836"
+selection_bg = "#665c54"
+surface0 = "#3c3836"
+surface1 = "#504945"
+surface_dim = "#3c3836"
+overlay0 = "#665c54"
+overlay1 = "#7c6f64"
+text = "#ebdbb2"
+subtext0 = "#a89984"
+accent = "#d79921"
+yellow = "#fabd2f"
+red = "#fb4934"
+green = "#b8bb26"
+blue = "#83a598"
+mauve = "#d3869b"
+teal = "#8ec07c"
+peach = "#fe8019"
+

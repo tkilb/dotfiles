@@ -1,0 +1,103 @@
+2026-09-26T11:56:41.707383Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=5200
+2026-09-26T11:56:41.707410Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T11:56:41.748364Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T11:58:00.887751Z  WARN herdr::raw_input: flushing lone escape after input timeout; if this follows an alt chord or focus switch it may reach the pane as plain esc bytes=[27]
+2026-09-26T11:58:00.887862Z  WARN herdr::raw_input: flushing lone escape after input timeout; if this follows an alt chord or focus switch it may reach the pane as plain esc bytes=[27]
+2026-09-26T11:58:34.617104Z  WARN herdr::raw_input: flushing lone escape after input timeout; if this follows an alt chord or focus switch it may reach the pane as plain esc bytes=[27]
+2026-09-26T11:58:34.617292Z  WARN herdr::raw_input: flushing lone escape after input timeout; if this follows an alt chord or focus switch it may reach the pane as plain esc bytes=[27]
+2026-09-26T11:58:51.550268Z  WARN herdr::raw_input: flushing lone escape after input timeout; if this follows an alt chord or focus switch it may reach the pane as plain esc bytes=[27]
+2026-09-26T11:58:51.550458Z  WARN herdr::raw_input: flushing lone escape after input timeout; if this follows an alt chord or focus switch it may reach the pane as plain esc bytes=[27]
+2026-09-26T11:59:20.620808Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=5200
+2026-09-26T12:01:25.519778Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=10809
+2026-09-26T12:01:25.519800Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T12:01:25.763885Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T12:05:19.763710Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=10809
+2026-09-26T12:05:31.759120Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=12316
+2026-09-26T12:05:31.759135Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T12:05:31.953012Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T12:12:35.865656Z  INFO herdr::client: client terminal unavailable; detaching err=I/O error (os error 5)
+2026-09-26T12:12:35.866243Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=12316
+2026-09-26T12:12:41.532109Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=14597
+2026-09-26T12:12:41.532129Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T12:12:41.643780Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T12:13:46.549860Z  INFO herdr::client: client terminal unavailable; detaching err=I/O error (os error 5)
+2026-09-26T12:13:46.550565Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=14597
+2026-09-26T12:13:50.195191Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=14962
+2026-09-26T12:13:50.195205Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T12:13:50.318903Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T12:14:07.511205Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=14962
+2026-09-26T12:14:10.893035Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=15242
+2026-09-26T12:14:10.893048Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T12:14:11.029555Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T12:14:29.542496Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=15242
+2026-09-26T12:14:32.360096Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=15307
+2026-09-26T12:14:32.360115Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T12:14:32.558249Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T12:26:20.478928Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=15307
+2026-09-26T12:26:28.527791Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=19014
+2026-09-26T12:26:28.527806Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T12:26:28.760646Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T12:26:50.686250Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=19014
+2026-09-26T12:26:51.445037Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=19326
+2026-09-26T12:26:51.445052Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T12:26:51.691023Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T12:29:27.420044Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=19326
+2026-09-26T12:29:35.240165Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=20046
+2026-09-26T12:29:35.240178Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T12:29:35.472275Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T12:39:00.457715Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=20046
+2026-09-26T12:39:04.528273Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=22616
+2026-09-26T12:39:04.528296Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T12:39:04.763643Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T12:55:21.957937Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=22616
+2026-09-26T12:55:33.989592Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=27005
+2026-09-26T12:55:33.989607Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T12:55:34.216361Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T12:57:09.342425Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=27005
+2026-09-26T12:57:12.568273Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=27784
+2026-09-26T12:57:12.568292Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T12:57:12.577665Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T12:58:53.435684Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=27784
+2026-09-26T12:58:55.261477Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=29065
+2026-09-26T12:58:55.261493Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T12:58:55.491793Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T13:09:16.746889Z  WARN herdr::config::keybinds: config diagnostic invalid keybinding: keys.next_tab = "prefix+prefix"; disabling binding
+2026-09-26T13:09:16.746972Z  WARN herdr::config::keybinds: config diagnostic invalid keybinding: keys.next_tab = "prefix+prefix"; disabling binding
+2026-09-26T13:09:16.753101Z  WARN herdr::config::keybinds: config diagnostic invalid keybinding: keys.next_tab = "prefix+prefix"; disabling binding
+2026-09-26T13:09:16.753162Z  WARN herdr::config::keybinds: config diagnostic invalid keybinding: keys.next_tab = "prefix+prefix"; disabling binding
+2026-09-26T13:09:16.753881Z  WARN herdr::config::keybinds: config diagnostic invalid keybinding: keys.next_tab = "prefix+prefix"; disabling binding
+2026-09-26T13:09:36.577226Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:09:36.577305Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:09:36.583305Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:09:36.583364Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:11:36.861299Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:11:36.861377Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:11:36.867477Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:11:36.867537Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:15:54.723590Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:15:54.723677Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:15:54.729933Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:15:54.729998Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:18:38.870382Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:18:38.870461Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:22:25.238666Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:22:25.238752Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:22:25.243953Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T13:22:25.244151Z  WARN herdr::config::keybinds: config diagnostic reserved keybinding: keys.next_tab = "prefix+alt+m" uses keys.prefix as the prefix-mode key; pressing the prefix twice sends a literal prefix key, so this binding is disabled
+2026-09-26T14:34:45.407803Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=29065
+2026-09-26T14:34:46.910214Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=50299
+2026-09-26T14:34:46.910231Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T14:34:46.915988Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T14:34:48.452846Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=50299
+2026-09-26T14:34:51.196993Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=50331
+2026-09-26T14:34:51.197014Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T14:34:51.214923Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T14:36:01.015752Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=50331
+2026-09-26T14:36:52.223330Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=51134
+2026-09-26T14:36:52.223355Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T14:36:52.273886Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1
+2026-09-26T14:47:37.778302Z  INFO herdr::client: client terminal unavailable; detaching err=I/O error (os error 5)
+2026-09-26T14:47:37.778862Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="client" outcome="completed" pid=51134
+2026-09-26T14:47:39.823523Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="client" outcome="started" pid=54817
+2026-09-26T14:47:39.823540Z  INFO herdr::client: connecting to server path=/home/tylerkilburn/.config/herdr/herdr-client.sock
+2026-09-26T14:47:40.051519Z  INFO herdr::client::handshake: endpoint handshake succeeded generation=1 server_version=0.9.1

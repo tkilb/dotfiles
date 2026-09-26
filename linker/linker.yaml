@@ -58,6 +58,14 @@
     - linux-box
     - work-book
 
+- name: tmux
+  path: ~/.config/tmux
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - work-book
+
 - name: hypr
   path: ~/.config/hypr
   machines:
@@ -170,8 +178,8 @@
     - linux-book
     - linux-box
 
-- name: tmux
-  path: ~/.config/tmux
+- name: herdr
+  path: ~/.config/herdr
   machines:
     - linux-book
     - linux-box
