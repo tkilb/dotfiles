@@ -18,9 +18,8 @@
         update_cache: true
 
     - name: Install Waybar
-      community.general.pacman:
-        name:
-          - waybar
+      yay:
+        name: waybar-git
         state: present
         update_cache: true
 
