@@ -92,6 +92,15 @@ return {
     },
   },
   config = function(_, opts)
+    local util = require("sidekick.util")
+    local notify = util.notify
+    util.notify = function(msg, level)
+      if type(msg) == "string" and msg:match("^%*%*Copilot:%*%* You are not signed into GitHub%.") then
+        return
+      end
+      return notify(msg, level)
+    end
+
     require("sidekick").setup(opts)
 
     -- Filter out disabled tools from the selection
