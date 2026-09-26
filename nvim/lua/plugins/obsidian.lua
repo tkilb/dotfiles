@@ -6,6 +6,7 @@
 --   Obsidian integration for Neovim with note management and fuzzy finding.
 
 return {
+  enabled = false,
   "obsidian-nvim/obsidian.nvim",
   version = "*", -- use latest release, remove to use latest commit
   lazy = false,
