@@ -16,7 +16,7 @@ return {
     -- directly inside the plugin declaration.
     vim.g.gruvbox_material_enable_italic = true
     vim.g.gruvbox_material_disable_terminal_colors = 1 -- Use terminal emulator's native ANSI colors
-    -- vim.g.gruvbox_material_background = "hard"
+    vim.g.gruvbox_material_background = "hard"
     vim.cmd.colorscheme("gruvbox-material")
 
     -- Make the cursor purple in Normal mode so the mode is obvious at a glance.
