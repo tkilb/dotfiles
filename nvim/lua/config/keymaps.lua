@@ -255,19 +255,32 @@ wkey({
 })
 
 -- Terminal
+local function toggle_terminal()
+  -- If currently zoomed in Zen mode, unzoom and dismiss terminal cleanly
+  if Snacks.zen and Snacks.zen.win and Snacks.zen.win:valid() then
+    Snacks.zen.zoom()
+    vim.schedule(function()
+      for _, t in ipairs(Snacks.terminal.list()) do
+        if t:valid() then
+          t:hide()
+        end
+      end
+      local t = Snacks.terminal.get(nil, { create = false })
+      if t and t:valid() then
+        t:hide()
+      end
+    end)
+    return
+  end
+
+  require("sidekick.cli").hide({ all = true })
+  Snacks.terminal.toggle()
+end
+
 -- Override LazyVim's default <C-/> behavior to properly toggle terminal
 del({ "n", "t" }, "<C-/>")
 del({ "n", "t" }, "<C-_>") -- In terminal emulators, Ctrl+/ often sends Ctrl+_
-map({ "n", "t" }, "<C-/>", function()
-  close_zen()
-  require("sidekick.cli").hide({ all = true })
-  Snacks.terminal.toggle()
-end, { desc = "Toggle Terminal" })
-map({ "n", "t" }, "<C-_>", function()
-  close_zen()
-  require("sidekick.cli").hide({ all = true })
-  Snacks.terminal.toggle()
-end, { desc = "Toggle Terminal" })
+map({ "n", "t", "i" }, "<C-/>", toggle_terminal, { desc = "Toggle Terminal" })
 map({ "n", "t" }, "<C-,>", function()
   Snacks.zen.zoom()
 end, { desc = "Toggle Terminal Zoom" })
