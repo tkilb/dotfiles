@@ -83,13 +83,14 @@ function process_entry() {
     mkdir -p "$parent_dir"
   fi
 
-  # Remove existing symlink or warn about existing file/directory
+  # Remove existing symlink or back up existing file/directory
   if [[ -L "$target_path" ]]; then
     echo "Removing existing symlink: $target_path"
     rm "$target_path"
   elif [[ -e "$target_path" ]]; then
-    echo "Warning: $target_path already exists and is not a symlink. Skipping."
-    return
+    local backup_path="${target_path}.bak"
+    echo "Backing up existing file: $target_path -> $backup_path"
+    mv "$target_path" "$backup_path"
   fi
 
   # Create symlink

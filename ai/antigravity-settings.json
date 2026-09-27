@@ -1,4 +1,6 @@
 {
+  "allowNonWorkspaceAccess": true,
+  "model": "Gemini 3.8 Flash (Low)",
   "permissions": {
     "allow": [
       "command(git status)",
@@ -15,7 +17,23 @@
       "read_url(gitlab.com)",
       "read_url(nextjs.org)",
       "read_url(githubusercontent.com)",
-      "read_url(docs.github.com)"
+      "read_url(docs.github.com)",
+      "command(bash ./scripts/fetch-mods.sh hugslib)",
+      "write_file(/home/tylerkilburn/Git)",
+      "edit_file(/home/tylerkilburn/Git)"
     ]
-  }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.dotfiles/herdr/agy-statusline.sh",
+    "enabled": false
+  },
+  "trustedWorkspaces": [
+    "/home/tylerkilburn",
+    "/home/tylerkilburn/.dotfiles",
+    "/home/tylerkilburn/General",
+    "/home/tylerkilburn/Git",
+    "/home/tylerkilburn/Staging",
+    "/home/tylerkilburn/docker"
+  ]
 }
