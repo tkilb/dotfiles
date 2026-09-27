@@ -178,8 +178,27 @@
     - linux-book
     - linux-box
 
-- name: herdr
-  path: ~/.config/herdr
+- name: herdr/config.toml
+  source: ~/.dotfiles/herdr/config.toml
+  path: ~/.config/herdr/config.toml
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - work-book
+
+- name: herdr/plugins/config
+  source: ~/.dotfiles/herdr/plugins/config
+  path: ~/.config/herdr/plugins/config
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - work-book
+
+- name: tools/herdr/herdr-tidy.sh
+  source: ~/.dotfiles/tools/herdr/herdr-tidy.sh
+  path: ~/.local/bin/herdr-tidy
   machines:
     - linux-book
     - linux-box

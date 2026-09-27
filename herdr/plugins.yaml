@@ -1,0 +1,5 @@
+# Herdr plugins manifest
+# Format: list of repositories (with optional ref/tag/commit)
+plugins:
+  - repo: asumaran/asconfirmclose
+  - repo: aimdevlee/herdr-nvim-nav

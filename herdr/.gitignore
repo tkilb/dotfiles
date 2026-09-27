@@ -1,2 +1,7 @@
 *.log
+*.sock
+*.lock
+.plugins.lock
 session.json
+plugins.json
+plugins/github/
