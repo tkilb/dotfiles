@@ -189,20 +189,50 @@ wkey({ "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<cr>", i
 -- Oil
 map("n", "-", "<cmd>Oil<cr>", { desc = "Oil" })
 
+-- Helper to safely close Snacks.zen/zoom overlay before layout changes
+local function close_zen()
+  if Snacks.zen and Snacks.zen.win then
+    pcall(function()
+      if Snacks.zen.win:valid() then
+        Snacks.zen.win:close()
+      end
+    end)
+    Snacks.zen.win = nil
+  end
+end
+
+-- Helper to check if any window currently displays Sidekick
+local function is_sidekick_visible()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_is_valid(win) then
+      local buf = vim.api.nvim_win_get_buf(win)
+      if vim.bo[buf].filetype == "sidekick_terminal" then
+        return true
+      end
+    end
+  end
+  return false
+end
+
 -- Sidekick
+local function toggle_sidekick()
+  local was_sidekick = is_sidekick_visible()
+  close_zen()
+
+  if was_sidekick then
+    require("sidekick.cli").hide({ all = true })
+  else
+    vim.cmd("lcd " .. vim.fn.fnameescape(file_cwd()))
+    local t = Snacks.terminal.get(nil, { create = false })
+    if t then t:hide() end
+    require("sidekick.cli").toggle({ focus = true })
+  end
+end
+
+map({ "i", "n", "t", "x" }, "<C-.>", toggle_sidekick, { desc = "Toggle Sidekick" })
+map({ "i", "n", "t", "x" }, "<A-.>", toggle_sidekick, { desc = "Toggle Sidekick" })
+
 wkey({
-  { "<C-.>", function()
-      vim.cmd("lcd " .. vim.fn.fnameescape(file_cwd()))
-      local t = Snacks.terminal.get(nil, { create = false })
-      if t then t:hide() end
-      require("sidekick.cli").toggle({ focus = true })
-    end, desc = "Toggle Sidekick", mode = { "i", "n", "t", "x" }, hidden = true },
-  { "<A-.>", function()
-      vim.cmd("lcd " .. vim.fn.fnameescape(file_cwd()))
-      local t = Snacks.terminal.get(nil, { create = false })
-      if t then t:hide() end
-      require("sidekick.cli").toggle({ focus = true })
-    end, desc = "Toggle Sidekick", mode = { "i", "n", "t", "x" }, hidden = true },
   { "<leader>a", icon = "󰚩 ", group = "ai" },
   { "<leader>ad", "<cmd>lua require('sidekick.cli').close()<cr>", icon = "󰚩 ", desc = "Detatch", mode = "n" },
   { "<leader>af", "<cmd>lua require('sidekick.cli').send({ msg = '{file}' })<cr>", icon = "󰚩 ", desc = "Send File", mode = "n" },
@@ -229,13 +259,18 @@ wkey({
 del({ "n", "t" }, "<C-/>")
 del({ "n", "t" }, "<C-_>") -- In terminal emulators, Ctrl+/ often sends Ctrl+_
 map({ "n", "t" }, "<C-/>", function()
+  close_zen()
   require("sidekick.cli").hide({ all = true })
   Snacks.terminal.toggle()
 end, { desc = "Toggle Terminal" })
 map({ "n", "t" }, "<C-_>", function()
+  close_zen()
   require("sidekick.cli").hide({ all = true })
   Snacks.terminal.toggle()
 end, { desc = "Toggle Terminal" })
+map({ "n", "t" }, "<C-,>", function()
+  Snacks.zen.zoom()
+end, { desc = "Toggle Terminal Zoom" })
 
 -- Misc
 map("n", "<C-h>", "<C-w>h")

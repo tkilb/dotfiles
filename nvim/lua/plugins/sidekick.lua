@@ -19,6 +19,9 @@ return {
       },
       scroll_on_output = false, -- Disable auto-scroll when copilot is thinking
       win = {
+        keys = {
+          hide_ctrl_dot = false, -- Handled globally in config/keymaps.lua to support fullscreen Zen escape
+        },
         wo = {
           -- Point directly at TerminalNormal (bg=NONE, set in autocmds.lua) to get the same
           -- plain CLI appearance as a regular :term without any colorscheme influence.
