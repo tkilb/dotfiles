@@ -15,12 +15,7 @@ split_horizontal = "prefix+h"
 previous_tab = "prefix+m"
 next_tab = "prefix+n"
 
-# Interop Native Bindings (Correct Canonical Syntax)
 zoom = "prefix+f"
-focus_pane_left = "ctrl+left"
-focus_pane_down = "ctrl+down"
-focus_pane_up = "ctrl+up"
-focus_pane_right = "ctrl+right"
 
 close_pane = []
 
@@ -29,6 +24,31 @@ key = "prefix+x"                             # or ["prefix+x", "ctrl+alt+x"], et
 type = "plugin_action"
 command = "asumaran.asconfirmclose.close"
 description = "close pane (confirm if busy)"
+
+# Seamless Neovim / Herdr Navigation (herdr-nvim-nav)
+[[keys.command]]
+key = "ctrl+left"
+type = "plugin_action"
+command = "herdr-nvim-nav.left"
+description = "navigate left (nvim/herdr)"
+
+[[keys.command]]
+key = "ctrl+down"
+type = "plugin_action"
+command = "herdr-nvim-nav.down"
+description = "navigate down (nvim/herdr)"
+
+[[keys.command]]
+key = "ctrl+up"
+type = "plugin_action"
+command = "herdr-nvim-nav.up"
+description = "navigate up (nvim/herdr)"
+
+[[keys.command]]
+key = "ctrl+right"
+type = "plugin_action"
+command = "herdr-nvim-nav.right"
+description = "navigate right (nvim/herdr)"
 
 [ui]
 sidebar_start_collapsed = true

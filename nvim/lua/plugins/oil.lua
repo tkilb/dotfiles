@@ -18,7 +18,9 @@ return {
   opts = {
     keymaps = {
       ["<C-t>"] = false,
-      ["<C-l>"] = "actions.refresh",
+      ["<C-h>"] = false,
+      ["<C-l>"] = false,
+      ["gr"] = "actions.refresh",
       ["+"] = {
         callback = function()
           require("yazi").yazi(nil, require("oil").get_current_dir())

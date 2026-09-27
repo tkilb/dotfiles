@@ -286,11 +286,20 @@ map({ "n", "t" }, "<C-,>", function()
 end, { desc = "Toggle Terminal Zoom" })
 
 -- Misc
-map("n", "<C-h>", "<C-w>h")
-map("n", "<C-j>", "<C-w>j")
-map("n", "<C-k>", "<C-w>k")
-map("n", "<C-l>", "<C-w>l")
 map("n", "<leader>/", "viwo<Esc>yw/<C-r><C-w><cr>N")
+
+-- Herdr Navigation (override LazyVim default Ctrl+Arrow resize and Ctrl+hjkl window navigation)
+pcall(function()
+  require("herdr-nvim-nav").setup({
+    with_tmux = false,
+    keymaps = {
+      left = { "<C-Left>", "<C-h>" },
+      down = { "<C-Down>", "<C-j>" },
+      up = { "<C-Up>", "<C-k>" },
+      right = { "<C-Right>", "<C-l>" },
+    },
+  })
+end)
 
 -- Obsidian checkbox toggle (Kitty full keyboard protocol required)
 map("n", "<S-Space>", "<cmd>Obsidian toggle_checkbox<cr>", { desc = "Checkbox Toggle" })
