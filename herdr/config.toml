@@ -50,6 +50,15 @@ type = "plugin_action"
 command = "herdr-nvim-nav.right"
 description = "navigate right (nvim/herdr)"
 
+# Named multi-pane tab ("the hack" — see custom-herdr-tab-hack.md at repo root)
+[[keys.command]]
+key = "prefix+shift+c"
+type = "popup"
+command = "herdr-new-tab"
+description = "new named tab (vim/ai/term panes)"
+width = "50%"
+height = "30%"
+
 [ui]
 sidebar_start_collapsed = true
 sidebar_width = 26             # default 26

@@ -1,8 +1,16 @@
 ##################################################
 # Settings
 ##################################################
-git config --global pager.branch false
-git config --global pager.diff 'sed "s/^\([^-+ ]*\)[-+ ]/\\1/" | less'
+# Guard these writes: `git config --global` rewrites ~/.gitconfig every
+# shell startup, and concurrent shells (e.g. panes spawned together) can
+# race on Git's config lock ("could not lock config file ... File exists").
+# Only write when the value actually needs to change.
+if [[ "$(git config --global pager.branch)" != "false" ]]; then
+  git config --global pager.branch false
+fi
+if [[ "$(git config --global pager.diff)" != 'sed "s/^\([^-+ ]*\)[-+ ]/\\1/" | less' ]]; then
+  git config --global pager.diff 'sed "s/^\([^-+ ]*\)[-+ ]/\\1/" | less'
+fi
 export GIT_EDITOR="nvim"
 
 ##################################################

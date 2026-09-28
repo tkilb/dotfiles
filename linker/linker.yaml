@@ -205,6 +205,15 @@
     - pi-server
     - work-book
 
+- name: tools/herdr/new-agent-tab.sh
+  source: ~/.dotfiles/tools/herdr/new-agent-tab.sh
+  path: ~/.local/bin/herdr-new-tab
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - work-book
+
 - name: waybar
   path: ~/.config/waybar
   machines:
