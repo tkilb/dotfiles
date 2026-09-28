@@ -28,37 +28,48 @@ fi
 
 echo "Syncing Herdr plugins from $MANIFEST_FILE..."
 
+# Note: this avoids `declare -A` (associative arrays) so it works with the
+# stock bash 3.2 shipped on macOS, not just bash 4+ (e.g. on Arch Linux).
+
+# Returns 0 if $1 is present among the newline-separated entries in $2.
+contains_entry() {
+  local needle="$1" haystack="$2" line
+  while IFS= read -r line; do
+    [[ "$line" == "$needle" ]] && return 0
+  done <<<"$haystack"
+  return 1
+}
+
 # Collect installed plugins (owner/repo)
-declare -A installed_plugins=()
+installed_plugins=""
 if [[ -f "$PLUGINS_STATE_FILE" ]]; then
-  while IFS= read -r plugin_repo; do
-    [[ -n "$plugin_repo" ]] && installed_plugins["$plugin_repo"]=1
-  done < <(jq -r '.[] | select(.source != null and .source.owner != null and .source.repo != null) | "\(.source.owner)/\(.source.repo)"' "$PLUGINS_STATE_FILE" 2>/dev/null || true)
+  installed_plugins="$(jq -r '.[] | select(.source != null and .source.owner != null and .source.repo != null) | "\(.source.owner)/\(.source.repo)"' "$PLUGINS_STATE_FILE" 2>/dev/null || true)"
 fi
 
 # Track desired plugins
-declare -A desired_plugins=()
+desired_plugins=""
 
 # Process each entry from YAML
 while IFS=$'\t' read -r repo ref; do
   [[ -z "$repo" || "$repo" == "null" ]] && continue
-  desired_plugins["$repo"]=1
+  desired_plugins="$desired_plugins$repo"$'\n'
 
-  if [[ -n "${installed_plugins[$repo]:-}" ]]; then
+  if contains_entry "$repo" "$installed_plugins"; then
     echo "✓ $repo is already installed"
   else
     echo "→ Installing missing plugin: $repo..."
     if [[ -n "$ref" && "$ref" != "null" ]]; then
-      herdr plugin install --yes --ref "$ref" "$repo"
+      herdr plugin install "$repo" --ref "$ref" --yes
     else
-      herdr plugin install --yes "$repo"
+      herdr plugin install "$repo" --yes
     fi
   fi
-done < <(yq -r '.plugins[] | if type == "string" then [., ""] else [.repo, (.ref // "")] end | @tsv' "$MANIFEST_FILE")
+done < <(yq -r '.plugins[] | [(.repo // .), (.ref // "")] | join("\t")' "$MANIFEST_FILE")
 
 # Check for unmanaged/extra plugins to tidy
-for installed_repo in "${!installed_plugins[@]}"; do
-  if [[ -z "${desired_plugins[$installed_repo]:-}" ]]; then
+while IFS= read -r installed_repo; do
+  [[ -z "$installed_repo" ]] && continue
+  if ! contains_entry "$installed_repo" "$desired_plugins"; then
     echo "⚠ Unmanaged plugin detected: $installed_repo"
     read -r -p "Remove unmanaged plugin $installed_repo? [y/N] " response </dev/tty || response="n"
     if [[ "$response" =~ ^[Yy]$ ]]; then
@@ -66,6 +77,6 @@ for installed_repo in "${!installed_plugins[@]}"; do
       herdr plugin uninstall "$installed_repo"
     fi
   fi
-done
+done <<<"$installed_plugins"
 
 echo "Herdr plugin tidy complete."
