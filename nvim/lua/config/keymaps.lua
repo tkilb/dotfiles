@@ -301,5 +301,47 @@ pcall(function()
   })
 end)
 
+-- Herdr Navigation from terminal-family buffers (Snacks.terminal / sidekick_terminal):
+--
+-- herdr's compiled keybind action (herdr-nvim-nav.c) always forwards
+-- Ctrl+h/j/k/l to Neovim via `pane.send_keys` when its marker file shows
+-- Neovim owns the focused pane -- regardless of whether herdr's own config
+-- binds arrows or hjkl to trigger it (this repo's herdr/config.toml binds
+-- ctrl+left/down/up/right, but the compiled action translates that to the
+-- canonical ctrl+h/j/k/l chord before relaying it, since that's the only
+-- form the Neovim-side plugin's Normal-mode keymaps expect). herdr-nvim-nav
+-- .setup() above only maps Normal mode.
+--
+-- The Ctrl+h/j/k/l chords are ALSO where LazyVim's own
+-- `lazyvim/plugins/util.lua` sets a buffer-local Terminal-mode `nav_h` /
+-- `nav_j` / `nav_k` / `nav_l` keymap on every Snacks terminal window (plain
+-- `wincmd`, no herdr awareness) -- buffer-local mappings always win over
+-- global ones for the same mode+lhs, so THAT is the mapping that actually
+-- needs replacing for the Snacks terminal; see `nvim/lua/plugins/snacks.lua`
+-- for the override that does so via the same `util.herdr_nav` helper this
+-- global mapping uses.
+--
+-- This global mapping remains as a safety net for the raw arrow chords
+-- (which herdr never actually forwards, but a direct/non-herdr keypress
+-- still could) and for any terminal-family buffer that isn't a Snacks
+-- window (so isn't covered by LazyVim's/Snacks' buffer-local keys at all).
+local herdr_nav = require("util.herdr_nav")
+local WINCMD_DIR = {
+  ["<C-h>"] = "h",
+  ["<C-Left>"] = "h",
+  ["<C-j>"] = "j",
+  ["<C-Down>"] = "j",
+  ["<C-k>"] = "k",
+  ["<C-Up>"] = "k",
+  ["<C-l>"] = "l",
+  ["<C-Right>"] = "l",
+}
+
+for lhs, wincmd_dir in pairs(WINCMD_DIR) do
+  map("t", lhs, function()
+    herdr_nav.terminal_nav(wincmd_dir)
+  end, { desc = "Terminal Nav (Herdr/Nvim)" })
+end
+
 -- Obsidian checkbox toggle (Kitty full keyboard protocol required)
 map("n", "<S-Space>", "<cmd>Obsidian toggle_checkbox<cr>", { desc = "Checkbox Toggle" })

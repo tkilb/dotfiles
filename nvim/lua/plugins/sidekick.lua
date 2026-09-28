@@ -21,6 +21,59 @@ return {
       win = {
         keys = {
           hide_ctrl_dot = false, -- Handled globally in config/keymaps.lua to support fullscreen Zen escape
+          -- sidekick.nvim's own defaults (sidekick/config.lua) bind these as
+          -- buffer-local Terminal-mode keys (sidekick/cli/actions.lua's
+          -- `nav()`): at a split edge (or when floating) they just return the
+          -- raw `<c-h/j/k/l>` chord back to the expr-mapping, which re-sends
+          -- it straight to the pty with no herdr awareness -- the same
+          -- buffer-local-shadowing bug Phase 1 fixed for Snacks.terminal.
+          -- Override by the same key names (sidekick's opts-merging replaces
+          -- same-named table entries) with the herdr-aware version shared
+          -- with config/keymaps.lua.
+          nav_left = {
+            "<c-h>",
+            function(self)
+              if self:is_float() then
+                return "<c-h>"
+              end
+              require("util.herdr_nav").terminal_nav("h")
+            end,
+            desc = "navigate to the left window",
+            expr = true,
+          },
+          nav_down = {
+            "<c-j>",
+            function(self)
+              if self:is_float() then
+                return "<c-j>"
+              end
+              require("util.herdr_nav").terminal_nav("j")
+            end,
+            desc = "navigate to the below window",
+            expr = true,
+          },
+          nav_up = {
+            "<c-k>",
+            function(self)
+              if self:is_float() then
+                return "<c-k>"
+              end
+              require("util.herdr_nav").terminal_nav("k")
+            end,
+            desc = "navigate to the above window",
+            expr = true,
+          },
+          nav_right = {
+            "<c-l>",
+            function(self)
+              if self:is_float() then
+                return "<c-l>"
+              end
+              require("util.herdr_nav").terminal_nav("l")
+            end,
+            desc = "navigate to the right window",
+            expr = true,
+          },
         },
         wo = {
           -- Point directly at TerminalNormal (bg=NONE, set in autocmds.lua) to get the same
