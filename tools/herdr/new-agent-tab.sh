@@ -8,7 +8,12 @@ set -euo pipefail
 #   pane 2 (split right of pane 1): "$name ai"
 #   pane 3 (split down from pane 1): "$name term"
 
-herdr_bin="${HERDR_BIN_PATH:-herdr}"
+export PATH="$HOME/.local/bin:$PATH"
+
+herdr_bin="${HERDR_BIN_PATH:-$HOME/.local/bin/herdr}"
+if ! command -v "$herdr_bin" >/dev/null 2>&1 && [[ "$herdr_bin" != /* ]]; then
+  herdr_bin="herdr"
+fi
 
 if ! command -v "$herdr_bin" >/dev/null 2>&1 && [[ "$herdr_bin" != /* ]]; then
   echo "Error: herdr CLI not found (HERDR_BIN_PATH unset and 'herdr' not on PATH)" >&2
