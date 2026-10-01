@@ -15,7 +15,7 @@ rsa-keygen() {
   fi
 }
 
-alias dotfiles="vim ~/.dotfiles/"
+alias dotfiles="cd ~/.dotfiles"
 
 ##################################################
 # Arch Specific
