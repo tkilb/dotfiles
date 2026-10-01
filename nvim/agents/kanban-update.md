@@ -40,28 +40,6 @@ Scan every "Follow Ups", "Follow Up", "Todos", and "Action Items" section in the
 - [ ] Discuss with agent
 ```
 
-### 3. Stale / nudge items (Kanban → Daily)
-Flag open items that haven't appeared in recent daily notes. Each open item has an `(added: YYYY-MM-DD)` stamp.
-- Older than {{nudge_days}} days → 🟡 nudge
-- Older than {{stale_days}} days → 🔴 stale
-
-```markdown
-### Stale Items
-
-🔴 **"<task title>"** — added <date>, not seen in recent notes
-- [ ] Keep open
-- [ ] Move to Paused
-- [ ] Mark as Done
-- [ ] Remove
-- [ ] Discuss with agent
-
-🟡 **"<task title>"** — added <date>, not seen recently
-- [ ] Keep open
-- [ ] Move to Paused
-- [ ] Remove
-- [ ] Discuss with agent
-```
-
 ## Form rules
 - Pre-check `[x]` the option you recommend as a default
 - Do not ask clarifying questions during form generation — make a recommendation and let the form be the conversation

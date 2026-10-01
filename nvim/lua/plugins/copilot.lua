@@ -16,6 +16,14 @@ return {
       -- Use the static embedded language server version (no auto-bump via npx)
       vim.g.copilot_version = false
 
+      -- Don't attach Copilot's LSP client to oil.nvim buffers. LazyVim's
+      -- default "gr" keymap (References) fires for *any* attached LSP
+      -- client, and Copilot's presence there was hijacking oil's own
+      -- buffer-local "gr" (refresh) mapping.
+      vim.g.copilot_filetypes = {
+        oil = false,
+      }
+
       -- Disable Copilot by default
       vim.cmd("Copilot disable")
 

@@ -82,8 +82,6 @@ function M.kanban_update()
   return tmpl
     :gsub("{{kanban}}", VAULT .. "/0.Kanban.md")
     :gsub("{{daily_notes}}", recent_daily_paths(7))
-    :gsub("{{nudge_days}}", tostring(cfg.nudge_days))
-    :gsub("{{stale_days}}", tostring(cfg.stale_days))
 end
 
 function M.shareout()
