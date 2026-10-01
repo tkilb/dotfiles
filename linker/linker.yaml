@@ -99,6 +99,14 @@
   machines:
     - linux-box
 
+- name: lazytask/config.yaml
+  source: ~/.dotfiles/lazytask/config.yaml
+  path: ~/.config/lazytask/config.yaml
+  machines:
+    - linux-book
+    - linux-box
+    - work-book
+
 - name: linker
   path: ~/.config/linker
   machines:

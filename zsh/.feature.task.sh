@@ -1,6 +1,6 @@
-t() {
+tt() {
   if [[ $# -eq 0 ]]; then
-    taskwarrior-tui
+    lazytask
   else
     task "$@"
   fi
