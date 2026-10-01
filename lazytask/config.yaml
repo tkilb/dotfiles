@@ -1,0 +1,24 @@
+# lazytask config — safe to dotfile-manage (contains no secrets).
+#
+# Lives at ~/.config/lazytask/config.yaml on every machine. Controls
+# Taskwarrior's git-sync backend (see `task-sync(5)`).
+#
+# All fields are optional; omit `sync` entirely (or leave a subfield blank)
+# to leave that Taskwarrior setting untouched / sync unconfigured.
+sync:
+  git:
+    # Local clone of your tasks-sync git repo that `task sync` reads/writes.
+    local_path: ~/.local/share/task/sync
+
+    # Branch to sync against.
+    branch: main
+
+    # Remote git URL (SSH recommended so this doesn't need a stored password).
+    remote: git@github.com:tkilb/task-sync.git
+
+    # Optional: where lazytask stores the auto-generated encryption secret.
+    # This is just a *path* — safe to dotfile-manage — the secret file itself
+    # is auto-created (0600) the first time you sync and is never written
+    # here or into Taskwarrior's .taskrc. Omit to use the default:
+    # ~/.local/share/lazytask/sync-secret (deliberately outside ~/.config).
+    encryption_secret_file: ~/.local/share/lazytask/sync-secret

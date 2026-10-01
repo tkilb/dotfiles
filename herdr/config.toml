@@ -15,15 +15,11 @@ split_horizontal = "prefix+h"
 previous_tab = "prefix+m"
 next_tab = "prefix+n"
 
+next_agent = "prefix+a"
+
 zoom = "prefix+f"
 
-close_pane = []
-
-[[keys.command]]
-key = "prefix+x"                             # or ["prefix+x", "ctrl+alt+x"], etc.
-type = "plugin_action"
-command = "asumaran.asconfirmclose.close"
-description = "close pane (confirm if busy)"
+close_pane = "prefix+x"
 
 # Seamless Neovim / Herdr Navigation (herdr-nvim-nav)
 [[keys.command]]
