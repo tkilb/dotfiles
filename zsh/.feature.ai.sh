@@ -28,3 +28,5 @@ copilot() {
     "$@"
   return $?
 }
+
+alias yolo="agy --dangerously-skip-permissions"
