@@ -49,6 +49,13 @@
         update_cache: true
       when: install_bluetui | lower in ["y", "yes"]
 
+    - name: Ensure bluetooth service is enabled and started
+      ansible.builtin.systemd_service:
+        name: bluetooth.service
+        enabled: true
+        state: started
+      when: install_bluetui | lower in ["y", "yes"]
+
     - name: Install btop (System Resource Monitor)
       community.general.pacman:
         name: btop
