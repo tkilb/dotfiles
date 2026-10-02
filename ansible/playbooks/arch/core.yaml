@@ -9,6 +9,12 @@
         state: present
         update_cache: true
 
+    - name: Install jq
+      community.general.pacman:
+        name: jq
+        state: present
+        update_cache: true
+
     - name: Install NeoVim
       community.general.pacman:
         name: neovim

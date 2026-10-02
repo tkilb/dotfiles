@@ -287,6 +287,15 @@ then
   fi
 fi
 
+# Establish dotfiles symlinks
+if [[ -x "$HOME/.local/bin/linker" && -n "${MACHINE:-}" ]]; then
+  echo ""
+  echo "Running linker to establish symlinks..."
+  "$HOME/.local/bin/linker"
+  echo "✓ Dotfiles symlinks established"
+fi
+
+
 # Display public keys
 echo "=================================="
 echo "SSH Keys Setup Complete!"

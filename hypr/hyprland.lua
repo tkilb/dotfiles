@@ -42,7 +42,7 @@ local fileManager      = "nemo"
 local lockScreen       = "hyprlock"
 local launcher         = string.format('rofi -show launcher -modes "launcher:%s/.config/rofi/scripts/launcher.sh"', home)
 local screenshotRegion = "hyprshot -m region"
-local terminal         = "kitty"
+local terminal         = (home ~= "" and (home .. "/.local/bin/kitty")) or "kitty"
 local browser          = "zen"
 
 
@@ -63,6 +63,7 @@ end)
 ---- ENVIRONMENT VARIABLES ----
 -------------------------------
 
+hl.env("PATH", (home ~= "" and (home .. "/.local/bin:") or "") .. (os.getenv("PATH") or "/usr/local/bin:/usr/bin"))
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_THEME", "Nordzy-hyprcursors-white")

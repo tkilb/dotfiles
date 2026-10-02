@@ -222,6 +222,14 @@
     - pi-server
     - work-book
 
+- name: tools/kitty/kitty.sh
+  source: ~/.dotfiles/tools/kitty/kitty.sh
+  path: ~/.local/bin/kitty
+  machines:
+    - linux-book
+    - linux-box
+
+
 - name: waybar
   path: ~/.config/waybar
   machines:

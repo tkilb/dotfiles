@@ -187,6 +187,51 @@ get_app_workspace() {
   done < <(jq -r 'to_entries[] | "\(.key) \(.value)"' "$config_file")
 }
 
+find_running_app_client() {
+  local selection="$1"
+  local rofi_info="$2"
+
+  if ! command -v hyprctl >/dev/null 2>&1 || ! command -v jq >/dev/null 2>&1; then
+    return 0
+  fi
+
+  local exec_bin exec_base sel_lower matched_app
+  exec_bin="$(echo "$rofi_info" | awk '{print $1}')"
+  exec_base="$(basename "$exec_bin" | tr '[:upper:]' '[:lower:]')"
+  sel_lower="$(echo "$selection" | tr '[:upper:]' '[:lower:]')"
+
+  local config_file="${HOME}/.config/hypr/app-workspaces.json"
+  if [[ ! -f "$config_file" ]]; then
+    config_file="${HOME}/.dotfiles/hypr/app-workspaces.json"
+  fi
+
+  matched_app=""
+  if [[ -f "$config_file" ]]; then
+    while read -r app _; do
+      [[ -z "$app" ]] && continue
+      local app_lower
+      app_lower="$(echo "$app" | tr '[:upper:]' '[:lower:]')"
+      if [[ "$sel_lower" =~ $app_lower ]] || [[ "$exec_base" =~ $app_lower ]]; then
+        matched_app="$app_lower"
+        break
+      fi
+    done < <(jq -r 'to_entries[] | "\(.key) \(.value)"' "$config_file")
+  fi
+
+  hyprctl clients -j 2>/dev/null | jq -c \
+    --arg app "$matched_app" \
+    --arg exe "$exec_base" \
+    --arg sel "$sel_lower" '
+    [ .[] | select(
+        (.class | ascii_downcase) as $c |
+        (.initialClass | ascii_downcase) as $ic |
+        ($app != "" and ($c == $app or $ic == $app)) or
+        ($exe != "" and ($c == $exe or $ic == $exe)) or
+        ($sel != "" and ($c == $sel or $ic == $sel))
+      )
+    ] | sort_by(.focusHistoryID) | first // empty'
+}
+
 main() {
   if [[ $# -eq 0 ]]; then
     list_applications
@@ -197,16 +242,36 @@ main() {
   local rofi_info="${ROFI_INFO:-}"
 
   if [[ -n "$rofi_info" ]]; then
-    # Application selected from desktop entries
-    nohup bash -c "$rofi_info" >/dev/null 2>&1 &
+    local running_client
+    running_client="$(find_running_app_client "$selection" "$rofi_info")"
 
-    local target_ws
-    target_ws="$(get_app_workspace "$selection" "$rofi_info")"
-    if [[ -n "$target_ws" ]] && command -v hyprctl >/dev/null 2>&1; then
+    if [[ -n "$running_client" ]]; then
+      # Application already running; focus existing instance like Spotlight
+      local target_ws target_addr
+      target_ws="$(echo "$running_client" | jq -r '.workspace.id // empty')"
+      target_addr="$(echo "$running_client" | jq -r '.address // empty')"
+
       (
         sleep 0.05
-        hyprctl dispatch workspace "$target_ws" >/dev/null 2>&1 || true
+        if [[ -n "$target_ws" ]] && command -v hyprctl >/dev/null 2>&1; then
+          hyprctl dispatch workspace "$target_ws" >/dev/null 2>&1 || true
+        fi
+        if [[ -n "$target_addr" ]] && command -v hyprctl >/dev/null 2>&1; then
+          hyprctl dispatch focuswindow "address:$target_addr" >/dev/null 2>&1 || true
+        fi
       ) >/dev/null 2>&1 &
+    else
+      # Application not running; launch detached
+      nohup bash -c "$rofi_info" >/dev/null 2>&1 &
+
+      local target_ws
+      target_ws="$(get_app_workspace "$selection" "$rofi_info")"
+      if [[ -n "$target_ws" ]] && command -v hyprctl >/dev/null 2>&1; then
+        (
+          sleep 0.05
+          hyprctl dispatch workspace "$target_ws" >/dev/null 2>&1 || true
+        ) >/dev/null 2>&1 &
+      fi
     fi
   else
     # Custom input submitted (search fallback)
