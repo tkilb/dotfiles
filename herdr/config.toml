@@ -10,12 +10,14 @@ resize_pane_up = "prefix+up"
 resize_pane_down = "prefix+down"
 
 # Pane Splitting
-split_horizontal = "prefix+h"
+split_horizontal = "prefix+s"
 
 previous_tab = "prefix+m"
 next_tab = "prefix+n"
 
 next_agent = "prefix+a"
+
+settings = "prefix+,"
 
 zoom = "prefix+f"
 
@@ -54,6 +56,13 @@ command = "herdr-new-tab"
 description = "new named tab (vim/ai/term panes)"
 width = "50%"
 height = "30%"
+
+# Broadcast a command to all panes in the current tab (herdr-synchronize-panes)
+[[keys.command]]
+key = "prefix+shift+s"
+type = "plugin_action"
+command = "synchronize-panes.broadcast"
+description = "broadcast a command to all panes in this tab"
 
 [ui]
 sidebar_start_collapsed = true

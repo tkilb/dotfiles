@@ -222,6 +222,15 @@
     - pi-server
     - work-book
 
+- name: tools/herdr/node.sh
+  source: ~/.dotfiles/tools/herdr/node.sh
+  path: ~/.local/bin/node
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - work-book
+
 - name: tools/kitty/kitty.sh
   source: ~/.dotfiles/tools/kitty/kitty.sh
   path: ~/.local/bin/kitty
