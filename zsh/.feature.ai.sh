@@ -29,4 +29,9 @@ copilot() {
   return $?
 }
 
-alias yolo="agy --dangerously-skip-permissions"
+# work-book uses Copilot (via the wrapper above); other machines use agy.
+if [[ "$MACHINE" == "work-book" ]]; then
+  yolo() { copilot --allow-all "$@"; }
+else
+  alias yolo="agy --dangerously-skip-permissions"
+fi
