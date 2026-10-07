@@ -4,99 +4,73 @@ Instructions for AI agents working in this repository.
 
 ## Purpose
 
-This repo is the single source of truth for dotfiles, configs, and scripts
-cross all of the user's machines (`linux-book`, `linux-box`, `pi-server`,
-`steam-deck`, `work-book`). Files live here in per-tool subdirectories
-(`nvim/`, `hypr/`, `kitty/`, `ai/`, etc.) and are deployed to their real
-locations on disk (usually inside `$HOME`) as symlinks, not copies — so
-editing a file at its real path and editing it in this repo are the same
-operation once linked.
+Single source of truth for dotfiles, configs, and scripts across all machines
+(`linux-book`, `linux-box`, `pi-server`, `steam-deck`, `work-book`). Files live
+in per-tool subdirectories (`nvim/`, `hypr/`, `kitty/`, `ai/`, etc.) and are
+deployed as symlinks, not copies — editing a file at its real path or in this
+repo is the same operation once linked.
 
-## How `linker/` works
+## Portability
 
-- `linker/linker.yaml` is the manifest of every managed symlink. Each entry
-  has:
-  - `name` — identifier, also the default relative source path under
-    `~/.dotfiles/` if `source` is omitted.
-  - `source` — (optional) explicit path to the file/dir in this repo.
-    Required whenever the destination should point at something _narrower_
-    than the whole named directory (see `navi/AGENTS.md` for the canonical
-    example of why this matters).
-  - `path` — the real destination path (typically under `$HOME`) where the
-    symlink is created.
-  - `machines` — list of machine names this entry applies to; the entry is
-    skipped on any machine not listed.
-- Running `~/.local/bin/linker` (built from this dotfiles setup) walks the
-  manifest, removes whatever currently exists at each `path` (file, dir, or
-  stale symlink), and recreates it as a symlink to `source`.
-- **Re-run `linker` after editing `linker.yaml`**, after cloning this repo
-  fresh on a new machine, or after adding a new managed file — edits to
-  files _already_ linked don't need a re-run.
-- Multiple destinations can share one `source` (e.g. one `ai/AGENTS.md` file
-  is currently symlinked to both Copilot's and Antigravity's global config
-  locations) so shared config only needs to be maintained in one place.
+Primary targets are **Arch Linux** and **macOS** — changes must work on both.
+Debian support is appreciated but secondary: add Debian-specific handling
+only when it's trivial (e.g. a different package name or an existing repo)
+and never let it block, complicate, or water down an Arch/macOS change.
 
-## How `syncer/` works
+## `linker/`
 
-- `syncer/syncer.yaml` defines a schedule (cron) for keeping this repo (and
-  a handful of other repos, e.g. `alfred`, `dotfiles-work`) pulled/pushed on
-  each machine, again scoped per-entry via `machines`.
-- `syncer/syncer.log` and `syncer/state/` are runtime artifacts of that
-  scheduled sync process — not hand-edited, safe to ignore when reviewing
-  config changes.
-- Syncer keeps the repo itself up to date across machines; linker keeps the
-  _symlinks into_ the repo up to date on each machine. They're independent:
-  changing `linker.yaml` doesn't require touching `syncer.yaml` and vice
-  versa.
+- `linker/linker.yaml` manifests every managed symlink: `name` (id, default
+  source path under `~/.dotfiles/`), `source` (optional explicit path,
+  required when the destination should be narrower than the whole named
+  dir — see `navi/AGENTS.md`), `path` (real destination, usually under
+  `$HOME`), `machines` (which machines the entry applies to).
+- `~/.local/bin/linker` walks the manifest and replaces whatever's at each
+  `path` with a symlink to `source`.
+- Re-run `linker` after editing `linker.yaml`, cloning fresh, or adding a
+  managed file — edits to already-linked files don't need a re-run.
+- One `source` can back multiple destinations (e.g. `ai/AGENTS.md` links to
+  both Copilot's and Antigravity's global config paths).
 
-## How `ai/` works
+## `syncer/`
 
-- Holds shared, tool-agnostic AI agent configuration that multiple CLI
-  agents (GitHub Copilot CLI, Google Antigravity CLI / `agy`) read from via
-  `linker` symlinks, so there's one file to maintain instead of duplicating
-  instructions/settings per tool:
-  - `ai/AGENTS.md` — global agent instructions, symlinked to both
-    `~/.copilot/copilot-instructions.md` (Copilot CLI's global instructions
-    path) and `~/.gemini/GEMINI.md` (Antigravity's global rules path).
-  - `ai/antigravity-settings.json` — Antigravity CLI's global permissions
-    (`permissions.allow/ask/deny`), symlinked to
-    `~/.gemini/antigravity-cli/settings.json`.
-- Copilot CLI has no equivalent native _global_ permissions file (its
-  `permissions-config.json` is scoped per-repository only) — global
-  permission reduction for Copilot instead lives in the `copilot()` shell
-  function in `zsh/.feature.ai.sh`, which wraps the real binary with
-  `--allow-tool` flags.
-- When adding a new shared/global AI config, prefer this pattern: put the
-  real content under `ai/`, add a `linker.yaml` entry pointing at the
-  tool's expected path, and re-run `linker`.
-- `ai/ai-permissions-seed.json` + `ai/sync-ai-permissions.py` — a single,
-  portable baseline of trusted directories/tools/domains for **both**
-  agents, so there's one file to edit instead of duplicating trust
-  decisions per tool:
-  - `locations` — merged into Copilot CLI's live, per-machine
-    `~/.copilot/permissions-config.json` (`tool_approvals` +
-    `allowed_directories`).
-  - `trusted_domains` — merged into Copilot CLI's live, per-machine
-    `~/.copilot/settings.json` (`allowedUrls`) **and** into the
-    git-tracked `ai/antigravity-settings.json` (as
-    `read_url(<domain>)` allow entries).
-  `~/.copilot/permissions-config.json` and `~/.copilot/settings.json` are
-  **not** symlinked (see Gotchas below) because they also accumulate
-  ephemeral, per-repo/per-session approvals that shouldn't sync across
-  machines or pollute this repo's git history. Instead, edit the seed
-  file, then re-run `ai/sync-ai-permissions.py` (add `--dry-run` to
-  preview) to idempotently apply it — analogous to re-running `linker`
-  after editing `linker.yaml`. This runs automatically (silent,
-  idempotent, never blocks the launch) every time the `copilot()` wrapper
-  in `zsh/.feature.ai.sh` is invoked, so no manual re-run is normally
-  needed — just edit the seed and open a new `copilot` session.
+- `syncer/syncer.yaml` schedules (cron) pull/push for this repo and a few
+  others (`alfred`, `dotfiles-work`), scoped per-entry via `machines`.
+- `syncer/syncer.log` and `syncer/state/` are runtime artifacts — ignore
+  when reviewing config changes.
+- Independent from linker: syncer keeps the repo itself updated across
+  machines; linker keeps symlinks into the repo updated on each machine.
+
+## `ai/`
+
+Shared, tool-agnostic AI agent config read by multiple CLI agents (GitHub
+Copilot CLI, Antigravity CLI) via `linker` symlinks — one file to maintain
+instead of per-tool duplicates.
+
+- `ai/AGENTS.md` — global agent instructions, symlinked to
+  `~/.copilot/copilot-instructions.md` and `~/.gemini/GEMINI.md`.
+- `ai/antigravity-settings.json` — Antigravity's global permissions,
+  symlinked to `~/.gemini/antigravity-cli/settings.json`.
+- Copilot has no native global permissions file; global permission
+  reduction instead lives in the `copilot()` shell function in
+  `zsh/.feature.ai.sh`, which wraps the binary with `--allow-tool` flags.
+- `ai/ai-permissions-seed.json` + `ai/sync-ai-permissions.py` — one portable
+  baseline of trusted directories/tools/domains for both agents:
+  - `locations` → merged into Copilot's `~/.copilot/permissions-config.json`.
+  - `trusted_domains` → merged into Copilot's `~/.copilot/settings.json`
+    (`allowedUrls`) and into `ai/antigravity-settings.json`.
+  - Those two Copilot files are **not** symlinked (see Gotchas) — they also
+    accumulate ephemeral per-repo/session state. Edit the seed, then
+    re-run `sync-ai-permissions.py` (`--dry-run` to preview). This also
+    runs automatically, silently, on every `copilot` launch via the
+    `copilot()` wrapper.
+- Adding new shared/global AI config: put the real file under `ai/`, add a
+  `linker.yaml` entry, re-run `linker`.
 
 ## Gotchas
 
-- Never assume a config file at its real path (e.g. `~/.copilot/settings.json`)
-  is managed by `linker` — check `linker.yaml` first. Several real,
-  non-symlinked config files (e.g. `~/.copilot/settings.json`,
-  `~/.copilot/permissions-config.json`) intentionally live outside this
-  repo because they're per-machine/local or not yet migrated.
-- This repo is never committed to automatically — the user commits changes
+- Don't assume a config file at its real path is managed by `linker` —
+  check `linker.yaml` first. `~/.copilot/settings.json` and
+  `~/.copilot/permissions-config.json` intentionally live outside this
+  repo (per-machine/local, not yet migrated).
+- This repo is never committed to automatically — the user commits
   manually.
