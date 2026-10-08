@@ -7,3 +7,7 @@ tt() {
 }
 
 alias task-purge='task status:deleted purge'
+
+if [[ "$MACHINE" == "work-book" ]]; then
+  alias jira="lazyjira"
+fi
