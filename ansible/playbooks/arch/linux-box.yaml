@@ -1,5 +1,5 @@
 ---
-- name: Install NVIDIA Drivers for RTX 3080 (Wayland/Hyprland)
+- name: Setup linux-box Desktop (RTX 3080 & Performance)
   hosts: localhost
   become: true
 
@@ -92,9 +92,27 @@
           WLR_NO_HARDWARE_CURSORS=1
         marker: "# {mark} ANSIBLE MANAGED NVIDIA ENVIRONMENT VARIABLES"
 
+    - name: Ensure power-profiles-daemon is installed
+      community.general.pacman:
+        name: power-profiles-daemon
+        state: present
+
+    - name: Ensure power-profiles-daemon is enabled and running
+      ansible.builtin.systemd_service:
+        name: power-profiles-daemon.service
+        enabled: true
+        state: started
+
+    - name: Enforce permanent performance mode (Chad mode)
+      ansible.builtin.command:
+        cmd: powerprofilesctl set performance
+      become: false
+      changed_when: false
+      failed_when: false
+
     - name: Inform user about completion and reboot
       ansible.builtin.debug:
-        msg: "NVIDIA driver installation complete. Please reboot to apply changes."
+        msg: "linux-box setup complete. Please reboot to apply changes."
 
   handlers:
     - name: Update GRUB

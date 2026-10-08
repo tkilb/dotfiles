@@ -46,6 +46,19 @@ local terminal         = (home ~= "" and (home .. "/.local/bin/kitty")) or "kitt
 local browser          = "zen"
 
 
+local function get_hostname()
+    local f = io.open("/etc/hostname", "r")
+    if f then
+        local name = f:read("*l")
+        f:close()
+        return (name or ""):match("^%s*(.-)%s*$")
+    end
+    return ""
+end
+
+local hostname = get_hostname()
+
+
 -------------------
 ---- AUTOSTART ----
 -------------------
@@ -56,6 +69,13 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("xdg-mime default zen.desktop x-scheme-handler/https")
     hl.exec_cmd("xdg-mime default zen.desktop text/html")
     hl.exec_cmd("waybar & swaync & hypridle & hyprpaper")
+
+    if hostname == "linux-box" then
+        hl.exec_cmd("powerprofilesctl set performance")
+    elseif hostname == "linux-book" then
+        hl.exec_cmd("powerprofilesctl set power-saver")
+        hl.exec_cmd("~/.dotfiles/hypr/scripts/watch-power.sh &")
+    end
 end)
 
 
@@ -225,8 +245,10 @@ end
 -- Assign specific apps to specific workspaces (focus follows window)
 hl.bind(MAIN_MOD .. " + A", hl.dsp.exec_cmd("sh -c '~/.dotfiles/hypr/scripts/arrange.sh'"))
 
--- Power profile switching (cycle through profiles)
-hl.bind(MAIN_MOD .. " + P", hl.dsp.exec_cmd([[sh -c 'current=$(powerprofilesctl get); case $current in balanced) powerprofilesctl set power-saver;; power-saver) powerprofilesctl set performance;; performance) powerprofilesctl set balanced;; esac; notify-send "$(powerprofilesctl get)"']]))
+-- Power profile switching (only enabled on linux-book to keep linux-box locked in performance)
+if hostname == "linux-book" then
+    hl.bind(MAIN_MOD .. " + P", hl.dsp.exec_cmd([[sh -c 'current=$(powerprofilesctl get); case $current in balanced) powerprofilesctl set power-saver;; power-saver) powerprofilesctl set performance;; performance) powerprofilesctl set balanced;; esac; notify-send "$(powerprofilesctl get)"']]))
+end
 
 -- Move/resize windows with mouse dragging
 hl.bind(MAIN_MOD .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })

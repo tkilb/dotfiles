@@ -1,0 +1,88 @@
+---
+- name: Setup linux-book Laptop (Framework 13 Power & Sleep Optimization)
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Ensure power management packages are installed
+      community.general.pacman:
+        name:
+          - power-profiles-daemon
+          - jq
+          - brightnessctl
+        state: present
+
+    - name: Ensure power-profiles-daemon is enabled and running
+      ansible.builtin.systemd_service:
+        name: power-profiles-daemon.service
+        enabled: true
+        state: started
+
+    - name: Ensure udev rules directory exists
+      ansible.builtin.file:
+        path: /etc/udev/rules.d
+        state: directory
+        mode: '0755'
+
+    - name: Configure PCIe Runtime Power Management for Framework hardware
+      ansible.builtin.copy:
+        dest: /etc/udev/rules.d/10-framework-pci-pm.rules
+        content: |
+          # Enable PCIe Runtime Power Management strictly for Framework hardware
+          # Desktops (linux-box) are safely ignored via the sys_vendor check
+          ATTR{[dmi/id]sys_vendor}=="Framework", ACTION=="add|change", SUBSYSTEM=="pci", ATTR{power/control}="auto"
+        mode: '0644'
+      notify: Reload udev
+
+    - name: Configure sleep wakeup prevention service
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/framework-sleep-wake.service
+        content: |
+          [Unit]
+          Description=Disable spurious USB/Thunderbolt wakeup triggers for Framework Laptop
+          ConditionHost=linux-book
+          After=multi-user.target
+
+          [Service]
+          Type=oneshot
+          ExecStart=/bin/sh -c 'for dev in XHC0 XHC1 XHC3 XHC4 NHI0 NHI1; do if grep -q -E "^$${dev}\\s+.*\\*enabled" /proc/acpi/wakeup; then echo "$$dev" > /proc/acpi/wakeup; fi; done'
+          RemainAfterExit=yes
+
+          [Install]
+          WantedBy=multi-user.target
+        mode: '0644'
+      notify: Reload systemd
+
+    - name: Enable and start framework-sleep-wake service
+      ansible.builtin.systemd_service:
+        name: framework-sleep-wake.service
+        enabled: true
+        state: started
+        daemon_reload: true
+
+    - name: Ensure watch-power.sh display script is executable
+      ansible.builtin.file:
+        path: "{{ playbook_dir }}/../../../hypr/scripts/watch-power.sh"
+        mode: '0755'
+      become: false
+      failed_when: false
+
+    - name: Set power-saver profile
+      ansible.builtin.command:
+        cmd: powerprofilesctl set power-saver
+      become: false
+      changed_when: false
+      failed_when: false
+
+    - name: Inform user about successful configuration
+      ansible.builtin.debug:
+        msg: "linux-book power optimization complete. All packages, PCIe runtime PM, and sleep wake triggers configured."
+
+  handlers:
+    - name: Reload udev
+      ansible.builtin.shell:
+        cmd: udevadm control --reload && udevadm trigger --action=add --subsystem-match=pci
+
+    - name: Reload systemd
+      ansible.builtin.systemd_service:
+        daemon_reload: true
