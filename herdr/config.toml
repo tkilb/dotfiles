@@ -3,25 +3,20 @@ onboarding = false
 [keys]
 prefix = "alt+m"
 
-# Pane Resizing
+settings = "prefix+,"
+
+# Pane Management
 resize_pane_left = "prefix+left"
 resize_pane_right = "prefix+right"
 resize_pane_up = "prefix+up"
 resize_pane_down = "prefix+down"
-
-# Pane Splitting
 split_horizontal = "prefix+s"
+close_pane = "prefix+x"
+zoom = "prefix+f"
 
 previous_tab = "prefix+m"
 next_tab = "prefix+n"
-
 next_agent = "prefix+a"
-
-settings = "prefix+,"
-
-zoom = "prefix+f"
-
-close_pane = "prefix+x"
 
 # Seamless Neovim / Herdr Navigation (herdr-nvim-nav)
 [[keys.command]]
