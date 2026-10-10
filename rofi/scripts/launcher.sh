@@ -106,6 +106,39 @@ list_applications() {
   }
 }
 
+list_windows() {
+  if ! command -v hyprctl >/dev/null 2>&1 || ! command -v jq >/dev/null 2>&1; then
+    return 0
+  fi
+
+  hyprctl clients -j 2>/dev/null | jq -r '
+    [ .[] | select(.mapped == true and .hidden == false and .title != "") ]
+    | sort_by(.focusHistoryID)
+    | .[]
+    | "[\(.workspace.name // .workspace.id)] \(.class): \(.title)\u0000icon\u001f\(.class | ascii_downcase)\u001finfo\u001fwindow:\(.address)"
+  ' 2>/dev/null || true
+}
+
+list_entries() {
+  list_windows
+  list_applications
+}
+
+focus_hypr_window() {
+  local target_addr="$1"
+  local target_ws="${2:-}"
+
+  (
+    sleep 0.05
+    if [[ -n "$target_ws" ]]; then
+      hyprctl eval "hl.dispatch(hl.dsp.focus({workspace=$target_ws}))" >/dev/null 2>&1 || true
+    fi
+    if [[ -n "$target_addr" ]]; then
+      hyprctl eval "hl.dispatch(hl.dsp.focus({window='address:$target_addr'}))" >/dev/null 2>&1 || true
+    fi
+  ) >/dev/null 2>&1 &
+}
+
 launch_fallback_search() {
   local query="${1:-}"
   if [[ -z "$query" ]]; then
@@ -146,14 +179,15 @@ launch_fallback_search() {
       target_addr="$(echo "$zen_client" | jq -r '.address // ""')"
     fi
 
-    # Small detached delay ensures Rofi has unmapped and closed before focusing
     (
-      sleep 0.05
-      hyprctl dispatch workspace "$target_ws" >/dev/null 2>&1 || true
+      sleep 0.1
+      if [[ -n "$target_ws" ]]; then
+        hyprctl eval "hl.dispatch(hl.dsp.focus({workspace=$target_ws}))" >/dev/null 2>&1 || true
+      fi
       if [[ -n "$target_addr" ]]; then
-        hyprctl dispatch focuswindow "address:$target_addr" >/dev/null 2>&1 || true
+        hyprctl eval "hl.dispatch(hl.dsp.focus({window='address:$target_addr'}))" >/dev/null 2>&1 || true
       else
-        hyprctl dispatch focuswindow "class:zen" >/dev/null 2>&1 || true
+        hyprctl eval "hl.dispatch(hl.dsp.focus({window='class:zen'}))" >/dev/null 2>&1 || true
       fi
     ) >/dev/null 2>&1 &
   fi
@@ -234,14 +268,17 @@ find_running_app_client() {
 
 main() {
   if [[ $# -eq 0 ]]; then
-    list_applications
+    list_entries
     return 0
   fi
 
   local selection="$1"
   local rofi_info="${ROFI_INFO:-}"
 
-  if [[ -n "$rofi_info" ]]; then
+  if [[ "$rofi_info" =~ ^window:(0x[0-9a-fA-F]+)$ ]]; then
+    local target_addr="${BASH_REMATCH[1]}"
+    focus_hypr_window "$target_addr"
+  elif [[ -n "$rofi_info" ]]; then
     local running_client
     running_client="$(find_running_app_client "$selection" "$rofi_info")"
 
@@ -251,15 +288,7 @@ main() {
       target_ws="$(echo "$running_client" | jq -r '.workspace.id // empty')"
       target_addr="$(echo "$running_client" | jq -r '.address // empty')"
 
-      (
-        sleep 0.05
-        if [[ -n "$target_ws" ]] && command -v hyprctl >/dev/null 2>&1; then
-          hyprctl dispatch workspace "$target_ws" >/dev/null 2>&1 || true
-        fi
-        if [[ -n "$target_addr" ]] && command -v hyprctl >/dev/null 2>&1; then
-          hyprctl dispatch focuswindow "address:$target_addr" >/dev/null 2>&1 || true
-        fi
-      ) >/dev/null 2>&1 &
+      focus_hypr_window "$target_addr" "$target_ws"
     else
       # Application not running; launch detached
       nohup bash -c "$rofi_info" >/dev/null 2>&1 &
@@ -269,7 +298,7 @@ main() {
       if [[ -n "$target_ws" ]] && command -v hyprctl >/dev/null 2>&1; then
         (
           sleep 0.05
-          hyprctl dispatch workspace "$target_ws" >/dev/null 2>&1 || true
+          hyprctl eval "hl.dispatch(hl.dsp.focus({workspace=$target_ws}))" >/dev/null 2>&1 || true
         ) >/dev/null 2>&1 &
       fi
     fi

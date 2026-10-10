@@ -41,18 +41,14 @@ fi
 
 # No arguments: check if a main Kitty window already exists in Hyprland
 if command -v hyprctl >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
+  # Always ensure workspace 3 is focused
+  hyprctl eval "hl.dispatch(hl.dsp.focus({workspace=3}))" >/dev/null 2>&1 || true
+
   kitty_client="$(hyprctl clients -j 2>/dev/null | jq -c '[.[] | select((.class | ascii_downcase) == "kitty")] | first // empty')"
   if [[ -n "$kitty_client" ]]; then
-    target_ws="$(echo "$kitty_client" | jq -r '.workspace.id // empty')"
     target_addr="$(echo "$kitty_client" | jq -r '.address // empty')"
-
-    if [[ -n "$target_ws" ]]; then
-      hyprctl dispatch workspace "$target_ws" >/dev/null 2>&1 || true
-    fi
     if [[ -n "$target_addr" ]]; then
-      hyprctl dispatch focuswindow "address:$target_addr" >/dev/null 2>&1 || true
-    else
-      hyprctl dispatch focuswindow "class:kitty" >/dev/null 2>&1 || true
+      hyprctl eval "hl.dispatch(hl.dsp.focus({window='address:$target_addr'}))" >/dev/null 2>&1 || true
     fi
     exit 0
   fi
