@@ -16,7 +16,6 @@ export GIT_EDITOR="nvim"
 ##################################################
 # Aliases
 ##################################################
-alias gg='lazygit'
 alias main="(git checkout main || git checkout master) && git fetch && git pull"
 alias ohgit='git add . && c "Working through gitlab." --no-verify && git push --no-verify'
 alias ss='git fetch && git status'

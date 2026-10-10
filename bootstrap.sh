@@ -102,12 +102,17 @@ fi
 echo ""
 
 # Install Oh My Zsh
-if [[ -d "$HOME/.oh-my-zsh" ]]; then
+OMZ_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh"
+if [[ -d "$OMZ_DIR" ]]; then
   echo "✓ Oh My Zsh is already installed"
 else
   echo "Installing Oh My Zsh..."
-  CHSH=no RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  ZSH="$OMZ_DIR" CHSH=no RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   echo "✓ Oh My Zsh installed"
+fi
+if [[ -d "$HOME/.oh-my-zsh" ]] && [[ ! -L "$HOME/.oh-my-zsh" ]]; then
+  rm -rf "$HOME/.oh-my-zsh"
+  echo "✓ Default .oh-my-zsh directory removed"
 fi
 echo ""
 
@@ -265,6 +270,12 @@ echo "Creating workspace directories..."
 mkdir -p ~/General ~/Staging ~/Scratch
 echo "✓ Workspace directories created"
 echo ""
+
+# Pre-create XDG PKI directory so Chromium/Electron apps use ~/.local/share/pki instead of ~/.pki
+mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}/pki/nssdb"
+if [[ -d "$HOME/.pki" ]] && [[ ! -L "$HOME/.pki" ]]; then
+  rm -rf "$HOME/.pki"
+fi
 
 # Prompt for machine name only if ~/.profile is empty or MACHINE is not set
 if

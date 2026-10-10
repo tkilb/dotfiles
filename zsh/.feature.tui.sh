@@ -1,3 +1,7 @@
+alias gg='lazygit'
+
+alias mm='lazymusic'
+
 tt() {
   if [[ $# -eq 0 ]]; then
     lazytask

@@ -25,7 +25,7 @@ fi
 ##################################################
 # Rust Specific
 ##################################################
-export PATH="$PATH:$HOME/.cargo/bin"
+export PATH="$PATH:${CARGO_HOME:-$HOME/.local/share/cargo}/bin"
 
 ##################################################
 # PI Server Specific
