@@ -8,6 +8,10 @@ fi
 
 export ZSH="${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh"
 
+if [ ! -d "$ZSH" ]; then
+  git clone https://github.com/ohmyzsh/ohmyzsh.git "$ZSH"
+fi
+
 if [ ! -d ${ZSH_CUSTOM:-$ZSH/custom}/plugins/zsh-syntax-highlighting ]; then
   git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-$ZSH/custom}/plugins/zsh-syntax-highlighting
 fi
