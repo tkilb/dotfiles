@@ -99,6 +99,12 @@
   machines:
     - linux-box
 
+- name: lazymusic
+  path: ~/.config/lazymusic
+  machines:
+    - linux-book
+    - linux-box
+
 - name: lazytask/config.yaml
   source: ~/.dotfiles/lazytask/config.yaml
   path: ~/.config/lazytask/config.yaml
@@ -186,18 +192,8 @@
     - linux-book
     - linux-box
 
-- name: herdr/config.toml
-  source: ~/.dotfiles/herdr/config.toml
-  path: ~/.config/herdr/config.toml
-  machines:
-    - linux-book
-    - linux-box
-    - pi-server
-    - work-book
-
-- name: herdr/plugins/config
-  source: ~/.dotfiles/herdr/plugins/config
-  path: ~/.config/herdr/plugins/config
+- name: herdr
+  path: ~/.config/herdr
   machines:
     - linux-book
     - linux-box
