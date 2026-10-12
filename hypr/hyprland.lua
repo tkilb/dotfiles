@@ -280,6 +280,18 @@ hl.window_rule({
 })
 
 hl.window_rule({
+    name     = "no-rounding-focused",
+    match    = { focus = true },
+    rounding = 0,
+})
+
+hl.window_rule({
+    name     = "no-rounding-focused",
+    match    = { focus = true },
+    rounding = 0,
+})
+
+hl.window_rule({
     name  = "fix-xwayland-drags",
     match = {
         class      = "^$",
