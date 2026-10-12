@@ -34,6 +34,15 @@
         mode: '0644'
       notify: Reload udev
 
+    - name: Configure AMD panel power savings (ABM) for Framework hardware
+      ansible.builtin.copy:
+        dest: /etc/udev/rules.d/20-framework-amd-abm.rules
+        content: |
+          # Enable AMD Adaptive Backlight Modulation (ABM) panel power savings on Framework Laptop
+          ATTR{[dmi/id]sys_vendor}=="Framework", ACTION=="add|change", SUBSYSTEM=="drm", KERNEL=="card*-eDP-*", ATTR{amdgpu/panel_power_savings}="2"
+        mode: '0644'
+      notify: Reload udev
+
     - name: Configure sleep wakeup prevention service
       ansible.builtin.copy:
         dest: /etc/systemd/system/framework-sleep-wake.service
@@ -76,12 +85,12 @@
 
     - name: Inform user about successful configuration
       ansible.builtin.debug:
-        msg: "linux-book power optimization complete. All packages, PCIe runtime PM, and sleep wake triggers configured."
+        msg: "linux-book power optimization complete. All packages, PCIe runtime PM, AMD ABM panel power savings, and sleep wake triggers configured."
 
   handlers:
     - name: Reload udev
       ansible.builtin.shell:
-        cmd: udevadm control --reload && udevadm trigger --action=add --subsystem-match=pci
+        cmd: udevadm control --reload && udevadm trigger --action=add --subsystem-match=pci && udevadm trigger --action=add --subsystem-match=drm
 
     - name: Reload systemd
       ansible.builtin.systemd_service:
