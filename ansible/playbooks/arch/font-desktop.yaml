@@ -1,15 +1,12 @@
 ---
-- name: Install Nerd Font and Emoji Fonts
+- name: Install Nerd Font
   hosts: localhost
   become: true
   tasks:
-    - name: Install FiraCode Nerd Font, Symbols, and Emoji
+    - name: Install FiraCode Nerd Font
       community.general.pacman:
         name:
           - ttf-firacode-nerd
           - ttf-nerd-fonts-symbols-common
-          - ttf-nerd-fonts-symbols-mono
-          - noto-fonts-emoji
         state: present
         update_cache: true
-

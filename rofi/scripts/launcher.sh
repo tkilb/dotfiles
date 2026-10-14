@@ -22,6 +22,29 @@ APP_DIRS=(
   "$HOME/.local/share/flatpak/exports/share/applications"
 )
 
+# Desktop files to exclude from the launcher
+EXCLUDE_DESKTOP_FILES=(
+  "avahi-discover.desktop"
+  "bssh.desktop"
+  "bvnc.desktop"
+  "kitty-open.desktop"
+  "rofi.desktop"
+  "rofi-theme-selector.desktop"
+  "lstopo.desktop"
+  "qv4l2.desktop"
+  "qvidcap.desktop"
+  "xgps.desktop"
+  "xgpsspeed.desktop"
+  "cmake-gui.desktop"
+  "org.chipass.ChiPass.desktop"
+  "mpv.desktop"
+  "nvim.desktop"
+  "yazi.desktop"
+  "btop.desktop"
+  "wiremix.desktop"
+  "No Man's Sky.desktop"
+)
+
 list_applications() {
   local valid_dirs=()
   for dir in "${APP_DIRS[@]}"; do
@@ -41,9 +64,15 @@ list_applications() {
       desktop_files+=("$file")
     done
     if [[ ${#desktop_files[@]} -gt 0 ]]; then
-      gawk '
+      local exclude_joined
+      printf -v exclude_joined '%s\n' "${EXCLUDE_DESKTOP_FILES[@]}"
+      gawk -v exclude_str="$exclude_joined" '
         BEGIN {
           FS = "="
+          split(exclude_str, ex_arr, "\n")
+          for (i in ex_arr) {
+            if (ex_arr[i] != "") excluded[ex_arr[i]] = 1
+          }
         }
         FNR == 1 {
           in_entry = 0
@@ -53,6 +82,11 @@ list_applications() {
           no_display = 0
           hidden = 0
           app_type = ""
+          file_base = FILENAME
+          sub(/^.*\//, "", file_base)
+          if (file_base in excluded) {
+            nextfile
+          }
         }
         tolower($0) ~ /^\[desktop entry\]/ {
           in_entry = 1
