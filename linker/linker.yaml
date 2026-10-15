@@ -31,6 +31,12 @@
     - steam-deck
     - work-book
 
+- name: ai/claude-settings.json
+  source: ~/.dotfiles/ai/claude-settings.json
+  path: ~/.claude/settings.json
+  machines:
+    - work-book
+
 - name: aerospace
   path: ~/.config/aerospace
   machines:
