@@ -1,3 +1,8 @@
+gui:
+  showCommandLog: false
+  showBottomLine: true
+  mouseEvents: false
+
 customCommands:
   - key: "<c-f>"
     context: "commits"
