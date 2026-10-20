@@ -29,9 +29,9 @@ copilot() {
   return $?
 }
 
-# work-book uses Copilot (via the wrapper above); other machines use agy.
+# work-book uses Claude (yolo mode); other machines use agy.
 if [[ "$MACHINE" == "work-book" ]]; then
-  ai() { copilot --allow-all "$@"; }
+  alias ai="claude --dangerously-skip-permissions"
 else
   alias ai="agy --dangerously-skip-permissions"
 fi

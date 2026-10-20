@@ -166,8 +166,8 @@ return {
       local ret = original_tools()
       ret.aider = nil
       ret.amazon_q = nil
-      ret.claude = nil
       ret.codex = nil
+      ret.copilot = nil
       ret.crush = nil
       ret.cursor = nil
       ret.gemini = nil
