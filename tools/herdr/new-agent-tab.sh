@@ -4,7 +4,7 @@ set -euo pipefail
 # Runs inside a Herdr `type = "popup"` keybinding (see
 # custom-herdr-tab-hack.md for the full spec/rationale). Prompts for a name,
 # then creates a tab with 3 named panes off the tab's root pane:
-#   pane 1 (root): "$name vim"
+#   pane 1 (root): "$name prime"
 #   pane 2 (split right of pane 1): "$name ai"
 #   pane 3 (split down from pane 1): "$name term"
 
@@ -52,7 +52,7 @@ if [[ -z "$tab_id" || "$tab_id" == "null" || -z "$pane1" || "$pane1" == "null" ]
 fi
 
 # 2. Rename pane 1
-"$herdr_bin" pane rename "$pane1" "$name vim"
+"$herdr_bin" pane rename "$pane1" "$name prime"
 
 # 3. Vertical split (side-by-side) off pane 1 -> pane 2 "ai"
 split_ai=$("$herdr_bin" pane split "$pane1" --direction right --ratio 0.6 --no-focus)
@@ -60,7 +60,7 @@ pane2=$(printf '%s\n' "$split_ai" | jq -r '.result.pane.pane_id')
 "$herdr_bin" pane rename "$pane2" "$name ai"
 
 # 4. Horizontal split (stacked) off pane 1 -> pane 3 "term"
-# --ratio 0.8 keeps pane1 (vim) at ~80% height, term at ~20% (more room to
+# --ratio 0.8 keeps pane1 (prime) at ~80% height, term at ~20% (more room to
 # code, less for the scratch terminal).
 split_term=$("$herdr_bin" pane split "$pane1" --direction down --ratio 0.8 --no-focus)
 pane3=$(printf '%s\n' "$split_term" | jq -r '.result.pane.pane_id')
