@@ -17,6 +17,7 @@ zoom = "prefix+f"
 previous_tab = "prefix+m"
 next_tab = "prefix+n"
 next_agent = "prefix+a"
+switch_tab = ""  # prefix+1..6 are custom commands below (workspace 1 only)
 
 # Seamless Neovim / Herdr Navigation (herdr-nvim-nav)
 [[keys.command]]
@@ -58,6 +59,62 @@ key = "prefix+shift+s"
 type = "plugin_action"
 command = "synchronize-panes.broadcast"
 description = "broadcast a command to all panes in this tab"
+
+# Workspace shortcuts: prefix+7/8/9 focus workspace 2/3/4, then its tab 1 (looked up by number, IDs are not positional; missing workspaces are created)
+[[keys.command]]
+key = "prefix+7"
+type = "shell"
+command = "c=$(herdr workspace list | jq '.result.workspaces | length'); while [ \"$c\" -lt 2 ]; do herdr workspace create --focus >/dev/null; c=$((c+1)); done; w=$(herdr workspace list | jq -r '.result.workspaces[] | select(.number==2) | .workspace_id'); herdr workspace focus \"$w\"; herdr tab list --workspace \"$w\" | jq -r '.result.tabs[0].tab_id // empty' | xargs -r herdr tab focus"
+description = "focus workspace 2, tab 1"
+
+[[keys.command]]
+key = "prefix+8"
+type = "shell"
+command = "c=$(herdr workspace list | jq '.result.workspaces | length'); while [ \"$c\" -lt 3 ]; do herdr workspace create --focus >/dev/null; c=$((c+1)); done; w=$(herdr workspace list | jq -r '.result.workspaces[] | select(.number==3) | .workspace_id'); herdr workspace focus \"$w\"; herdr tab list --workspace \"$w\" | jq -r '.result.tabs[0].tab_id // empty' | xargs -r herdr tab focus"
+description = "focus workspace 3, tab 1"
+
+[[keys.command]]
+key = "prefix+9"
+type = "shell"
+command = "c=$(herdr workspace list | jq '.result.workspaces | length'); while [ \"$c\" -lt 4 ]; do herdr workspace create --focus >/dev/null; c=$((c+1)); done; w=$(herdr workspace list | jq -r '.result.workspaces[] | select(.number==4) | .workspace_id'); herdr workspace focus \"$w\"; herdr tab list --workspace \"$w\" | jq -r '.result.tabs[0].tab_id // empty' | xargs -r herdr tab focus"
+description = "focus workspace 4, tab 1"
+
+# Tab shortcuts: prefix+1..6 focus tab 1..6 of workspace 1 (by position, from any workspace)
+[[keys.command]]
+key = "prefix+1"
+type = "shell"
+command = "herdr workspace list | jq -r '.result.workspaces[] | select(.number==1) | .workspace_id' | xargs -r -I{} herdr tab list --workspace {} | jq -r '.result.tabs[0].tab_id // empty' | xargs -r herdr tab focus"
+description = "focus tab 1 in workspace 1"
+
+[[keys.command]]
+key = "prefix+2"
+type = "shell"
+command = "herdr workspace list | jq -r '.result.workspaces[] | select(.number==1) | .workspace_id' | xargs -r -I{} herdr tab list --workspace {} | jq -r '.result.tabs[1].tab_id // empty' | xargs -r herdr tab focus"
+description = "focus tab 2 in workspace 1"
+
+[[keys.command]]
+key = "prefix+3"
+type = "shell"
+command = "herdr workspace list | jq -r '.result.workspaces[] | select(.number==1) | .workspace_id' | xargs -r -I{} herdr tab list --workspace {} | jq -r '.result.tabs[2].tab_id // empty' | xargs -r herdr tab focus"
+description = "focus tab 3 in workspace 1"
+
+[[keys.command]]
+key = "prefix+4"
+type = "shell"
+command = "herdr workspace list | jq -r '.result.workspaces[] | select(.number==1) | .workspace_id' | xargs -r -I{} herdr tab list --workspace {} | jq -r '.result.tabs[3].tab_id // empty' | xargs -r herdr tab focus"
+description = "focus tab 4 in workspace 1"
+
+[[keys.command]]
+key = "prefix+5"
+type = "shell"
+command = "herdr workspace list | jq -r '.result.workspaces[] | select(.number==1) | .workspace_id' | xargs -r -I{} herdr tab list --workspace {} | jq -r '.result.tabs[4].tab_id // empty' | xargs -r herdr tab focus"
+description = "focus tab 5 in workspace 1"
+
+[[keys.command]]
+key = "prefix+6"
+type = "shell"
+command = "herdr workspace list | jq -r '.result.workspaces[] | select(.number==1) | .workspace_id' | xargs -r -I{} herdr tab list --workspace {} | jq -r '.result.tabs[5].tab_id // empty' | xargs -r herdr tab focus"
+description = "focus tab 6 in workspace 1"
 
 [ui]
 sidebar_start_collapsed = true
