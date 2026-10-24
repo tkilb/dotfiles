@@ -37,3 +37,20 @@ mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 export ZSH_COMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-${SHORT_HOST:-$HOST}-${ZSH_VERSION}"
 
 source $ZSH/oh-my-zsh.sh
+
+# Key bindings
+# Alt + Left/Right word jumping (Linux Kitty/xterm/tmux escape codes)
+bindkey -M emacs '^[[1;3D' backward-word
+bindkey -M emacs '^[[1;3C' forward-word
+bindkey -M viins '^[[1;3D' backward-word
+bindkey -M viins '^[[1;3C' forward-word
+bindkey -M vicmd '^[[1;3D' backward-word
+bindkey -M vicmd '^[[1;3C' forward-word
+
+# Fallback sequence (Esc + Left/Right)
+bindkey -M emacs '^[^[[D' backward-word
+bindkey -M emacs '^[^[[C' forward-word
+bindkey -M viins '^[^[[D' backward-word
+bindkey -M viins '^[^[[C' forward-word
+bindkey -M vicmd '^[^[[D' backward-word
+bindkey -M vicmd '^[^[[C' forward-word
