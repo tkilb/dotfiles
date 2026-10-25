@@ -1,7 +1,10 @@
 {
   "music_dirs": [
-    "/home/tylerkilburn/d2/music/Mecha Soul",
+    "/home/tylerkilburn/d2/music",
+    "/home/tylerkilburn/d2/music/Battletech - Combat",
     "/home/tylerkilburn/d2/music/Battletech - Ops",
-    "/home/tylerkilburn/d2/music/Battletech - Combat"
+    "/home/tylerkilburn/d2/music/Dream Wave FM",
+    "/home/tylerkilburn/d2/music/Lazerhawk",
+    "/home/tylerkilburn/d2/music/_playlists/forza-radio/drive"
   ]
 }
