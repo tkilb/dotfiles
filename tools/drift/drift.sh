@@ -16,7 +16,7 @@ fi
 # Options & defaults
 SHOW_ALL=false
 DO_FETCH=true
-FETCH_TIMEOUT=5
+FETCH_TIMEOUT=30
 PRINT_JSON=false
 
 usage() {
@@ -29,7 +29,7 @@ for uncommitted changes and divergence from remote origin.
 Options:
   -a, --all         Show all scanned repositories (default: only show repos with drift)
   -n, --no-fetch    Skip background git fetch (check only against local/cached refs)
-  -t, --timeout SEC Remote fetch timeout in seconds per repository (default: 5)
+  -t, --timeout SEC Remote fetch timeout in seconds per repository (default: 30)
   -h, --help        Show this help message
 EOF
   exit 0
