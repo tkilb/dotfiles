@@ -263,6 +263,9 @@ echo "✓ linker symlinked"
 echo "Symlinking syncer to ~/.local/bin/syncer..."
 ln -sf "$DOTFILES_DIR/tools/syncer/syncer.sh" "$HOME/.local/bin/syncer"
 echo "✓ syncer symlinked"
+echo "Symlinking drift to ~/.local/bin/drift..."
+ln -sf "$DOTFILES_DIR/tools/drift/drift.sh" "$HOME/.local/bin/drift"
+echo "✓ drift symlinked"
 echo ""
 
 # Create standard workspace directories

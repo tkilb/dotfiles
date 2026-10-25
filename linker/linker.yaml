@@ -128,6 +128,13 @@
     - steam-deck
     - work-book
 
+- name: forza-radio
+  source: ~/.gamefiles/forza-radio
+  path: ~/.config/forza-radio
+  machines:
+    - linux-box
+    - steam-deck
+
 - name: MangoHud
   source: ~/.gamefiles/MangoHud
   path: ~/.config/MangoHud
@@ -240,6 +247,16 @@
     - linux-book
     - linux-box
 
+
+- name: tools/drift/drift.sh
+  source: ~/.dotfiles/tools/drift/drift.sh
+  path: ~/.local/bin/drift
+  machines:
+    - linux-book
+    - linux-box
+    - pi-server
+    - steam-deck
+    - work-book
 
 - name: waybar
   path: ~/.config/waybar
