@@ -236,6 +236,7 @@ wkey({
   { "<leader>a", icon = "󰚩 ", group = "ai" },
   { "<leader>ad", "<cmd>lua require('sidekick.cli').close()<cr>", icon = "󰚩 ", desc = "Detatch", mode = "n" },
   { "<leader>af", "<cmd>lua require('sidekick.cli').send({ msg = '{file}' })<cr>", icon = "󰚩 ", desc = "Send File", mode = "n" },
+  { "<leader>ag", function() require("grammar").correct_selection() end, icon = "󰗊 ", desc = "Fix Grammar / Spelling", mode = "x" },
   { "<leader>al", "<cmd>lua require('sidekick.cli').send({ msg = '{line}' })<cr>", icon = "󰚩 ", desc = "Send Line", mode = { "n", "x" } },
   { "<leader>an", "<cmd>SidekickNesToggle<cr>", icon = "󰨙 ", desc = "Toggle NES", mode = "n" },
   { "<leader>ap", "<cmd>lua require('sidekick.cli').prompt()<cr>", icon = "󰚩 ", desc = "Prompts", mode = { "n", "x" } },
