@@ -18,6 +18,7 @@ SHOW_ALL=false
 DO_FETCH=true
 FETCH_TIMEOUT=30
 PRINT_JSON=false
+DO_PULL=false
 
 usage() {
   cat <<'EOF'
@@ -30,6 +31,9 @@ Options:
   -a, --all         Show all scanned repositories (default: only show repos with drift)
   -n, --no-fetch    Skip background git fetch (check only against local/cached refs)
   -t, --timeout SEC Remote fetch timeout in seconds per repository (default: 30)
+  -p, --pull        Fast-forward repos that are strictly behind their upstream.
+                    Skips repos that are ahead, diverged, or whose uncommitted
+                    changes overlap files changed upstream.
   -h, --help        Show this help message
 EOF
   exit 0
@@ -48,6 +52,10 @@ while [[ $# -gt 0 ]]; do
     -t|--timeout)
       FETCH_TIMEOUT="$2"
       shift 2
+      ;;
+    -p|--pull)
+      DO_PULL=true
+      shift
       ;;
     -h|--help)
       usage
@@ -149,6 +157,32 @@ if [[ "$DO_FETCH" == "true" ]]; then
   # Clear the fetch notice
   printf "%-70s\r" " "
 fi
+
+# Fast-forward a repo that is strictly behind its upstream.
+# Args: repo upstream behind_count
+# Prints the resulting sync string. Never merges, rebases, or touches diverged/ahead repos.
+pull_behind_repo() {
+  local repo="$1" upstream="$2" behind="$3"
+  local local_changes upstream_changes overlap
+
+  # Tracked local changes that touch files changed upstream would conflict
+  local_changes="$(git -C "$repo" diff --name-only HEAD 2>/dev/null || true)"
+  if [[ -n "$local_changes" ]]; then
+    upstream_changes="$(git -C "$repo" diff --name-only "HEAD...$upstream" 2>/dev/null || true)"
+    overlap="$(comm -12 <(sort <<<"$local_changes") <(sort <<<"$upstream_changes"))"
+    if [[ -n "$overlap" ]]; then
+      echo "behind (-${behind}), skipped: conflicts"
+      return
+    fi
+  fi
+
+  # --ff-only against the already-fetched ref: no network, no merge commits
+  if git -C "$repo" merge --ff-only "$upstream" >/dev/null 2>&1; then
+    echo "pulled (-${behind})"
+  else
+    echo "behind (-${behind}), pull failed"
+  fi
+}
 
 # Collect audit records
 # Format stored per item in temp file:
@@ -260,6 +294,9 @@ for repo in "${REPOS[@]}"; do
       elif [[ "$behind" -gt 0 ]]; then
         has_sync_drift=true
         sync_str="behind (-${behind})"
+        if [[ "$DO_PULL" == "true" ]]; then
+          sync_str="$(pull_behind_repo "$repo" "$upstream" "$behind")"
+        fi
       else
         if [[ "$has_uncommitted" == "true" ]]; then
           sync_str="dirty"
@@ -349,6 +386,8 @@ while IFS='|' read -r r_path r_branch r_uncommitted r_sync r_drift r_status; do
     color_sync="${C_ORANGE}"
   elif [[ "$r_sync" =~ ^ahead ]]; then
     color_sync="${C_BLUE}"
+  elif [[ "$r_sync" =~ ^pulled ]]; then
+    color_sync="${C_GREEN}"
   elif [[ "$r_sync" =~ ^behind ]]; then
     color_sync="${C_MAGENTA}"
   elif [[ "$r_sync" =~ ^diverged ]]; then
