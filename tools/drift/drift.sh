@@ -41,29 +41,29 @@ EOF
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    -a|--all)
-      SHOW_ALL=true
-      shift
-      ;;
-    -n|--no-fetch)
-      DO_FETCH=false
-      shift
-      ;;
-    -t|--timeout)
-      FETCH_TIMEOUT="$2"
-      shift 2
-      ;;
-    -p|--pull)
-      DO_PULL=true
-      shift
-      ;;
-    -h|--help)
-      usage
-      ;;
-    *)
-      echo "Unknown option: $1" >&2
-      usage
-      ;;
+  -a | --all)
+    SHOW_ALL=true
+    shift
+    ;;
+  -n | --no-fetch)
+    DO_FETCH=false
+    shift
+    ;;
+  -t | --timeout)
+    FETCH_TIMEOUT="$2"
+    shift 2
+    ;;
+  -p | --pull)
+    DO_PULL=true
+    shift
+    ;;
+  -h | --help)
+    usage
+    ;;
+  *)
+    echo "Unknown option: $1" >&2
+    usage
+    ;;
   esac
 done
 
@@ -186,7 +186,7 @@ pull_behind_repo() {
 
 # Collect audit records
 # Format stored per item in temp file:
-# PATH|BRANCH|UNCOMMITTED_DISPLAY|SYNC_DISPLAY|HAS_DRIFT|STATUS_TYPE
+# PATH|BRANCH|COMMIT_STATE_DISPLAY|SYNC_DISPLAY|HAS_DRIFT|STATUS_TYPE
 RESULTS_FILE="$TEMP_DIR/results.txt"
 
 for repo in "${REPOS[@]}"; do
@@ -195,7 +195,7 @@ for repo in "${REPOS[@]}"; do
 
   if [[ ! -d "$repo/.git" ]]; then
     # Not a git repo
-    echo "$display_path|-|not a git repo|missing .git|true|error" >> "$RESULTS_FILE"
+    echo "$display_path|-|not a git repo|missing .git|true|error" >>"$RESULTS_FILE"
     continue
   fi
 
@@ -238,25 +238,25 @@ for repo in "${REPOS[@]}"; do
     fi
   done < <(git -C "$repo" status --porcelain 2>/dev/null || true)
 
-  # Build uncommitted summary
-  uncommitted_parts=()
-  [[ $staged_count -gt 0 ]] && uncommitted_parts+=("${staged_count} staged")
-  [[ $unstaged_count -gt 0 ]] && uncommitted_parts+=("${unstaged_count} modified")
-  [[ $untracked_count -gt 0 ]] && uncommitted_parts+=("${untracked_count} untracked")
+  # Build commit state summary
+  commit_state_parts=()
+  [[ $staged_count -gt 0 ]] && commit_state_parts+=("${staged_count} staged")
+  [[ $unstaged_count -gt 0 ]] && commit_state_parts+=("${unstaged_count} modified")
+  [[ $untracked_count -gt 0 ]] && commit_state_parts+=("${untracked_count} untracked")
 
-  if [[ ${#uncommitted_parts[@]} -gt 0 ]]; then
-    has_uncommitted=true
-    uncommitted_str=""
-    for part in "${uncommitted_parts[@]}"; do
-      if [[ -z "$uncommitted_str" ]]; then
-        uncommitted_str="$part"
+  if [[ ${#commit_state_parts[@]} -gt 0 ]]; then
+    has_commit_state=true
+    commit_state_str=""
+    for part in "${commit_state_parts[@]}"; do
+      if [[ -z "$commit_state_str" ]]; then
+        commit_state_str="$part"
       else
-        uncommitted_str="$uncommitted_str, $part"
+        commit_state_str="$commit_state_str, $part"
       fi
     done
   else
-    has_uncommitted=false
-    uncommitted_str="clean"
+    has_commit_state=false
+    commit_state_str="clean"
   fi
 
   # Remote sync check
@@ -298,7 +298,7 @@ for repo in "${REPOS[@]}"; do
           sync_str="$(pull_behind_repo "$repo" "$upstream" "$behind")"
         fi
       else
-        if [[ "$has_uncommitted" == "true" ]]; then
+        if [[ "$has_commit_state" == "true" ]]; then
           sync_str="dirty"
         else
           sync_str="synced"
@@ -308,23 +308,23 @@ for repo in "${REPOS[@]}"; do
   fi
 
   has_drift=false
-  if [[ "$has_uncommitted" == "true" || "$has_sync_drift" == "true" ]]; then
+  if [[ "$has_commit_state" == "true" || "$has_sync_drift" == "true" ]]; then
     has_drift=true
   fi
 
-  echo "$display_path|$branch|$uncommitted_str|$sync_str|$has_drift|ok" >> "$RESULTS_FILE"
+  echo "$display_path|$branch|$commit_state_str|$sync_str|$has_drift|ok" >>"$RESULTS_FILE"
 done
 
 # Calculate column widths dynamically
 max_path_len=4
 max_branch_len=6
-max_uncommitted_len=11
+max_commit_state_len=12
 max_sync_len=4
 
 count_total=0
 count_drift=0
 
-while IFS='|' read -r r_path r_branch r_uncommitted r_sync r_drift r_status; do
+while IFS='|' read -r r_path r_branch r_commit_state r_sync r_drift r_status; do
   [[ -z "$r_path" ]] && continue
   count_total=$((count_total + 1))
   if [[ "$r_drift" == "true" ]]; then
@@ -334,10 +334,10 @@ while IFS='|' read -r r_path r_branch r_uncommitted r_sync r_drift r_status; do
   if [[ "$SHOW_ALL" == "true" || "$r_drift" == "true" ]]; then
     ((${#r_path} > max_path_len)) && max_path_len=${#r_path}
     ((${#r_branch} > max_branch_len)) && max_branch_len=${#r_branch}
-    ((${#r_uncommitted} > max_uncommitted_len)) && max_uncommitted_len=${#r_uncommitted}
+    ((${#r_commit_state} > max_commit_state_len)) && max_commit_state_len=${#r_commit_state}
     ((${#r_sync} > max_sync_len)) && max_sync_len=${#r_sync}
   fi
-done < "$RESULTS_FILE"
+done <"$RESULTS_FILE"
 
 # If no drift found and not --all
 if [[ "$count_drift" -eq 0 && "$SHOW_ALL" == "false" ]]; then
@@ -346,18 +346,18 @@ if [[ "$count_drift" -eq 0 && "$SHOW_ALL" == "false" ]]; then
 fi
 
 # Print table header
-printf "${C_BOLD}%-${max_path_len}s   %-${max_branch_len}s   %-${max_uncommitted_len}s   %-${max_sync_len}s${C_RESET}\n" \
-  "PATH" "BRANCH" "UNCOMMITTED" "SYNC"
+printf "${C_BOLD}%-${max_path_len}s   %-${max_branch_len}s   %-${max_commit_state_len}s   %-${max_sync_len}s${C_RESET}\n" \
+  "PATH" "BRANCH" "COMMIT STATE" "SYNC"
 
 # Print separator line
 sep_path=$(printf '%*s' "$max_path_len" '' | tr ' ' '-')
 sep_branch=$(printf '%*s' "$max_branch_len" '' | tr ' ' '-')
-sep_uncommitted=$(printf '%*s' "$max_uncommitted_len" '' | tr ' ' '-')
+sep_commit_state=$(printf '%*s' "$max_commit_state_len" '' | tr ' ' '-')
 sep_sync=$(printf '%*s' "$max_sync_len" '' | tr ' ' '-')
-printf "${C_DIM}%s   %s   %s   %s${C_RESET}\n" "$sep_path" "$sep_branch" "$sep_uncommitted" "$sep_sync"
+printf "${C_DIM}%s   %s   %s   %s${C_RESET}\n" "$sep_path" "$sep_branch" "$sep_commit_state" "$sep_sync"
 
 # Print rows
-while IFS='|' read -r r_path r_branch r_uncommitted r_sync r_drift r_status; do
+while IFS='|' read -r r_path r_branch r_commit_state r_sync r_drift r_status; do
   [[ -z "$r_path" ]] && continue
 
   if [[ "$SHOW_ALL" == "false" && "$r_drift" == "false" ]]; then
@@ -372,10 +372,10 @@ while IFS='|' read -r r_path r_branch r_uncommitted r_sync r_drift r_status; do
     color_path="${C_CYAN}"
   fi
 
-  # Uncommitted coloring
-  color_uncommitted="${C_GREEN}"
-  if [[ "$r_uncommitted" != "clean" ]]; then
-    color_uncommitted="${C_YELLOW}"
+  # Commit state coloring
+  color_commit_state="${C_GREEN}"
+  if [[ "$r_commit_state" != "clean" ]]; then
+    color_commit_state="${C_YELLOW}"
   fi
 
   # Sync coloring
@@ -398,9 +398,9 @@ while IFS='|' read -r r_path r_branch r_uncommitted r_sync r_drift r_status; do
     color_sync="${C_YELLOW}"
   fi
 
-  printf "${color_path}%-${max_path_len}s${C_RESET}   %-${max_branch_len}s   ${color_uncommitted}%-${max_uncommitted_len}s${C_RESET}   ${color_sync}%-${max_sync_len}s${C_RESET}\n" \
-    "$r_path" "$r_branch" "$r_uncommitted" "$r_sync"
-done < "$RESULTS_FILE"
+  printf "${color_path}%-${max_path_len}s${C_RESET}   %-${max_branch_len}s   ${color_commit_state}%-${max_commit_state_len}s${C_RESET}   ${color_sync}%-${max_sync_len}s${C_RESET}\n" \
+    "$r_path" "$r_branch" "$r_commit_state" "$r_sync"
+done <"$RESULTS_FILE"
 
 echo ""
 if [[ "$count_drift" -gt 0 ]]; then
