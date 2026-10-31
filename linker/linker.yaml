@@ -112,8 +112,8 @@
     - linux-box
 
 - name: lazytask/config.yaml
-  source: ~/.dotfiles/lazytask/config.yaml
-  path: ~/.config/lazytask/config.yaml
+  source: ~/.dotfiles/lazytask
+  path: ~/.config/lazytask
   machines:
     - linux-book
     - linux-box
@@ -246,7 +246,6 @@
   machines:
     - linux-book
     - linux-box
-
 
 - name: tools/drift/drift.sh
   source: ~/.dotfiles/tools/drift/drift.sh
