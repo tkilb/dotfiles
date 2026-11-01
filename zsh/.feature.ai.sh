@@ -33,5 +33,5 @@ copilot() {
 if [[ "$MACHINE" == "work-book" ]]; then
   alias ai="claude --dangerously-skip-permissions"
 else
-  alias ai="agy --dangerously-skip-permissions"
+  alias ai="agy --effort medium --dangerously-skip-permissions"
 fi

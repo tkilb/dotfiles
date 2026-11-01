@@ -16,6 +16,10 @@
       prompt: "Install Kitty? (n/y)"
       default: "n"
       private: n
+    - name: install_librewolf
+      prompt: "Install LibreWolf? (n/y)"
+      default: "n"
+      private: n
     - name: install_node
       prompt: "Install Node? (n/y)"
       default: "n"
@@ -40,10 +44,6 @@
       prompt: "Install Trash? (n/y)"
       default: "n"
       private: n
-    - name: install_zen_browser
-      prompt: "Install Zen Browser? (n/y)"
-      default: "n"
-      private: n
 
   tasks:
     - name: Install Bitwarden
@@ -66,6 +66,13 @@
         state: present
         update_cache: true
       when: install_kitty | lower in ["y", "yes"]
+
+    - name: Install LibreWolf
+      community.general.pacman:
+        name: librewolf
+        state: present
+        update_cache: true
+      when: install_librewolf | lower in ["y", "yes"]
 
     - name: Install Node
       community.general.pacman:
@@ -108,9 +115,3 @@
         state: present
         update_cache: true
       when: install_trash | lower in ["y", "yes"]
-
-    - name: Install Zen Browser
-      yay:
-        name: zen-browser-bin
-        state: present
-      when: install_zen_browser | lower in ["y", "yes"]
