@@ -119,6 +119,12 @@
     - linux-box
     - work-book
 
+- name: lazynote/config.yaml
+  source: ~/.dotfiles/lazynote
+  path: ~/.config/lazynote
+  machines:
+    - work-book
+
 - name: linker
   path: ~/.config/linker
   machines:

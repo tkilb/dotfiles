@@ -1,0 +1,50 @@
+notebooks:
+  - ~/Notes/work
+retention:
+  daily: 30d
+templates:
+  daily: ~/Notes/work/inbox/templates/daily.md
+sources:
+  - adhoc
+  - conversation
+  - document
+  - email
+  - meeting
+  - web
+kinds:
+  - name: draft
+    badge: DRFT
+    color: "#bc8cff"
+    meaning: Incomplete, still revising
+  - name: idea
+    badge: IDEA
+    color: "#58a6ff"
+    meaning: Loose thought
+  - name: proposal
+    badge: PROP
+    color: "#39c5cf"
+    meaning: Desired outcome, may not be real
+  - name: fact
+    badge: FACT
+    color: "#2ea043"
+    meaning: Accurate information
+  - name: rumor
+    badge: RUMR
+    color: "#d29922"
+    meaning: Unconfirmed information
+  - name: fossil
+    badge: FOSS
+    color: "#8b949e"
+    meaning: Was true, may have drifted
+  - name: web
+    badge: WEB
+    color: "#87afff"
+    meaning: Web page, saved by its address (o opens it)
+  - name: runbook
+    badge: RUNB
+    color: "#ff7b72"
+    meaning: Step-by-step procedure to follow
+  - name: guide
+    badge: GUID
+    color: "#f778ba"
+    meaning: How-to or explainer
