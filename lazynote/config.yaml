@@ -6,10 +6,12 @@ templates:
   daily: ~/Notes/work/inbox/templates/daily.md
 sources:
   - adhoc
+  - confluence
   - conversation
   - document
   - email
   - meeting
+  - slack
   - web
 kinds:
   - name: draft
@@ -36,10 +38,10 @@ kinds:
     badge: FOSS
     color: "#8b949e"
     meaning: Was true, may have drifted
-  - name: web
-    badge: WEB
+  - name: link
+    badge: LINK
     color: "#87afff"
-    meaning: Web page, saved by its address (o opens it)
+    meaning: Link to a web page, saved by its address (o opens it)
   - name: runbook
     badge: RUNB
     color: "#ff7b72"
@@ -48,3 +50,7 @@ kinds:
     badge: GUID
     color: "#f778ba"
     meaning: How-to or explainer
+  - name: import
+    badge: IMPT
+    color: "#ffffff"
+    meaning: Agent-generated from an import, not yet reviewed
