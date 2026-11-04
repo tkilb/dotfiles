@@ -23,17 +23,25 @@ kinds:
     badge: IDEA
     color: "#58a6ff"
     meaning: Loose thought
+  - name: discussion
+    badge: DISC
+    color: "#f0883e"
+    meaning: Open conversation or question, not yet resolved
   - name: proposal
     badge: PROP
     color: "#39c5cf"
     meaning: Desired outcome, may not be real
+  - name: plan
+    badge: PLAN
+    color: "#2fbf9b"
+    meaning: Proposal moving forward, not yet reality
   - name: fact
     badge: FACT
     color: "#2ea043"
     meaning: Accurate information
   - name: rumor
     badge: RUMR
-    color: "#d29922"
+    color: "#e3b341"
     meaning: Unconfirmed information
   - name: fossil
     badge: FOSS
@@ -41,7 +49,7 @@ kinds:
     meaning: Was true, may have drifted
   - name: link
     badge: LINK
-    color: "#87afff"
+    color: "#7f8cff"
     meaning: Link to a web page, saved by its address (o opens it)
   - name: runbook
     badge: RUNB
