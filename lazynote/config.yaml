@@ -2,8 +2,8 @@ notebooks:
   - ~/Notes/work
 retention:
   daily: 30d
-templates:
-  daily: ~/Notes/work/inbox/templates/daily.md
+digest:
+  enabled: true
 sources:
   - adhoc
   - confluence
