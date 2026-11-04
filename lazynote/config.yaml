@@ -13,6 +13,7 @@ sources:
   - meeting
   - slack
   - web
+  - self
 kinds:
   - name: draft
     badge: DRFT
