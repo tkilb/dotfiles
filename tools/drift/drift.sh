@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# drift - Check git repository status and divergence across ~/.dotfiles, ~/.gamefiles, and ~/Git/*
+# drift - Check git repository status and divergence across ~/.dotfiles, ~/.gamefiles, ~/Git/*, and ~/Notes/*
 #
 
 set -euo pipefail
@@ -24,7 +24,7 @@ usage() {
   cat <<'EOF'
 Usage: drift [OPTIONS]
 
-Audit git repositories across ~/.dotfiles, ~/.gamefiles, and ~/Git/ (1 level deep)
+Audit git repositories across ~/.dotfiles, ~/.gamefiles, ~/Git/, and ~/Notes/ (1 level deep)
 for uncommitted changes and divergence from remote origin.
 
 Options:
@@ -105,18 +105,19 @@ if [[ -d "$HOME/.gamefiles/.git" ]]; then
   REPOS+=("$HOME/.gamefiles")
 fi
 
-# 3. ~/Git/ (flat 1-level deep)
-GIT_DIR="$HOME/Git"
-if [[ -d "$GIT_DIR" ]]; then
-  # Nullglob to avoid literal wildcard if empty
-  shopt -s nullglob
-  for dir in "$GIT_DIR"/*; do
-    if [[ -d "$dir" ]]; then
-      REPOS+=("$dir")
-    fi
-  done
-  shopt -u nullglob
-fi
+# 3. ~/Git/ and ~/Notes/ (flat 1-level deep)
+for parent in "$HOME/Git" "$HOME/Notes"; do
+  if [[ -d "$parent" ]]; then
+    # Nullglob to avoid literal wildcard if empty
+    shopt -s nullglob
+    for dir in "$parent"/*; do
+      if [[ -d "$dir" ]]; then
+        REPOS+=("$dir")
+      fi
+    done
+    shopt -u nullglob
+  fi
+done
 
 if [[ ${#REPOS[@]} -eq 0 ]]; then
   echo -e "${C_YELLOW}No git repositories found to inspect.${C_RESET}"
