@@ -120,19 +120,6 @@ source "$ITEM_DIR/front_app.sh"
 # volume is registered. More info about the event system can be found here:
 # https://felixkratz.github.io/SketchyBar/config/events
 
-  # --add item pomodoro right \
-  # --set pomodoro \
-  # label="🍅 25m" \
-  # update_freq=1 \
-  # icon.color=$RED \
-  # label.color=$FG \
-  # background.color=$BG_SECONDARY \
-  # background.border_color=$RED \
-  # background.border_width=1 \
-  # background.corner_radius=5 \
-  # background.padding_left=8 \
-  # background.padding_right=8 \
-  # click_script="$CONFIG_DIR/pomodoro.sh toggle" \
 sketchybar \
   --add item clock right \
   --set clock update_freq=10 icon.color=$BLUE padding_left=0 padding_right=0 script="$PLUGIN_DIR/clock.sh" \
@@ -151,9 +138,6 @@ sketchybar \
   label.font="Hack Nerd Font:Italic:13.0" \
   icon.color=0x44FFFFFF \
   label.color=0x44FFFFFF
-
-# # Initialize pomodoro timer
-# "$CONFIG_DIR/pomodoro.sh" init
 
 sketchybar --update
 
