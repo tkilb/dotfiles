@@ -1,6 +1,5 @@
 alias gg='lazygit'
 alias mm='lazymusic'
-alias nn='lazynote'
 
 tt() {
   if [[ $# -eq 0 ]]; then

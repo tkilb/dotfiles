@@ -15,7 +15,7 @@ Rules:
 - Give each note two to five lowercase tags using only letters, digits, hyphens, underscores and slashes, with no spaces and no leading hash.
 - topic: two to six words naming the whole source.
 - source: exactly one of meeting, confluence, slack, document, adhoc. Use meeting for a call or transcript, and adhoc when you cannot tell.
-- Collect mentioned facts and capture in \_facts.md. This may overlap with other categories and files created. This is expected. The goal is to capture knowledge that may be previously unknown to the user.
+- Put facts in the facts list as well as in the notes. A fact is one short, standalone statement the source gives: a definition, rule, number, name, date or decision, which makes sense without the note around it. The goal is to capture knowledge the reader may not already have. Leave the list empty when there are none.
 
 Reply with JSON only, with no text before or after it, in this shape:
-{"topic": "...", "source": "...", "notes": [{"title": "...", "body": "...", "tags": ["..."]}], "actions": ["..."]}
+{"topic": "...", "source": "...", "notes": [{"title": "...", "body": "...", "tags": ["..."]}], "actions": ["..."], "facts": ["..."]}

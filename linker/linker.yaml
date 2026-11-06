@@ -119,9 +119,9 @@
     - linux-box
     - work-book
 
-- name: lazynote/config.yaml
-  source: ~/.dotfiles/lazynote
-  path: ~/.config/lazynote
+- name: para/config.yaml
+  source: ~/.dotfiles/para
+  path: ~/.config/para
   machines:
     - work-book
 
