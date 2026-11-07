@@ -1,15 +1,14 @@
 ---
-uid: ID
 title: daily
 kind: ""
 source: daily
-date: 2026-11-02
+date: "{{date}}"
 tags: [daily]
 people: []
 related: []
 ---
 
-# Daily Note — 2026-11-02 (Monday)
+# Daily Note — {{date}} ({{weekday}})
 
 ## Today's Goals/Priorities
 
