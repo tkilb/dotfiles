@@ -119,10 +119,12 @@
     - linux-box
     - work-book
 
-- name: para/config.yaml
+- name: para
   source: ~/.dotfiles/para
   path: ~/.config/para
   machines:
+    - linux-book
+    - linux-box
     - work-book
 
 - name: linker
