@@ -71,3 +71,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+
+-- :ParaTemplate appends a para template to the current buffer
+require("para-template").setup()

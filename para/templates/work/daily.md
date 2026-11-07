@@ -1,5 +1,5 @@
 ---
-uid: 18e0ff11-f5b8-4405-8588-801241e968cc
+uid: ID
 title: daily
 kind: ""
 source: daily
