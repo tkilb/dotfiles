@@ -141,7 +141,6 @@
   path: ~/.config/forza-radio
   machines:
     - linux-box
-    - steam-deck
 
 - name: MangoHud
   source: ~/.gamefiles/MangoHud
@@ -153,12 +152,14 @@
   source: ~/.gamefiles/moltendriver
   path: ~/.config/moltendriver
   machines:
+    - linux-book
     - linux-box
 
 - name: moltengamepad
   source: ~/.gamefiles/moltengamepad
   path: ~/.config/moltengamepad
   machines:
+    - linux-book
     - linux-box
 
 - name: mw5-clans-hotas
