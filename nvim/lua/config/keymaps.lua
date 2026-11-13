@@ -177,6 +177,9 @@ end
 -- Git Signs
 wkey({ "<leader>ub", "<cmd>Gitsigns toggle_current_line_blame<cr>", icon = "󰊢 ", desc = "Toggle Blame", mode = "n" })
 
+-- Markdown
+wkey({ "<leader>um", "<cmd>RenderMarkdown buf_toggle<cr>", icon = " ", desc = "Toggle Render Markdown", mode = "n" })
+
 -- LazyGit (flipped behavior)
 wkey({
   { "<leader>gg", function() Snacks.lazygit.open({ cwd = file_cwd() }) end, icon = " ", desc = "Lazygit (Root Dir)", mode = "n" },
