@@ -10,38 +10,48 @@ related: []
 
 # Daily Note — {{date}} ({{weekday}})
 
-## Today's Goals/Priorities
+## Goals
 
 - [ ] -
 - [ ] -
 - [ ] -
 
-## Follow Ups / Todos
+## Follow Ups
 
 - [ ]
 - [ ]
 - [ ]
 
-## Key Notes
+# Meetings
 
-## Learnings
+## _Meeting_Name_
 
-## Meetings
+#### Actions
 
-### _Meeting_Name_
+#### Facts
 
-#### Notes
+### Topic
 
-#### Takeaways
+## _Meeting_Name_
 
-### _Meeting_Name_
+#### Actions
 
-#### Notes
+#### Facts
 
-#### Takeaways
+### Topic
 
-### _Meeting_Name_
+## _Meeting_Name_
 
-#### Notes
+#### Actions
+
+#### Facts
+
+### Topic
+
+## _Meeting_Name_
+
+#### Actions
+
+#### Facts
 
 #### Takeaways
