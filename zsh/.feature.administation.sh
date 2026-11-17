@@ -37,3 +37,11 @@ if [[ "$MACHINE" = "pi-server" ]]; then
   alias system-update="sudo apt update && sudo apt upgrade && (command -v brew &>/dev/null && brew update && brew upgrade || true)"
 fi
 
+
+##################################################
+# Mac Specific
+##################################################
+if [[ "$MACHINE" = "work-book" ]]; then
+  alias system-update="brew update && brew outdated && brew upgrade"
+fi
+
