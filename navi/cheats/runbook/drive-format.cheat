@@ -1,4 +1,0 @@
-% runbook, format, ext4, filesystem, storage
-
-# Runbook: Format a Device as ext4 (Arch & Debian)
-"$EDITOR" ~/.local/share/navi/cheats/runbook/drive-format.md

@@ -1,4 +1,0 @@
-% runbook, job-control, suspend, jobs, signals, process
-
-# Runbook: Job Control - Suspend / Resume Processes (Ctrl-Z, jobs, SIGSTOP/SIGCONT) - Linux & macOS
-"$EDITOR" ~/.local/share/navi/cheats/runbook/job-control.md

@@ -1,4 +1,0 @@
-% runbook, ssh, nas
-
-# Runbook: Setup SSH with Debian NAS (pi-server)
-"$EDITOR" ~/.local/share/navi/cheats/runbook/nas-ssh.md
