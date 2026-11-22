@@ -21,7 +21,7 @@ alias dotfiles="cd ~/.dotfiles"
 # Arch Specific
 ##################################################
 if [[ "$MACHINE" =~ ^(linux-book|linux-box)$ ]]; then
-  alias system-update="yay -Syyuu"
+  alias system-update="yay -Syyuu --noconfirm"
 
   # NAS Backups
   alias mount-onsite-backup="sudo mkdir -p /mnt/onsite-backup && sudo mount /dev/disk/by-label/onsite-backup /mnt/onsite-backup"
@@ -34,9 +34,8 @@ fi
 # Debian Specific
 ##################################################
 if [[ "$MACHINE" = "pi-server" ]]; then
-  alias system-update="sudo apt update && sudo apt upgrade && (command -v brew &>/dev/null && brew update && brew upgrade || true)"
+  alias system-update="sudo apt update && sudo apt upgrade -y && (command -v brew &>/dev/null && brew update && brew upgrade || true)"
 fi
-
 
 ##################################################
 # Mac Specific
