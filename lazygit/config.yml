@@ -6,12 +6,12 @@ gui:
 customCommands:
   - key: "<c-f>"
     context: "commits"
-    description: "Flatten: replay local commits onto latest target, discarding merge commit"
+    description: "Flatten: replay the commits after the selected one in a straight line, dropping merge commits"
     prompts:
       - type: "confirm"
         title: "Flatten history"
-        body: "Select the merge-base commit (the last commit shared with your upstream, BEFORE your own local-only commits start) as the currently selected commit before confirming — do NOT select a merge commit itself.\n\nThis will discard commit {{.SelectedLocalCommit.Hash}} and everything before it, then replay only the commits after it on top of the current tip of your upstream branch (@{u}). Continue?"
-    command: "git rebase --onto @{u} {{.SelectedLocalCommit.Hash}}"
+        body: "Select the commit to keep as the base (the last commit before the history you want flattened) — do NOT select a merge commit itself.\n\nThis keeps commit {{.SelectedLocalCommit.Hash}} and everything before it as they are, then replays every commit after it in a straight line on top of it, dropping merge commits. It does not move your commits onto upstream, and if they were already pushed you will need to force-push afterward. Continue?"
+    command: "git rebase {{.SelectedLocalCommit.Hash}}"
     loadingText: "Flattening branch history..."
     after:
       checkForConflicts: true
