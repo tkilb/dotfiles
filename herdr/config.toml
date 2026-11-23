@@ -4,6 +4,7 @@ onboarding = false
 prefix = "alt+m"
 
 settings = "prefix+,"
+detach = "prefix+shift+d"
 
 # Pane Management
 resize_pane_left = "prefix+left"

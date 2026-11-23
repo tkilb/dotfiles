@@ -2,7 +2,9 @@
 *.sock
 *.lock
 .plugins.lock
-session.json
+herdr.sock.agent
 plugins.json
 plugins/github/
 release-notes.json
+session.json
+session-snapshots
