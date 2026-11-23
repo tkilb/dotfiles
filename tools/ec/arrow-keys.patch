@@ -1,0 +1,32 @@
+diff --git a/internal/tui/tui.go b/internal/tui/tui.go
+index 0827ddf..e34fab3 100644
+--- a/internal/tui/tui.go
++++ b/internal/tui/tui.go
+@@ -67,8 +67,8 @@ type keyHelpEntry struct {
+ type keyAction func(*model) (tea.Cmd, error)
+ 
+ var resolverKeyHelp = []keyHelpEntry{
+-	{key: "n/p", description: "next/prev"},
+-	{key: "h/l", description: "ours/theirs"},
++	{key: "↑/↓/n/p", description: "prev/next"},
++	{key: "←/→/h/l", description: "ours/theirs"},
+ 	{key: "a/<space>", description: "accept"},
+ 	{key: "o/t", description: "ours/theirs"},
+ 	{key: "O/T", description: "ours all/theirs all"},
+@@ -95,12 +95,12 @@ var resolverKeyActions = map[string]keyAction{
+ 	keyScrollRight:    (*model).handleScrollRight,
+ 	keyScrollDown:     (*model).handleScrollDown,
+ 	keyScrollUp:       (*model).handleScrollUp,
+-	keyArrowLeft:      (*model).handleScrollLeft,
++	keyArrowLeft:      (*model).handleSelectOurs,
+ 	keyCtrlU:          (*model).handleHalfPageUp,
+ 	keyCtrlD:          (*model).handleHalfPageDown,
+-	keyArrowRight:     (*model).handleScrollRight,
+-	keyArrowDown:      (*model).handleScrollDown,
+-	keyArrowUp:        (*model).handleScrollUp,
++	keyArrowRight:     (*model).handleSelectTheirs,
++	keyArrowDown:      (*model).handleNextConflict,
++	keyArrowUp:        (*model).handlePrevConflict,
+ 	keyApplyOurs:      (*model).handleApplyOurs,
+ 	keyApplyTheirs:    (*model).handleApplyTheirs,
+ 	keyApplyOursAll:   (*model).handleApplyOursAll,

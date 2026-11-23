@@ -40,6 +40,20 @@ and never let it block, complicate, or water down an Arch/macOS change.
 - Independent from linker: syncer keeps the repo itself updated across
   machines; linker keeps symlinks into the repo updated on each machine.
 
+## `tools/ec/`
+
+- `ec` (easy-conflict, TUI three-way mergetool) is built from source with
+  `arrow-keys.patch` (arrows select ours/theirs and prev/next conflict)
+  instead of installed from a package manager.
+- `build.sh` (linked to `~/.local/bin/ec-build`) clones the pinned
+  `EC_VERSION`, applies the patch, and installs `~/.local/bin/ec`. Use
+  `ec-build --stock` for the unpatched fallback and `--force` to rebuild.
+- `ansible/playbooks/shared/ec.yaml` installs Go if missing, runs the build,
+  and sets the global git mergetool config (`~/.gitconfig` is not managed
+  by `linker`). Lazygit's `M` shortcut uses that git config.
+- To upgrade: bump `EC_VERSION`, check the patch still applies, and re-run
+  `ec-build`. Delete the patch if upstream gains arrow-key support.
+
 ## `ai/`
 
 Shared, tool-agnostic AI agent config read by multiple CLI agents (GitHub

@@ -1,0 +1,45 @@
+---
+- name: Install ec (easy-conflict) mergetool
+  hosts: localhost
+  become: false
+
+  tasks:
+    - name: Check whether Go is installed
+      ansible.builtin.command: sh -c 'command -v go'
+      register: go_check
+      changed_when: false
+      failed_when: false
+
+    - name: Install Go (Arch Linux)
+      become: true
+      community.general.pacman:
+        name: go
+        state: present
+        update_cache: true
+      when:
+        - go_check.rc != 0
+        - ansible_facts['os_family'] == 'Archlinux'
+
+    - name: Install Go (macOS)
+      community.general.homebrew:
+        name: go
+        state: present
+      when:
+        - go_check.rc != 0
+        - ansible_facts['os_family'] == 'Darwin'
+
+    - name: Build and install ec with the arrow-key patch
+      ansible.builtin.command: "{{ ansible_facts['env']['HOME'] }}/.dotfiles/tools/ec/build.sh"
+      register: ec_build
+      changed_when: "'Installed ec' in ec_build.stdout"
+
+    - name: Configure ec as the global git mergetool
+      community.general.git_config:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        scope: global
+      loop:
+        - { name: merge.tool, value: ec }
+        - { name: mergetool.ec.cmd, value: 'ec "$BASE" "$LOCAL" "$REMOTE" "$MERGED"' }
+        - { name: mergetool.ec.trustExitCode, value: "true" }
+        - { name: mergetool.keepBackup, value: "false" }
