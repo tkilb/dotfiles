@@ -148,6 +148,18 @@
   machines:
     - linux-box
 
+- name: discover-overlay
+  source: ~/.gamefiles/discover-overlay
+  path: ~/.config/discover_overlay
+  machines:
+    - linux-box
+
+- name: pipewire
+  source: ~/.gamefiles/pipewire
+  path: ~/.config/pipewire
+  machines:
+    - linux-box
+
 - name: moltendriver
   source: ~/.gamefiles/moltendriver
   path: ~/.config/moltendriver

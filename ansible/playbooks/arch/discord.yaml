@@ -1,10 +1,19 @@
 ---
-- name: Install Discord
+- name: Install Discord and Comms Tooling
   hosts: localhost
   become: true # Necessary to run with root privileges
   tasks:
-    - name: Install Discord
+    - name: Install Discord and Noise Suppression
       community.general.pacman:
-        name: discord
+        name:
+          - discord
+          - noise-suppression-for-voice
         state: present
         update_cache: true
+
+    - name: Install Discover Overlay (AUR)
+      yay:
+        name:
+          - discover-overlay
+          - python-pkg-resources
+        state: present
